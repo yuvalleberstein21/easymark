@@ -1,0 +1,130 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-align: center;
+  background-color: #f1f6f9;
+  color: #4b4b4b;
+  height: 100vh;
+  width: 100%;
+}
+
+.nav-link {
+  color: #f1f6f9;
+}
+.card {
+  padding: 1rem 0 0 0;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.desc {
+  font-size: 16px;
+  font-weight: 100;
+  color: rgb(110, 110, 110);
+}
+.input-group {
+  border: 1px solid #c1c1c1;
+  padding: 5px;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 16px;
+  font-weight: 100;
+}
+.form-control::placeholder {
+  font-size: 18px;
+  font-weight: 200;
+  color: rgb(140, 140, 140);
+}
+.fa-search {
+  color: #4b4b4b;
+}
+
+.card-business {
+  width: 100px;
+}
+.card-img-top {
+  width: 100%;
+  border-top-left-radius: calc(0.25rem - 1px);
+  border-top-right-radius: calc(0.25rem - 1px);
+}
+/* Business */
+.card-business img {
+  width: 50px;
+}
+
+/* SLIDER */
+#main-slider-container {
+  width: 90%;
+  height: 305px;
+  padding-left: 1.6rem;
+}
+
+#slider {
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+#slider::-webkit-scrollbar {
+  display: none;
+}
+
+#main-slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.slider-card-title {
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.slider-card-image {
+  width: 100%;
+  height: 220px;
+  background-color: rgb(240 240 240 / 80%);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.slider-icon.left,
+.slider-icon.right {
+  background: white;
+  border-radius: 100%;
+  position: absolute;
+  opacity: 0.5;
+  box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 12%);
+  cursor: pointer;
+}
+
+.slider-icon.left {
+  left: 0;
+}
+
+.slider-icon.right {
+  right: 0;
+}
+
+.slider-icon.left:hover,
+.slider-icon.right:hover {
+  opacity: 1;
+}
+
+.slider-card {
+  width: 320px;
+  height: 300px;
+  background: white;
+  border-radius: 10px;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+  box-shadow: 2px 2px 2px 2px rgb(0 0 0 / 12%);
+  cursor: pointer;
+}
