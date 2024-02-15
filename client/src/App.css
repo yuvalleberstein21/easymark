@@ -1,17 +1,23 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  text-align: center;
   background-color: #f1f6f9;
   color: #4b4b4b;
-  height: 100vh;
-  width: 100%;
+  height: 100%;
+  width: 100vw;
+}
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
 }
 
 .nav-link {
   color: #f1f6f9;
+}
+h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .card {
   padding: 1rem 0 0 0;
@@ -21,6 +27,9 @@
 }
 
 .desc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 16px;
   font-weight: 100;
   color: rgb(110, 110, 110);
@@ -42,29 +51,16 @@
   color: #4b4b4b;
 }
 
-.card-business {
-  width: 100px;
-}
-.card-img-top {
-  width: 100%;
-  border-top-left-radius: calc(0.25rem - 1px);
-  border-top-right-radius: calc(0.25rem - 1px);
-}
-/* Business */
-.card-business img {
-  width: 50px;
-}
-
 /* SLIDER */
 #main-slider-container {
-  width: 90%;
-  height: 305px;
-  padding-left: 1.6rem;
+  width: 100%;
+  height: 305vh;
+
+  margin-left: 4rem;
 }
 
 #slider {
   width: 100%;
-  height: 100%;
   white-space: nowrap;
   overflow-x: scroll;
   scrollbar-width: none;

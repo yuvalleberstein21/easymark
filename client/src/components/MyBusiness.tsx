@@ -43,7 +43,12 @@ const slides = [
 ];
 
 const MyBusiness = () => {
-  return <ReactCardSlider slides={slides} />;
+  return (
+    <>
+      <h3 className="p-4">BUISNESS</h3>
+      <ReactCardSlider slides={slides} />
+    </>
+  );
 };
 
 export default MyBusiness;

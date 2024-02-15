@@ -1,17 +1,20 @@
 const CardSlider = (props: any) => {
   const slideLeft = () => {
     const slider = document.getElementById('slider');
-    slider.scrollLeft = slider.scrollLeft - 500;
+    if (slider) {
+      slider.scrollLeft = slider.scrollLeft - 500;
+    }
   };
 
   const slideRight = () => {
     var slider = document.getElementById('slider');
-    slider.scrollLeft = slider.scrollLeft + 500;
+    if (slider) {
+      slider.scrollLeft = slider.scrollLeft + 500;
+    }
   };
   return (
-    <div id="main-slider-container">
+    <div className="container">
       <i className="fa-solid fa-arrow-left" onClick={slideLeft}></i>
-
       <div id="slider">
         {props.slides.map((slide: any, index: number) => {
           return (
