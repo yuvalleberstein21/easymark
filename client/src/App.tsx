@@ -1,20 +1,33 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import MyBusiness from './components/MyBusiness';
-import Navbar from './components/Navbar';
-import Queues from './components/Queues';
-import Search from './components/Search';
+// import Navbar from './components/Navbar';
+import HomeScreen from './screens/HomeScreen';
+import SingleBusiness from './components/SingleBusiness';
 
 function App() {
   return (
     <>
-      <div className="app">
+      <Router>
+        <div className="app">
+          <Header />
+          <Routes>
+            {/* <Route path="/" element={<LoginScreen />} exact />  first page */}
+            {/* <Route path="/register" element={<RegisterScreen />} /> */}
+            <Route path="/homepage" element={<HomeScreen />} />
+            <Route path="/business/:id" element={<SingleBusiness />} />
+          </Routes>
+          {/* <Navbar /> */}
+        </div>
+      </Router>
+      {/* <div className="app">
         <Header />
         <Search />
-        <MyBusiness />
+        <BusinessScreen />
+
         <Queues />
         <Navbar />
-      </div>
+      </div> */}
     </>
   );
 }

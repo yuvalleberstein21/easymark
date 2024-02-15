@@ -1,8 +1,7 @@
 import ReactCardSlider from 'react-card-slider-component';
-// a slide object contains the image link, title and function/click event for when a user clicks on a card
 
-const sliderClick = (slider: any) => {
-  alert('hello world');
+const sliderClick = () => {
+  console.log('Slider clicked');
 };
 const slides = [
   {
@@ -42,7 +41,7 @@ const slides = [
   },
 ];
 
-const MyBusiness = () => {
+const BusinessScreen = () => {
   return (
     <>
       <h3 className="p-4">BUISNESS</h3>
@@ -51,4 +50,4 @@ const MyBusiness = () => {
   );
 };
 
-export default MyBusiness;
+export default BusinessScreen;
