@@ -1,0 +1,68 @@
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card_create_queues {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: white;
+  border: 1px solid gainsboro;
+  border-radius: 10px;
+  width: 650px;
+  padding: 20px;
+}
+.card-header {
+  background: none;
+  border-bottom: 4px solid #535c91;
+  border-radius: 5px;
+  width: 50px;
+  margin-left: 1.3rem;
+  padding: 1rem 1rem 0rem 3em;
+}
+.card-body h4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttons_choise_services {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons_choise_services button {
+  padding: 10px 10px 10px 10px;
+  border: 1.5px solid gainsboro;
+  flex-direction: column;
+  margin: 0.7rem;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #4b4b4b;
+  background-color: white;
+  width: 100%;
+}
+
+.btn-continue {
+  background-color: #535c91 !important;
+  color: whitesmoke !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.buttons_choise_services span {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 16px;
+  color: #737373;
+  font-weight: 500;
+}
+
+/* CALENDAR */
+.span_calendar {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 5px;
+}

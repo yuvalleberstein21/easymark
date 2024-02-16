@@ -1,10 +1,11 @@
-import '../singleBusiness.css';
+import '../styles/singleBusiness.css';
+import CreateQueues from './CreateQueues';
 const SingleBusiness = () => {
   return (
     <div className="container mt-3 p-4">
       <div className="row">
         <div className="col-md-6">
-          <div className="card h-100 card_single_business">
+          <div className="h-100 card_single_business">
             <div className="text-center">
               <div className="img-hover-zoom img-hover-zoom--colorize">
                 <img
@@ -20,7 +21,7 @@ const SingleBusiness = () => {
                 <h1>BORCELEE -CREATING-</h1>
               </div>
               <div className="mb-3">
-                <h2 className="text-uppercase text-center role">
+                <h2 className="text-uppercase h2_single_business text-center role">
                   Migdal Ha Emek{' '}
                   <i className="fa-solid fa-location-dot m-1"></i>
                 </h2>
@@ -81,6 +82,9 @@ const SingleBusiness = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="mt-3">
+          <CreateQueues />
         </div>
       </div>
     </div>

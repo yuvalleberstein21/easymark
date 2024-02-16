@@ -4,6 +4,7 @@ import Header from './components/Header';
 // import Navbar from './components/Navbar';
 import HomeScreen from './screens/HomeScreen';
 import SingleBusiness from './components/SingleBusiness';
+import LoginScreen from './screens/LoginScreen';
 
 function App() {
   return (
@@ -12,8 +13,7 @@ function App() {
         <div className="app">
           <Header />
           <Routes>
-            {/* <Route path="/" element={<LoginScreen />} exact />  first page */}
-            {/* <Route path="/register" element={<RegisterScreen />} /> */}
+            <Route path="/" element={<LoginScreen />} />
             <Route path="/homepage" element={<HomeScreen />} />
             <Route path="/business/:id" element={<SingleBusiness />} />
           </Routes>
