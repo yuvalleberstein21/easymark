@@ -10,14 +10,20 @@
   border-radius: 10px;
   width: 650px;
   padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
 }
 .card-header {
   background: none;
-  border-bottom: 4px solid #535c91;
-  border-radius: 5px;
+  border-top: 3px solid #535c91;
+  border-bottom: none;
+  right: 0;
+  display: flex;
+  justify-content: center;
   width: 50px;
-  margin-left: 1.3rem;
-  padding: 1rem 1rem 0rem 3em;
+  position: absolute;
+  margin-right: 1.3rem;
 }
 .card-body h4 {
   display: flex;
@@ -40,6 +46,10 @@
   color: #4b4b4b;
   background-color: white;
   width: 100%;
+}
+.buttons_choise_services button:hover {
+  background-color: #b8b8ff9c;
+  color: #54547e;
 }
 
 .btn-continue {

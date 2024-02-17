@@ -1,0 +1,24 @@
+.titles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.hours {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 1em 1rem 2rem;
+}
+
+.hours button {
+  flex: 1 0 20%;
+  padding: 10px 10px 10px 10px;
+  margin: 5px;
+  border-radius: 20px;
+  background-color: white;
+  border: 2px solid gainsboro;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4b4b4b;
+  max-width: 105px;
+}

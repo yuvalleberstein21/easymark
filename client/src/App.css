@@ -3,6 +3,7 @@
   color: #4b4b4b;
   height: 100%;
   width: 100vw;
+  font-family: sans-serif;
 }
 body {
   display: flex;

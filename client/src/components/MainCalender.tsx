@@ -7,19 +7,20 @@ interface ICalendarProps {
   selectRange: boolean;
   setSelectRange: any;
   onChange: (selectedDate: Date) => void;
+  onBack: () => void;
 }
 
 const MainCalender = (props: ICalendarProps) => {
-  const { setDate, date, onChange } = props;
+  const { setDate, date, onChange, onBack } = props;
 
   const handleCalendarChange = (selectedDate: Date) => {
     setDate(selectedDate);
     onChange(selectedDate);
-    console.log(selectedDate); // Call the onChange prop
   };
   return (
     <div className="calendar-container-main">
       <CalendarComponent
+        onBack={onBack}
         setDate={setDate}
         date={date}
         onChange={handleCalendarChange}

@@ -6,9 +6,10 @@ interface CalendarProps {
   setDate: any;
   date: any;
   onChange: (selectedDate: Date) => void;
+  onBack: () => void;
 }
 const CalendarComponent = (props: CalendarProps) => {
-  const { setDate, date, onChange } = props;
+  const { setDate, date, onChange, onBack } = props;
 
   const handleCalendarChange = (selectedDate: Date) => {
     setDate(selectedDate);
@@ -17,7 +18,14 @@ const CalendarComponent = (props: CalendarProps) => {
 
   return (
     <div className="calendar-container">
-      <ReactCalendar value={date} onChange={handleCalendarChange} />
+      <span className="span_calendar" onClick={onBack}>
+        חזרה →{' '}
+      </span>
+      <ReactCalendar
+        value={date}
+        onChange={handleCalendarChange}
+        onBack={onBack}
+      />
     </div>
   );
 };

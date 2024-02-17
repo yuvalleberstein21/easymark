@@ -1,0 +1,38 @@
+.summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.summary p {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+.summary span {
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(133, 133, 133);
+}
+.inputs-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.inputs-container input,
+textarea {
+  padding: 15px 15px 15px 15px;
+  border-radius: 10px;
+  border: 1px solid gainsboro;
+  margin: 0.3rem;
+  color: #4b4b4b;
+  font-weight: bold;
+}
+.inputs-container input:focus {
+  outline: none !important;
+}
+.inputs-container textarea:focus {
+  outline: none !important;
+}
