@@ -9,7 +9,7 @@ const CreateQueues = () => {
   const [date, setDate] = useState<any>(new Date());
   const [hour, setHour] = useState('');
   const [selectedService, setSelectedService] = useState('');
-  const [step, setStep] = useState(1); // Step 1: choose service, Step 2: choose date and time
+  const [step, setStep] = useState(1);
 
   const handleServiceSelection = (service: string) => {
     setSelectedService(service);

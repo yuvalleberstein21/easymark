@@ -27,15 +27,6 @@ const Header = () => {
                   Home
                 </a>
               </li>
-
-              <li className="nav-item">
-                <a className="nav-link">Link</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
-              </li>
             </ul>
             <div
               className="d-flex"

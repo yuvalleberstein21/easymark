@@ -14,6 +14,10 @@
   line-height: 1.125em;
   height: 100%;
 }
+.greyBackground {
+  background-color: grey;
+  cursor: not-allowed;
+}
 .react-calendar--doubleView {
   width: 700px;
 }

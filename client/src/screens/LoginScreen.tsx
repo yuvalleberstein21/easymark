@@ -18,6 +18,7 @@ const LoginScreen = () => {
           <i className="fa-solid fa-arrow-right-to-bracket fa-lg m-2"></i>
         </button>
         <button
+          type="button"
           className="btn btn-light"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
