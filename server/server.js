@@ -1,8 +1,13 @@
 const express = require('express');
 const dotenv = require("dotenv");
 const cors = require('cors');
+const userRoutes = require('./Routes/UserRoutes');
+const businessRoutes = require('./Routes/BusinessRoutes');
+const appointmentsRoutes = require('./Routes/AppointmentsRoutes');
+const connectDatabase = require('./config/MongoDB');
 
 dotenv.config();
+connectDatabase();
 
 const app = express();
 app.use(express.json());
@@ -24,6 +29,11 @@ app.use((err, req, res, next) => {
         next(err);
     }
 });
+
+app.use("/api/users", userRoutes);
+app.use("/api/business", businessRoutes);
+app.use("/api/appointments", appointmentsRoutes);
+
 
 app.get('/', (req, res) => {
     res.send('hello world');

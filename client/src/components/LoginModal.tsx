@@ -1,42 +1,65 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../Redux/Actions/UserAction';
+import Message from './LoadingError/Error';
+import Loading from './LoadingError/Loading';
+import { useNavigate } from 'react-router-dom';
+
 const LoginModal = () => {
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorValidaiton, setErrorValidation] = useState('');
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state: any) => state.userLogin);
+  const { error, loading, userInfo } = userLogin;
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const action = login(phoneNumber, password);
+      await dispatch<any>(action);
+    } catch (error) {
+      setErrorValidation('Error logging in');
+    }
+  };
+
   return (
     <>
-      {/* <button
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-      >
-        Launch demo modal
-      </button> */}
-
-      <div
-        className="modal fade"
-        id="exampleModal"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
+      <div>
+        <div>
+          <div>
+            {loading && <Loading>Loading...</Loading>}
+            {error && <Message variant="alert" children={error} />}
             <div className="modal-body">
               Hi to continue, What is your phone number ?
             </div>
             <div className="modal-footer">
-              <div className="inputGroup">
-                <input type="text" required autoComplete="off" />
-                <label htmlFor="phoneNumber">Phone Number</label>
-              </div>
-              <button type="button" className="btn btn-dark">
-                Continue
-              </button>
+              <form onSubmit={handleSubmit}>
+                <div className="inputGroup">
+                  <input
+                    value={phoneNumber}
+                    type="text"
+                    required
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                  <label htmlFor="phoneNumber">Phone Number</label>
+                </div>
+                <div className="inputGroup">
+                  <input
+                    value={password}
+                    type="text"
+                    required
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <label htmlFor="password">Password</label>
+                </div>
+                <button type="submit" className="btn btn-dark">
+                  Continue
+                </button>
+              </form>
             </div>
           </div>
         </div>

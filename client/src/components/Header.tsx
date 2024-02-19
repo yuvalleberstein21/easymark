@@ -1,4 +1,12 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import LoginModal from './LoginModal';
+
 const Header = () => {
+  const [showModal, setShowModal] = useState(false);
+  const userLogin = useSelector((state: any) => state.userLogin);
+  const { userInfo } = userLogin;
+
   return (
     <>
       <nav
@@ -36,30 +44,30 @@ const Header = () => {
                 padding: 0,
               }}
             >
-              <button
-                className="btn btn-outline-light"
-                type="button"
-                style={{ marginRight: '0.5rem' }}
-              >
-                Login
-              </button>
-              <button
-                className="btn btn-outline-light"
-                type="button"
-                style={{ marginRight: '0.5rem' }}
-              >
-                Register
-              </button>
-              <button
-                className="btn btn-outline-light"
-                type="button"
-                style={{ marginRight: '0.5rem' }}
-              >
-                Logout
-              </button>
+              {!userInfo ? (
+                <button
+                  className="btn btn-outline-light"
+                  type="button"
+                  style={{ marginRight: '0.5rem' }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  onClick={() => setShowModal(true)}
+                >
+                  Login
+                </button>
+              ) : (
+                <button
+                  className="btn btn-outline-light"
+                  type="button"
+                  style={{ marginRight: '0.5rem' }}
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         </div>
+        {showModal && <LoginModal />}
       </nav>
     </>
   );
