@@ -1,11 +1,18 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoginModal from './LoginModal';
+import { logout } from '../Redux/Actions/UserAction';
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -44,22 +51,12 @@ const Header = () => {
                 padding: 0,
               }}
             >
-              {!userInfo ? (
+              {userInfo && (
                 <button
                   className="btn btn-outline-light"
                   type="button"
                   style={{ marginRight: '0.5rem' }}
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  onClick={() => setShowModal(true)}
-                >
-                  Login
-                </button>
-              ) : (
-                <button
-                  className="btn btn-outline-light"
-                  type="button"
-                  style={{ marginRight: '0.5rem' }}
+                  onClick={logoutHandler}
                 >
                   Logout
                 </button>
@@ -67,7 +64,6 @@ const Header = () => {
             </div>
           </div>
         </div>
-        {showModal && <LoginModal />}
       </nav>
     </>
   );
