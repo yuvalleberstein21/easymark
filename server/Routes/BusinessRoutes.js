@@ -3,6 +3,7 @@ const protect = require('../middleware/AuthMiddleware');
 const asyncHandler = require('express-async-handler');
 const Business = require('../Models/BusinessModel');
 const User = require('../Models/UserModel');
+const mongoose = require('mongoose');
 const businessRoutes = express.Router();
 
 // businessRoutes.post('/', protect, businessController.createBusiness);
@@ -10,6 +11,10 @@ const businessRoutes = express.Router();
 // businessRoutes.get('/:id', businessController.getBusinessById);
 // businessRoutes.put('/:id', protect, businessController.updateBusiness);
 // businessRoutes.delete('/:id', protect, businessController.deleteBusiness);
+
+
+
+// CREATE BUSINESS - PROTECTED
 
 businessRoutes.post("/createbusiness", protect, asyncHandler(
     async (req, res) => {
@@ -50,7 +55,36 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
         await User.findByIdAndUpdate(req.user._id, { role: 'manager' });
         res.status(201).json(createBusiness);
     }
-
 ));
 
+
+
+// GET ALL BUSINESS
+businessRoutes.get("/", asyncHandler(
+    async (req, res) => {
+        const business = await Business.find();
+        if (business.length > 0) {
+            res.json(business);
+        } else {
+            return res.status(404).send({ message: 'cannot find businesses' });
+        }
+
+    }
+));
+
+// GET BUSINESS BY ID
+businessRoutes.get("/:id", asyncHandler(
+    async (req, res) => {
+        try {
+            const business = await Business.findById(req.params.id);
+            if (business) {
+                res.json({ business });
+            } else {
+                res.status(404).send({ message: 'Cannot find business' });
+            }
+        } catch (error) {
+            res.status(500).send({ message: 'Error finding business', error });
+        }
+    }
+));
 module.exports = businessRoutes;

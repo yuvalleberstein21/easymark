@@ -1,10 +1,32 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllBusinessAction } from '../Redux/Actions/BusinessActions';
+import '../styles/search.css';
 
 const Search = () => {
+  const [inputSearch, setInputSeatch] = useState('');
+
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
+  const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
+  const { loading, error, business } = getAllBusiness;
 
   const username = userInfo?.name;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    try {
+      const action = getAllBusinessAction();
+      dispatch<any>(action);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  const filterBusinesses = business?.filter((b: any) =>
+    b.businessName.toLowerCase().includes(inputSearch.toLowerCase())
+  );
 
   return (
     <>
@@ -23,6 +45,8 @@ const Search = () => {
                     name="text"
                     className="input"
                     placeholder="search..."
+                    value={inputSearch}
+                    onChange={(e) => setInputSeatch(e.target.value)}
                   />
                   <span className="icon">
                     <svg
@@ -75,6 +99,56 @@ const Search = () => {
                     </svg>
                   </span>
                 </div>
+              </div>
+              <div>
+                {inputSearch && filterBusinesses?.length > 0 ? (
+                  filterBusinesses.map((b: any) => (
+                    <div key={b._id}>
+                      <ul className="list-group">
+                        <li
+                          className="list-group-item d-flex align-items-center"
+                          dir="rtl"
+                        >
+                          <div className="image-parent">
+                            <img
+                              src={b.images[0]?.imageUrl}
+                              className="img-list-group-item"
+                              style={{
+                                borderRadius: '50%',
+                                height: '50px',
+                                width: '50px',
+                                backgroundSize: 'cover',
+                              }}
+                              alt={b.businessName}
+                            />
+                            <span
+                              className="p-3"
+                              style={{
+                                fontWeight: 'bold',
+                                color: '#4b4b4b',
+                                fontSize: '16px',
+                              }}
+                            >
+                              {b.businessName}
+                              <br />
+                              <span
+                                style={{
+                                  fontWeight: '300',
+                                  color: '#767676',
+                                  fontSize: '15px',
+                                }}
+                              >
+                                {b.location?.streetAddress}
+                              </span>
+                            </span>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  ))
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
           </div>
