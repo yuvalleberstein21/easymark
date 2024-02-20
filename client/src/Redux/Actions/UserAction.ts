@@ -46,7 +46,7 @@ export const logout = () => (dispatch: any) => {
 };
 
 export const register =
-  (name: string, phoneNumber: number, password: string) =>
+  (name: string, phoneNumber: string, password: string) =>
   async (dispatch: any) => {
     try {
       dispatch({ type: USER_REGISTER_REQUEST });
@@ -63,10 +63,13 @@ export const register =
       dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
       dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
-    } catch (error) {
+    } catch (error: any) {
       dispatch({
         type: USER_REGISTER_FAIL,
-        payload: console.log(error),
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
       });
     }
   };

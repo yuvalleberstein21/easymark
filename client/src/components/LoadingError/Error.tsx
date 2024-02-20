@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Message = ({ variant, children }) => {
   return (
     <div
@@ -10,7 +8,7 @@ const Message = ({ variant, children }) => {
         color: 'rgb(179, 5, 5)',
         fontSize: '18px',
       }}
-      className={`alert ${variant}`}
+      className={`${variant}`}
     >
       {children}
     </div>

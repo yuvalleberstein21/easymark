@@ -1,11 +1,18 @@
+import { useSelector } from 'react-redux';
+
 const Search = () => {
+  const userLogin = useSelector((state: any) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const username = userInfo?.name;
+
   return (
     <>
       <div className="container mt-3 p-5">
         <div className="card_search_container">
           <div className="card_search">
             <div className="card_header">
-              <h2>Hi, Yuval 👋🏼</h2>
+              <h2>Hi, {username ? username : 'Guest'} 👋🏼</h2>
             </div>
             <span className="desc">Appointments from anywhere at anytime</span>
             <div className="card-body">

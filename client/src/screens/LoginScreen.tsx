@@ -24,7 +24,7 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   const userLogin = useSelector((state: any) => state.userLogin);
-  const { error, loading, userInfo } = userLogin;
+  const { userInfo } = userLogin;
 
   function openModal() {
     setIsOpen(true);

@@ -213,7 +213,6 @@ form button {
 }
 
 .modal-body {
-  display: flex;
   font-size: 20px;
 }
 
@@ -228,13 +227,16 @@ form button {
 }
 
 .inputGroup input {
-  font-size: 100%;
+  font-size: 16px;
   padding: 0.8em;
   outline: none;
   border: 2px solid rgb(200, 200, 200);
   background-color: transparent;
   border-radius: 10px;
   width: 100%;
+  color: #4b4b4b;
+  font-weight: 500;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .inputGroup label {
