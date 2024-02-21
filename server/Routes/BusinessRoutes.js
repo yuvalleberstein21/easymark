@@ -22,9 +22,7 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
             businessName,
             streetAddress,
             city,
-            dayOfWeek,
-            openTime,
-            closeTime,
+            hoursOfOperation,
             images,
             services,
         } = req.body;
@@ -37,15 +35,12 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
             user: req.user._id,
             role: req.user.role,
             businessName,
+            hoursOfOperation,
             location: {
                 streetAddress,
                 city
             },
-            hoursOfOperation: [{
-                dayOfWeek,
-                openTime,
-                closeTime
-            }],
+
             images,
             services,
         })

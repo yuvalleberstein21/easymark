@@ -5,8 +5,23 @@ import MainCalendar from './MainCalender';
 import HoursComponent from './HoursComponent';
 import SummaryComponent from './SummaryComponent';
 
-const CreateQueues = () => {
+interface Business {
+  businessServices: any[];
+  businessOperation: any[];
+}
+
+const dateOptions = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  weekday: 'long',
+};
+
+const CreateQueues = (props: Business) => {
+  const { businessServices, businessOperation } = props;
+
   const [date, setDate] = useState<any>(new Date());
+  const formattedDate = date.toLocaleDateString('he-IL', dateOptions);
   const [hour, setHour] = useState('');
   const [selectedService, setSelectedService] = useState('');
   const [step, setStep] = useState(1);
@@ -34,49 +49,42 @@ const CreateQueues = () => {
       case 1:
         return (
           <>
-            <h4>Choice of services</h4>
+            <h2 style={{ fontWeight: 'bold' }}>בחירת שירותים</h2>
             <div className="buttons_choise_services">
-              <button onClick={() => handleServiceSelection('manHairCut')}>
-                Man Haircut
-                <br />
-                <span>10$</span>
-              </button>
-              <button onClick={() => handleServiceSelection('manHairCutBeard')}>
-                Man Haircut + Beard
-                <br />
-                <span>15$</span>
-              </button>
-              <button onClick={() => handleServiceSelection('manWax')}>
-                Wax
-                <br />
-                <span>5$</span>
-              </button>
+              {businessServices.map((service, index) => (
+                <button
+                  className="mt-2"
+                  key={index}
+                  onClick={() => handleServiceSelection(service.serviceName)}
+                >
+                  {service.serviceName}
+                  <br />
+                  <span>{service.price}$</span>
+                </button>
+              ))}
             </div>
           </>
         );
       case 2:
         return (
           <MainCalendar
-            date={date}
-            onChange={handleCalendarChange}
-            setDate={setDate}
-            selectRange={false}
-            setSelectRange={undefined}
             onBack={handleBackClick}
+            handlehandleCalendarChange={handleCalendarChange}
           />
         );
       case 3:
         return (
           <HoursComponent
-            date={date.toDateString()}
+            date={formattedDate}
             onBack={handleBackClick}
             onChange={handleChooseHourChange}
+            businessOperation={businessOperation}
           />
         );
       case 4:
         return (
           <SummaryComponent
-            date={date.toDateString()}
+            date={formattedDate}
             selectedService={selectedService}
             hour={hour}
             onBack={handleBackClick}

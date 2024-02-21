@@ -1,12 +1,39 @@
+import { useState } from 'react';
 import '../styles/hoursComponent.css';
 interface IHoursComponentProps {
   date: any;
   onBack: () => void;
   onChange: (value: string) => void;
+  businessOperation: any[];
 }
 
 const HoursComponent = (props: IHoursComponentProps) => {
-  const { date, onBack, onChange } = props;
+  const { date, onBack, onChange, businessOperation } = props;
+
+  const dayOfWeekHebrew = date.split(',')[0];
+
+  // Convert Hebrew day of the week to English
+  const getDayOfWeek = (dayOfWeekHebrew: any) => {
+    const dayOfWeekMap = {
+      'יום ראשון': 'sunday',
+      'יום שני': 'monday',
+      'יום שלישי': 'tuesday',
+      'יום רביעי': 'wednesday',
+      'יום חמישי': 'thursday',
+      'יום שישי': 'friday',
+      שבת: 'saturday',
+    };
+
+    return dayOfWeekMap[dayOfWeekHebrew];
+  };
+
+  const dayOfWeek = getDayOfWeek(dayOfWeekHebrew);
+
+  const hoursForDay = businessOperation.find(
+    (hours) => hours.dayOfWeek === dayOfWeek
+  );
+
+  console.log(hoursForDay);
 
   const handleHourSelection = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>

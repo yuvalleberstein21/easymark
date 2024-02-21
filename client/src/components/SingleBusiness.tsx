@@ -1,93 +1,103 @@
+import { useDispatch, useSelector } from 'react-redux';
 import '../styles/singleBusiness.css';
 import CreateQueues from './CreateQueues';
+import { useEffect } from 'react';
+import { getSingleBusinessAction } from '../Redux/Actions/BusinessActions';
+import { useLocation } from 'react-router-dom';
+import Loading from './LoadingError/Loading';
+import Message from './LoadingError/Error';
+import BusinessImagesCard from './BusinessImagesCard';
+
 const SingleBusiness = () => {
+  const getSingleBusiness = useSelector(
+    (state: any) => state.getSingleBusiness
+  );
+  const { loading, error, business } = getSingleBusiness;
+
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const pathname = location.pathname;
+  const businessId = pathname.split('/').pop();
+
+  useEffect(() => {
+    try {
+      const action = getSingleBusinessAction(businessId);
+      dispatch<any>(action);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch, businessId]);
+
   return (
-    <div className="container mt-3 p-4">
-      <div className="row">
-        <div className="col-md-6">
-          <div className="h-100 card_single_business">
-            <div className="text-center">
-              <div className="img-hover-zoom img-hover-zoom--colorize">
-                <img
-                  className="shadow"
-                  src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-                  alt="Another Image zoom-on-hover effect"
+    <>
+      <div className="container mt-3 p-4">
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <Message variant="">{error}</Message>
+        ) : business ? (
+          <div>
+            <div className="row">
+              <div className="col-md-6">
+                <div className="h-100 card_single_business">
+                  <div className="text-center">
+                    <div className="img-hover-zoom img-hover-zoom--colorize">
+                      <img
+                        className="shadow"
+                        src={business.business.images[0]?.imageUrl}
+                        alt={business.business.businessName}
+                      />
+                    </div>
+                  </div>
+                  <div className="card-body">
+                    <div className="clearfix mb-3"></div>
+                    <div className="my-2 text-center">
+                      <h2>{business.business.businessName}</h2>
+                    </div>
+                    <div className="mb-3">
+                      <p className="text-uppercase text-center role">
+                        {business.business.location.streetAddress}{' '}
+                        <i className="fa-solid fa-location-dot m-1"></i>
+                      </p>
+                    </div>
+                    <div className="box">
+                      <div>
+                        <ul className="list-inline m-2">
+                          <li className="list-inline-item">
+                            <i className="fa-brands fa-waze fa-xl"></i>
+                          </li>
+                          <li className="list-inline-item">
+                            <i className="fa-brands fa-whatsapp fa-xl"></i>
+                          </li>
+                          <li className="list-inline-item">
+                            <i className="fa-brands fa-instagram fa-xl"></i>
+                          </li>
+                          <li className="list-inline-item">
+                            <i className="fa-solid fa-phone fa-xl"></i>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <BusinessImagesCard
+                  images={business.business.images}
+                  businessName={business.business.businessName}
+                />
+              </div>
+              <div className="mt-3">
+                <CreateQueues
+                  businessServices={business.business.services}
+                  businessOperation={business.business.hoursOfOperation}
                 />
               </div>
             </div>
-            <div className="card-body">
-              <div className="clearfix mb-3"></div>
-              <div className="my-2 text-center">
-                <h1>BORCELEE -CREATING-</h1>
-              </div>
-              <div className="mb-3">
-                <h2 className="text-uppercase h2_single_business text-center role">
-                  Migdal Ha Emek{' '}
-                  <i className="fa-solid fa-location-dot m-1"></i>
-                </h2>
-              </div>
-              <div className="box">
-                <div>
-                  <ul className="list-inline m-2">
-                    <li className="list-inline-item">
-                      <i className="fa-brands fa-waze fa-xl"></i>
-                    </li>
-                    <li className="list-inline-item">
-                      <i className="fa-brands fa-whatsapp fa-xl"></i>
-                    </li>
-                    <li className="list-inline-item">
-                      <i className="fa-brands fa-instagram fa-xl"></i>
-                    </li>
-                    <li className="list-inline-item">
-                      <i className="fa-solid fa-phone fa-xl"></i>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
-        </div>
-        <div className="col-md-6">
-          <div className="card card_single_images">
-            <div className="card-body">
-              <div className="row row-cols-2">
-                <div className="col col_single_images">
-                  <img
-                    src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-                    alt="image"
-                    height="150"
-                  />
-                </div>
-                <div className="col col_single_images">
-                  <img
-                    src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-                    alt="image"
-                    height="150"
-                  />
-                </div>
-                <div className="col col_single_images">
-                  <img
-                    src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-                    alt="image"
-                    height="150"
-                  />
-                </div>
-                <div className="col col_single_images">
-                  <img
-                    src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-                    alt="image"
-                    height="150"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="mt-3">
-          <CreateQueues />
-        </div>
+        ) : null}
       </div>
-    </div>
+    </>
   );
 };
 

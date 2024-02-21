@@ -21,3 +21,6 @@
 .list-group-item:hover {
   background-color: rgb(247, 246, 246);
 }
+.link-search {
+  text-decoration: none !important;
+}

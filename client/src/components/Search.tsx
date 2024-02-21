@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllBusinessAction } from '../Redux/Actions/BusinessActions';
 import '../styles/search.css';
+import { Link } from 'react-router-dom';
 
 const Search = () => {
   const [inputSearch, setInputSeatch] = useState('');
@@ -105,44 +106,46 @@ const Search = () => {
                   filterBusinesses.map((b: any) => (
                     <div key={b._id}>
                       <ul className="list-group">
-                        <li
-                          className="list-group-item d-flex align-items-center"
-                          dir="rtl"
-                        >
-                          <div className="image-parent">
-                            <img
-                              src={b.images[0]?.imageUrl}
-                              className="img-list-group-item"
-                              style={{
-                                borderRadius: '50%',
-                                height: '50px',
-                                width: '50px',
-                                backgroundSize: 'cover',
-                              }}
-                              alt={b.businessName}
-                            />
-                            <span
-                              className="p-3"
-                              style={{
-                                fontWeight: 'bold',
-                                color: '#4b4b4b',
-                                fontSize: '16px',
-                              }}
-                            >
-                              {b.businessName}
-                              <br />
-                              <span
+                        <Link className="link-search" to={`/business/${b._id}`}>
+                          <li
+                            className="list-group-item d-flex align-items-center"
+                            dir="rtl"
+                          >
+                            <div className="image-parent">
+                              <img
+                                src={b.images[0]?.imageUrl}
+                                className="img-list-group-item"
                                 style={{
-                                  fontWeight: '300',
-                                  color: '#767676',
-                                  fontSize: '15px',
+                                  borderRadius: '50%',
+                                  height: '50px',
+                                  width: '50px',
+                                  backgroundSize: 'cover',
+                                }}
+                                alt={b.businessName}
+                              />
+                              <span
+                                className="p-3"
+                                style={{
+                                  fontWeight: 'bold',
+                                  color: '#4b4b4b',
+                                  fontSize: '16px',
                                 }}
                               >
-                                {b.location?.streetAddress}
+                                {b.businessName}
+                                <br />
+                                <span
+                                  style={{
+                                    fontWeight: '300',
+                                    color: '#767676',
+                                    fontSize: '15px',
+                                  }}
+                                >
+                                  {b.location?.streetAddress}
+                                </span>
                               </span>
-                            </span>
-                          </div>
-                        </li>
+                            </div>
+                          </li>
+                        </Link>
                       </ul>
                     </div>
                   ))
