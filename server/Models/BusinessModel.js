@@ -31,6 +31,10 @@ const businessSchema = mongoose.Schema({
         closeTime: {
             type: String,
             required: true
+        },
+        timeDifference: {
+            type: String,
+            required: true
         }
     }],
     images: [{
