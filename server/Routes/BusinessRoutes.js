@@ -3,7 +3,6 @@ const protect = require('../middleware/AuthMiddleware');
 const asyncHandler = require('express-async-handler');
 const Business = require('../Models/BusinessModel');
 const User = require('../Models/UserModel');
-const mongoose = require('mongoose');
 const businessRoutes = express.Router();
 
 // businessRoutes.post('/', protect, businessController.createBusiness);
@@ -82,4 +81,23 @@ businessRoutes.get("/:id", asyncHandler(
         }
     }
 ));
+
+
+// EDIT BUSINESS - PROTECTED
+
+businessRoutes.put("/:id", protect, asyncHandler(
+    async (req, res) => {
+        try {
+            const business = await Business.findById(req.params.id);
+            if (business) {
+                res.json({ business });
+            } else {
+                res.status(404).send({ message: 'Cannot find business' });
+            }
+        } catch (error) {
+            res.status(500).send({ message: 'Error finding business', error });
+        }
+    }
+));
+
 module.exports = businessRoutes;

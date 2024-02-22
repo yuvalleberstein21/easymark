@@ -26,6 +26,11 @@ const LoginScreen = () => {
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
+  const { loading, error, business } = getAllBusiness;
+
+  console.log('userInfo :', userInfo, 'BusinessInfo:', business);
+
   function openModal() {
     setIsOpen(true);
   }
@@ -34,11 +39,11 @@ const LoginScreen = () => {
     setIsOpen(false);
   }
 
-  useEffect(() => {
-    if (userInfo && userInfo !== null) {
-      navigate('/homepage');
-    }
-  }, [userInfo, navigate]);
+  // useEffect(() => {
+  //   if (userInfo && userInfo !== null) {
+  //     navigate('/homepage');
+  //   }
+  // }, [userInfo, navigate]);
 
   return (
     //  -- SEARCH COMPONENT ---

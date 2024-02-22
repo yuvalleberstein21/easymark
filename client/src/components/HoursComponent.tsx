@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import '../styles/hoursComponent.css';
 interface IHoursComponentProps {
   date: any;
@@ -18,11 +17,10 @@ const HoursComponent = (props: IHoursComponentProps) => {
     businessServices,
     selectedService,
   } = props;
-  const [hoursBetweenArr, setHoursBetween] = useState([]);
 
   const dayOfWeekHebrew = date.split(',')[0];
 
-  const getDayOfWeek = (dayOfWeekHebrew: string | number) => {
+  const getDayOfWeek = (dayOfWeekHebrew: []) => {
     const dayOfWeekMap = {
       'יום ראשון': 'sunday',
       'יום שני': 'monday',
@@ -41,8 +39,7 @@ const HoursComponent = (props: IHoursComponentProps) => {
     (hours) => hours.dayOfWeek === dayOfWeek
   );
 
-  function getHoursBetween(start, end, increment) {
-    // Convert start and end times to minutes since midnight
+  function getHoursBetween(start: string, end: string, increment: number) {
     const [startHours, startMinutes] = start.split(':');
     const [endHours, endMinutes] = end.split(':');
     const startTime = parseInt(startHours) * 60 + parseInt(startMinutes);
@@ -50,9 +47,7 @@ const HoursComponent = (props: IHoursComponentProps) => {
 
     const hours = [];
 
-    // Loop through the time range, incrementing by the specified increment
     for (let time = startTime; time < endTime; time += increment) {
-      // Convert the current time back to HH:MM format
       const currentHours = Math.floor(time / 60);
       const currentMinutes = time % 60;
       const formattedHours = currentHours.toString().padStart(2, '0');
@@ -61,7 +56,6 @@ const HoursComponent = (props: IHoursComponentProps) => {
 
       hours.push(formattedTime);
     }
-
     return hours;
   }
 

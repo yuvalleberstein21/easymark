@@ -5,6 +5,7 @@ import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
 import SingleBusiness from './components/SingleBusiness';
 import LoginScreen from './screens/LoginScreen';
+import BusinessEditScreen from './screens/BusinessEditScreen';
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
             <Route path="/" element={<LoginScreen />} />
             <Route path="/homepage" element={<HomeScreen />} />
             <Route path="/business/:id" element={<SingleBusiness />} />
+            <Route
+              path="/business/:id/editbusiness"
+              element={<BusinessEditScreen />}
+            />
           </Routes>
           {/* <Navbar /> */}
         </div>
