@@ -1,13 +1,24 @@
+import { useState } from 'react';
 import '../styles/hoursComponent.css';
 interface IHoursComponentProps {
   date: any;
   onBack: () => void;
   onChange: (value: string) => void;
   businessOperation: any[];
+  businessServices: any[];
+  selectedService: string;
 }
 
 const HoursComponent = (props: IHoursComponentProps) => {
-  const { date, onBack, onChange, businessOperation } = props;
+  const {
+    date,
+    onBack,
+    onChange,
+    businessOperation,
+    businessServices,
+    selectedService,
+  } = props;
+  const [hoursBetweenArr, setHoursBetween] = useState([]);
 
   const dayOfWeekHebrew = date.split(',')[0];
 
@@ -30,24 +41,39 @@ const HoursComponent = (props: IHoursComponentProps) => {
     (hours) => hours.dayOfWeek === dayOfWeek
   );
 
-  console.log(hoursForDay);
+  function getHoursBetween(start, end, increment) {
+    // Convert start and end times to minutes since midnight
+    const [startHours, startMinutes] = start.split(':');
+    const [endHours, endMinutes] = end.split(':');
+    const startTime = parseInt(startHours) * 60 + parseInt(startMinutes);
+    const endTime = parseInt(endHours) * 60 + parseInt(endMinutes);
 
-  const businessOpen = hoursForDay.openTime;
-  const businessClose = hoursForDay.closeTime;
-  const timeDifferences = hoursForDay.timeDifference;
+    const hours = [];
 
-  const [openHours, openMinutes] = businessOpen.split(':');
-  const [closeHours, closeMinutes] = businessClose.split(':');
-  const differenceMinutes = parseInt(timeDifferences, 10);
+    // Loop through the time range, incrementing by the specified increment
+    for (let time = startTime; time < endTime; time += increment) {
+      // Convert the current time back to HH:MM format
+      const currentHours = Math.floor(time / 60);
+      const currentMinutes = time % 60;
+      const formattedHours = currentHours.toString().padStart(2, '0');
+      const formattedMinutes = currentMinutes.toString().padStart(2, '0');
+      const formattedTime = `${formattedHours}:${formattedMinutes}`;
 
-  const openHoursInNumber =
-    parseInt(openHours, 10) * 100 + parseInt(openMinutes, 10);
-  const closeHoursInNumber =
-    parseInt(closeHours, 10) * 100 + parseInt(closeMinutes, 10);
-  // const differenceHoursInNumber =
-  //   parseInt(diffrenceHours, 10) * 100 + parseInt(diffrenceMinutes, 10);
+      hours.push(formattedTime);
+    }
 
-  console.log(openHoursInNumber, closeHoursInNumber, differenceMinutes);
+    return hours;
+  }
+
+  const choosenService = businessServices.find(
+    (service) => service.serviceName === selectedService
+  );
+
+  const hoursBetween = getHoursBetween(
+    hoursForDay.openTime,
+    hoursForDay.closeTime,
+    choosenService.serviceTime
+  );
 
   const handleHourSelection = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -68,14 +94,11 @@ const HoursComponent = (props: IHoursComponentProps) => {
         <h4>Choose hour</h4>
       </div>
       <div className="hours">
-        <button onClick={handleHourSelection}>10:00</button>
-        <button onClick={handleHourSelection}>10:20</button>
-        <button onClick={handleHourSelection}>10:40</button>
-        <button onClick={handleHourSelection}>11:00</button>
-        <button onClick={handleHourSelection}>11:20</button>
-        <button onClick={handleHourSelection}>12:00</button>
-        <button onClick={handleHourSelection}>12:20</button>
-        <button onClick={handleHourSelection}>12:40</button>
+        {hoursBetween.map((hour, i) => (
+          <button key={i} onClick={handleHourSelection}>
+            {hour}
+          </button>
+        ))}
       </div>
     </div>
   );

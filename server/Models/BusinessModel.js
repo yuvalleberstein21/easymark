@@ -32,10 +32,7 @@ const businessSchema = mongoose.Schema({
             type: String,
             required: true
         },
-        timeDifference: {
-            type: String,
-            required: true
-        }
+
     }],
     images: [{
         imageUrl: {
@@ -50,6 +47,10 @@ const businessSchema = mongoose.Schema({
         },
         description: String,
         price: {
+            type: Number,
+            required: true
+        },
+        serviceTime: {
             type: Number,
             required: true
         }

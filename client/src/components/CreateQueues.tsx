@@ -79,6 +79,8 @@ const CreateQueues = (props: Business) => {
             onBack={handleBackClick}
             onChange={handleChooseHourChange}
             businessOperation={businessOperation}
+            businessServices={businessServices}
+            selectedService={selectedService}
           />
         );
       case 4:
