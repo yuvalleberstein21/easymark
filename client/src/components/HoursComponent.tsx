@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import '../styles/hoursComponent.css';
 interface IHoursComponentProps {
   date: any;
@@ -12,8 +11,7 @@ const HoursComponent = (props: IHoursComponentProps) => {
 
   const dayOfWeekHebrew = date.split(',')[0];
 
-  // Convert Hebrew day of the week to English
-  const getDayOfWeek = (dayOfWeekHebrew: any) => {
+  const getDayOfWeek = (dayOfWeekHebrew: string | number) => {
     const dayOfWeekMap = {
       'יום ראשון': 'sunday',
       'יום שני': 'monday',
@@ -21,7 +19,6 @@ const HoursComponent = (props: IHoursComponentProps) => {
       'יום רביעי': 'wednesday',
       'יום חמישי': 'thursday',
       'יום שישי': 'friday',
-      שבת: 'saturday',
     };
 
     return dayOfWeekMap[dayOfWeekHebrew];
@@ -34,6 +31,23 @@ const HoursComponent = (props: IHoursComponentProps) => {
   );
 
   console.log(hoursForDay);
+
+  const businessOpen = hoursForDay.openTime;
+  const businessClose = hoursForDay.closeTime;
+  const timeDifferences = hoursForDay.timeDifference;
+
+  const [openHours, openMinutes] = businessOpen.split(':');
+  const [closeHours, closeMinutes] = businessClose.split(':');
+  const differenceMinutes = parseInt(timeDifferences, 10);
+
+  const openHoursInNumber =
+    parseInt(openHours, 10) * 100 + parseInt(openMinutes, 10);
+  const closeHoursInNumber =
+    parseInt(closeHours, 10) * 100 + parseInt(closeMinutes, 10);
+  // const differenceHoursInNumber =
+  //   parseInt(diffrenceHours, 10) * 100 + parseInt(diffrenceMinutes, 10);
+
+  console.log(openHoursInNumber, closeHoursInNumber, differenceMinutes);
 
   const handleHourSelection = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
