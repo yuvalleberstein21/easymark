@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LoginModal from '../components/LoginModal';
 import Search from '../components/Search';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import Modal from 'react-modal';
+
+import BusinessModal from '../components/BusinessModal';
 
 const customStyles = {
   content: {
@@ -20,19 +21,43 @@ Modal.setAppElement('#body');
 
 const LoginScreen = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modaManagerIsOpen, setModalManagarIsOpen] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { userInfo } = userLogin;
+  // const userLogin = useSelector((state: any) => state.userLogin);
+  // const { userInfo } = userLogin;
+  // const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
+  // const { business } = getAllBusiness;
+  // const updateBusiness = useSelector((state: any) => state.updateBusiness);
+  // const { loading, error, business: updatedBusiness } = updateBusiness;
 
-  const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
-  const { loading, error, business } = getAllBusiness;
+  // const dispatch = useDispatch();
 
-  console.log('userInfo :', userInfo, 'BusinessInfo:', business);
+  // const userId = userInfo?._id;
+
+  // const userBusiness = business?.find(
+  //   (business: any) => business.user === userId
+  // );
+
+  // const handleSubmit = (e: any) => {
+  //   e.preventDefault();
+  //   try {
+  //     const action = updateBusinessAction(userBusiness);
+  //     dispatch<any>(action);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   function openModal() {
     setIsOpen(true);
+  }
+  function openManagerModal() {
+    setModalManagarIsOpen(true);
+  }
+  function closeModalManager() {
+    setModalManagarIsOpen(false);
   }
 
   function closeModal() {
@@ -56,10 +81,28 @@ const LoginScreen = () => {
           <i className="fa-solid fa-plus fa-lg m-2"></i>
         </button>
 
-        <button className="btn btn-light">
+        <button
+          className="btn btn-light"
+          type="button"
+          onClick={openManagerModal}
+        >
           Managing an existing business
           <i className="fa-solid fa-arrow-right-to-bracket fa-lg m-2"></i>
         </button>
+        <Modal
+          isOpen={modaManagerIsOpen}
+          onRequestClose={closeModalManager}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <button
+            onClick={closeModalManager}
+            style={{ border: 'none', background: 'none' }}
+          >
+            <i className="fa-solid fa-xmark fa-lg"></i>
+          </button>
+          <BusinessModal />
+        </Modal>
 
         <button type="button" className="btn btn-light" onClick={openModal}>
           Login

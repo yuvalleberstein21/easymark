@@ -6,6 +6,9 @@ import {
   GET_SINGLE_BUSINESS_FAIL,
   GET_SINGLE_BUSINESS_REQUEST,
   GET_SINGLE_BUSINESS_SUCCESS,
+  UPDATE_BUSINESS_FAIL,
+  UPDATE_BUSINESS_REQUEST,
+  UPDATE_BUSINESS_SUCCESS,
 } from '../Constant/BusinessConstant';
 
 export const getAllBusinessAction = () => async (dispatch: any) => {
@@ -44,6 +47,35 @@ export const getSingleBusinessAction = (id: any) => async (dispatch: any) => {
   } catch (error: any) {
     dispatch({
       type: GET_SINGLE_BUSINESS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateBusinessAction = (id: any) => async (dispatch: any) => {
+  try {
+    dispatch({ type: UPDATE_BUSINESS_REQUEST });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { data } = await axios.put(
+      `${import.meta.env.VITE_API_BASE_URL}/business/${id}`,
+      config
+    );
+    dispatch({
+      type: UPDATE_BUSINESS_SUCCESS,
+      payload: data,
+    });
+  } catch (error: any) {
+    dispatch({
+      type: UPDATE_BUSINESS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

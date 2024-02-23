@@ -103,6 +103,7 @@ const LoginModal = () => {
                   Continue
                 </button>
               </form>
+
               <span
                 onClick={handleLoginChange}
                 className="mt-3"
@@ -113,79 +114,82 @@ const LoginModal = () => {
             </div>
           </>
         );
+
       case 2:
         return (
           <>
-            <span
-              onClick={handleBackClick}
-              style={{
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'flex-end',
-                padding: '5px',
-                marginRight: '7px',
-                fontWeight: '500',
-              }}
-            >
-              Back →
-            </span>
-            <div className="modal-body">
-              <h4>Create an Account and continue</h4>
-            </div>
-            {loadingRegister && <Loading>Loading...</Loading>}
-            {errorRegister && (
-              <Message variant="alert" children={errorRegister} />
-            )}
-            <div className="modal-footer">
-              <form onSubmit={handleRegisterSubmit}>
-                <div className="inputGroup">
-                  <input
-                    value={name}
-                    type="text"
-                    required
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                  <label htmlFor="fullname">Full Name</label>
-                </div>
-                <div className="inputGroup">
-                  <input
-                    value={phoneNumber}
-                    type="text"
-                    required
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
-                  <label htmlFor="phoneNumber">Phone Number</label>
-                </div>
-                <div className="inputGroup">
-                  <input
-                    value={password}
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <label htmlFor="password">Password</label>
-                  <span
-                    onClick={handleTogglePassword}
-                    style={{
-                      position: 'absolute',
-                      right: '15px',
-                      top: '47%',
-                      transform: 'translateY(-50%)',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {showPassword ? (
-                      <i className="fa-solid fa-eye-slash"></i>
-                    ) : (
-                      <i className="fa-solid fa-eye"></i>
-                    )}
-                  </span>
-                </div>
-                <button type="submit" className="btn btn-dark">
-                  Continue
-                </button>
-              </form>
-            </div>
+            <>
+              <span
+                onClick={handleBackClick}
+                style={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  padding: '5px',
+                  marginRight: '7px',
+                  fontWeight: '500',
+                }}
+              >
+                Back →
+              </span>
+              <div className="modal-body">
+                <h4>Create an Account and continue</h4>
+              </div>
+              {loadingRegister && <Loading>Loading...</Loading>}
+              {errorRegister && (
+                <Message variant="alert" children={errorRegister} />
+              )}
+              <div className="modal-footer">
+                <form onSubmit={handleRegisterSubmit}>
+                  <div className="inputGroup">
+                    <input
+                      value={name}
+                      type="text"
+                      required
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                    <label htmlFor="fullname">Full Name</label>
+                  </div>
+                  <div className="inputGroup">
+                    <input
+                      value={phoneNumber}
+                      type="text"
+                      required
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                    />
+                    <label htmlFor="phoneNumber">Phone Number</label>
+                  </div>
+                  <div className="inputGroup">
+                    <input
+                      value={password}
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <label htmlFor="password">Password</label>
+                    <span
+                      onClick={handleTogglePassword}
+                      style={{
+                        position: 'absolute',
+                        right: '15px',
+                        top: '47%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {showPassword ? (
+                        <i className="fa-solid fa-eye-slash"></i>
+                      ) : (
+                        <i className="fa-solid fa-eye"></i>
+                      )}
+                    </span>
+                  </div>
+                  <button type="submit" className="btn btn-dark">
+                    Continue
+                  </button>
+                </form>
+              </div>
+            </>
           </>
         );
       default:
