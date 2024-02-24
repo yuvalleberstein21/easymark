@@ -1,4 +1,4 @@
-import '../styles/hoursComponent.css';
+import '../../styles/hoursComponent.css';
 interface IHoursComponentProps {
   date: any;
   onBack: () => void;

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, register } from '../Redux/Actions/UserAction';
-import Message from './LoadingError/Error';
-import Loading from './LoadingError/Loading';
+import { login, register } from '../../Redux/Actions/UserAction';
+import Message from '../LoadingError/Error';
+import Loading from '../LoadingError/Loading';
 import 'react-toastify/dist/ReactToastify.css';
 
 const LoginModal = () => {

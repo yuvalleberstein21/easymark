@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAllBusinessAction } from '../Redux/Actions/BusinessActions';
+import BusinessEditCard from '../components/BusinessComponents/BusinessEditCard';
 
 const BusinessEditScreen = () => {
   const userLogin = useSelector((state: any) => state.userLogin);
@@ -32,7 +33,11 @@ const BusinessEditScreen = () => {
     }
   }, [userInfo, navigate, userId]);
 
-  return <div>BusinessEditScreen</div>;
+  return (
+    <div className="container">
+      <BusinessEditCard userBusiness={userBusiness} />
+    </div>
+  );
 };
 
 export default BusinessEditScreen;

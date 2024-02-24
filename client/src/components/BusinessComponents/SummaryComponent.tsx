@@ -1,4 +1,4 @@
-import '../styles/summary.css';
+import '../../styles/summary.css';
 interface ISummaryComponentProps {
   date: any;
   selectedService: string;

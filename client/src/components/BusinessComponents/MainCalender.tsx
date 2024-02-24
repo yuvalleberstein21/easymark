@@ -3,10 +3,6 @@ import DatePicker from 'react-date-picker';
 import 'react-date-picker/dist/DatePicker.css';
 
 interface ICalendarProps {
-  // setDate: any;
-  // date: any;
-  // selectRange: boolean;
-  // setSelectRange: any;
   handlehandleCalendarChange: (selectedDate: Date) => void;
   onBack: () => void;
 }
@@ -36,23 +32,5 @@ const MainCalender = (props: ICalendarProps) => {
       </div>
     </div>
   );
-  //   const { setDate, date, onChange, onBack } = props;
-
-  //   const handleCalendarChange = (selectedDate: Date) => {
-  //     setDate(selectedDate);
-  //     onChange(selectedDate);
-  //   };
-  //   return (
-  //     <div className="calendar-container-main">
-  //       <CalendarComponent
-  //         onBack={onBack}
-  //         setDate={setDate}
-  //         date={date}
-  //         onChange={handleCalendarChange}
-  //       />
-  //       <Action date={date} />
-  //     </div>
-  //   );
-  // };
 };
 export default MainCalender;

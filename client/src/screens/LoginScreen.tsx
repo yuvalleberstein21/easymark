@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import LoginModal from '../components/LoginModal';
-import Search from '../components/Search';
+import LoginModal from '../components/ModalsComponents/LoginModal';
+import Search from '../components/HomeComponents/Search';
 // import { useSelector } from 'react-redux';
 import Modal from 'react-modal';
 
-import BusinessModal from '../components/BusinessModal';
+import BusinessModal from '../components/ModalsComponents/BusinessModal';
 
 const customStyles = {
   content: {
@@ -22,33 +22,6 @@ Modal.setAppElement('#body');
 const LoginScreen = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modaManagerIsOpen, setModalManagarIsOpen] = useState(false);
-
-  // const navigate = useNavigate();
-
-  // const userLogin = useSelector((state: any) => state.userLogin);
-  // const { userInfo } = userLogin;
-  // const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
-  // const { business } = getAllBusiness;
-  // const updateBusiness = useSelector((state: any) => state.updateBusiness);
-  // const { loading, error, business: updatedBusiness } = updateBusiness;
-
-  // const dispatch = useDispatch();
-
-  // const userId = userInfo?._id;
-
-  // const userBusiness = business?.find(
-  //   (business: any) => business.user === userId
-  // );
-
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault();
-  //   try {
-  //     const action = updateBusinessAction(userBusiness);
-  //     dispatch<any>(action);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   function openModal() {
     setIsOpen(true);

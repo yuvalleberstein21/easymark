@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import Search from '../components/Search';
+import Search from '../components/HomeComponents/Search';
 import BusinessScreen from './BusinessScreen';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';

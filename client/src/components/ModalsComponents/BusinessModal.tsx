@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Loading from './LoadingError/Loading';
-import Message from './LoadingError/Error';
+import Loading from '../LoadingError/Loading';
+import Message from '../LoadingError/Error';
 
 const BusinessModal = () => {
   const userLogin = useSelector((state: any) => state.userLogin);

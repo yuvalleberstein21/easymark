@@ -87,15 +87,30 @@ businessRoutes.get("/:id", asyncHandler(
 
 businessRoutes.put("/:id", protect, asyncHandler(
     async (req, res) => {
+        const {
+            businessName,
+            streetAddress,
+            city,
+            hoursOfOperation,
+            images,
+            services,
+        } = req.body;
         try {
-            const business = await Business.findById(req.params.id);
+            const business = await Business.findByIdAndUpdate(req.params.id, {
+                businessName,
+                streetAddress,
+                city,
+                hoursOfOperation,
+                images,
+                services,
+            }, { new: true });
             if (business) {
-                res.json({ business });
+                res.status(200).send({ message: 'Business updated successfully', business });
             } else {
                 res.status(404).send({ message: 'Cannot find business' });
             }
         } catch (error) {
-            res.status(500).send({ message: 'Error finding business', error });
+            res.status(500).send({ message: 'Error updating business', error });
         }
     }
 ));

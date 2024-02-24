@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllBusinessAction } from '../Redux/Actions/BusinessActions';
-import '../styles/search.css';
+import { getAllBusinessAction } from '../../Redux/Actions/BusinessActions';
+import '../../styles/search.css';
 import { Link } from 'react-router-dom';
 
 const Search = () => {

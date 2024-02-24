@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import '../styles/createQueues.css';
-import '../styles/calendar.css';
+import '../../styles/createQueues.css';
+import '../../styles/calendar.css';
 import MainCalendar from './MainCalender';
 import HoursComponent from './HoursComponent';
 import SummaryComponent from './SummaryComponent';

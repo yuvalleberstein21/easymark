@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import '../styles/singleBusiness.css';
-import CreateQueues from './CreateQueues';
+import CreateQueues from '../components/BusinessComponents/CreateQueues';
 import { useEffect } from 'react';
 import { getSingleBusinessAction } from '../Redux/Actions/BusinessActions';
 import { useLocation } from 'react-router-dom';
-import Loading from './LoadingError/Loading';
-import Message from './LoadingError/Error';
-import BusinessImagesCard from './BusinessImagesCard';
+import Loading from '../components/LoadingError/Loading';
+import Message from '../components/LoadingError/Error';
+import BusinessImagesCard from '../components/BusinessComponents/BusinessImagesCard';
 
 const SingleBusiness = () => {
   const getSingleBusiness = useSelector(

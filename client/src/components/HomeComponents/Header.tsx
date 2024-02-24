@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../Redux/Actions/UserAction';
+import { logout } from '../../Redux/Actions/UserAction';
 import { Link } from 'react-router-dom';
 
 const Header = () => {

@@ -55,31 +55,54 @@ export const getSingleBusinessAction = (id: any) => async (dispatch: any) => {
   }
 };
 
-export const updateBusinessAction = (id: any) => async (dispatch: any) => {
-  try {
-    dispatch({ type: UPDATE_BUSINESS_REQUEST });
+export const updateBusinessAction =
+  (
+    id: any,
+    businessName: string,
+    streetAddress: string,
+    city: string,
+    hoursOfOperation: string,
+    images: string,
+    services: string
+  ) =>
+  async (dispatch: any, getState: any) => {
+    try {
+      dispatch({ type: UPDATE_BUSINESS_REQUEST });
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const { data } = await axios.put(
-      `${import.meta.env.VITE_API_BASE_URL}/business/${id}`,
-      config
-    );
-    dispatch({
-      type: UPDATE_BUSINESS_SUCCESS,
-      payload: data,
-    });
-  } catch (error: any) {
-    dispatch({
-      type: UPDATE_BUSINESS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_BASE_URL}/business/${id}`,
+        {
+          businessName,
+          streetAddress,
+          city,
+          hoursOfOperation,
+          images,
+          services,
+        },
+        config
+      );
+      dispatch({
+        type: UPDATE_BUSINESS_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: UPDATE_BUSINESS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

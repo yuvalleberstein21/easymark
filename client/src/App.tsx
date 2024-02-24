@@ -1,9 +1,9 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
+import Header from './components/HomeComponents/Header';
 // import Navbar from './components/Navbar';
 import HomeScreen from './screens/HomeScreen';
-import SingleBusiness from './components/SingleBusiness';
+import SingleBusiness from './screens/SingleBusinessScreen';
 import LoginScreen from './screens/LoginScreen';
 import BusinessEditScreen from './screens/BusinessEditScreen';
 
