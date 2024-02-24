@@ -61,9 +61,9 @@ export const updateBusinessAction =
     businessName: string,
     streetAddress: string,
     city: string,
-    hoursOfOperation: string,
-    images: string,
-    services: string
+    hoursOfOperation: string[],
+    images: string[],
+    services: string | number[]
   ) =>
   async (dispatch: any, getState: any) => {
     try {

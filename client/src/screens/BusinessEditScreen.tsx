@@ -11,9 +11,6 @@ const BusinessEditScreen = () => {
   const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
   const { business: allBusiness } = getAllBusiness;
 
-  const updateBusiness = useSelector((state: any) => state.updateBusiness);
-  const { business } = updateBusiness;
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,8 +18,6 @@ const BusinessEditScreen = () => {
   const userBusiness = allBusiness?.find(
     (business: any) => business.user === userId
   );
-
-  console.log(userBusiness);
 
   useEffect(() => {
     if (userInfo == null || userInfo?.role === 'user') {
