@@ -39,6 +39,7 @@ const BusinessEditCard = (props: IEditBusiness) => {
   const { loading, error, business } = updateBusiness;
 
   const { userBusiness } = props;
+  const [userBusinessState, setUserBusinessState] = useState(userBusiness);
 
   const [businessName, setBusinessName] = useState(
     userBusiness?.businessName ?? ''
@@ -47,16 +48,7 @@ const BusinessEditCard = (props: IEditBusiness) => {
   const [streetAddress, setStreetAddress] = useState(
     userBusiness?.location?.streetAddress ?? ''
   );
-  const [serviceName, setServiceName] = useState(
-    userBusiness?.services[0]?.serviceName ?? ''
-  );
-  const [description, setDescription] = useState(
-    userBusiness?.services[0]?.description ?? ''
-  );
-  const [price, setPrice] = useState(userBusiness?.services[0]?.price ?? '');
-  const [serviceTime, setServiceTime] = useState(
-    userBusiness?.services[0]?.serviceTime ?? ''
-  );
+
   const [closeTime, setCloseTime] = useState(
     userBusiness?.hoursOfOperation[0]?.closeTime ?? ''
   );
@@ -83,15 +75,36 @@ const BusinessEditCard = (props: IEditBusiness) => {
     setStep(3);
   };
 
+  const handleChangeServiceName = (e: any, index: number) => {
+    const newServices = [...userBusiness.services];
+    newServices[index].serviceName = e.target.value;
+    setUserBusinessState({ ...userBusinessState, services: newServices });
+  };
+
+  const handleChangeDescription = (e: any, index: number) => {
+    const newServices = [...userBusiness.services];
+    newServices[index].description = e.target.value;
+    setUserBusinessState({ ...userBusinessState, services: newServices });
+  };
+
+  const handleChangePrice = (e: any, index: number) => {
+    const newServices = [...userBusiness.services];
+    newServices[index].price = e.target.value;
+    setUserBusinessState({ ...userBusinessState, services: newServices });
+  };
+
+  const handleChangeServiceTime = (e: any, index: number) => {
+    const newServices = [...userBusiness.services];
+    newServices[index].serviceTime = e.target.value;
+    setUserBusinessState({ ...userBusinessState, services: newServices });
+  };
+
   useEffect(() => {
     if (userBusiness) {
+      setUserBusinessState(userBusiness);
       setBusinessName(userBusiness?.businessName ?? '');
       setCity(userBusiness?.location.city ?? '');
       setStreetAddress(userBusiness?.location.streetAddress ?? '');
-      setServiceName(userBusiness?.services[0].serviceName ?? '');
-      setDescription(userBusiness?.services[0].description ?? '');
-      setPrice(userBusiness?.services[0].price ?? '');
-      setServiceTime(userBusiness?.services[0].serviceTime ?? '');
       setCloseTime(userBusiness?.hoursOfOperation[0].closeTime ?? '');
       setDayOfWeek(userBusiness?.hoursOfOperation[0].dayOfWeek ?? '');
       setOpenTime(userBusiness?.hoursOfOperation[0].openTime ?? '');
@@ -157,23 +170,23 @@ const BusinessEditCard = (props: IEditBusiness) => {
               >
                 <input
                   type="text"
-                  value={serviceName}
-                  onChange={(e) => setServiceName(e.target.value)}
+                  value={service.serviceName}
+                  onChange={(e) => handleChangeServiceName(e, index)}
                 />
                 <input
                   type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={service.description}
+                  onChange={(e) => handleChangeDescription(e, index)}
                 />
                 <input
                   type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  value={service.price}
+                  onChange={(e) => handleChangePrice(e, index)}
                 />
                 <input
                   type="number"
-                  value={serviceTime}
-                  onChange={(e) => setServiceTime(e.target.value)}
+                  value={service.serviceTime}
+                  onChange={(e) => handleChangeServiceTime(e, index)}
                 />
               </div>
             ))}
