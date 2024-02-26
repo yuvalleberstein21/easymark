@@ -10,11 +10,11 @@ const HomeScreen = () => {
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
 
-  useEffect(() => {
-    if (userInfo == null) {
-      navigate('/');
-    }
-  }, [userInfo, navigate]);
+  // useEffect(() => {
+  //   if (userInfo == null) {
+  //     navigate('/');
+  //   }
+  // }, [userInfo, navigate]);
 
   return (
     <>

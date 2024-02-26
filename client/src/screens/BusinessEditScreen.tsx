@@ -9,7 +9,7 @@ const BusinessEditScreen = () => {
   const { userInfo } = userLogin;
 
   const getAllBusiness = useSelector((state: any) => state.getAllBusiness);
-  const { business: allBusiness } = getAllBusiness;
+  const { loading, error, business: allBusiness } = getAllBusiness;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,7 +30,10 @@ const BusinessEditScreen = () => {
 
   return (
     <div className="container">
-      <BusinessEditCard userBusiness={userBusiness} />
+      <BusinessEditCard
+        userBusiness={userBusiness}
+        loadingAllBusiness={loading}
+      />
     </div>
   );
 };

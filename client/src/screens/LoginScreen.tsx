@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import LoginModal from '../components/ModalsComponents/LoginModal';
 import Search from '../components/HomeComponents/Search';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Modal from 'react-modal';
-
 import BusinessModal from '../components/ModalsComponents/BusinessModal';
 
 const customStyles = {
@@ -20,6 +19,8 @@ const customStyles = {
 Modal.setAppElement('#body');
 
 const LoginScreen = () => {
+  const userLogin = useSelector((state: any) => state.userLogin);
+  const { userInfo } = userLogin;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modaManagerIsOpen, setModalManagarIsOpen] = useState(false);
 

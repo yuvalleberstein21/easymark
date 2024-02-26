@@ -4,6 +4,7 @@ import { login, register } from '../../Redux/Actions/UserAction';
 import Message from '../LoadingError/Error';
 import Loading from '../LoadingError/Loading';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const LoginModal = () => {
   const [name, setName] = useState('');
@@ -19,6 +20,8 @@ const LoginModal = () => {
   const { error, loading, userInfo } = userLogin;
   const userRegister = useSelector((state: any) => state.userRegister);
   const { error: errorRegister, loading: loadingRegister } = userRegister;
+
+  const navigate = useNavigate();
 
   const handleLoginChange = () => {
     setStep(2);
@@ -38,6 +41,9 @@ const LoginModal = () => {
     try {
       const action = login(phoneNumber, password);
       await dispatch<any>(action);
+      if (userInfo) {
+        navigate('/homepage');
+      }
     } catch (error) {
       setErrorValidation('Error logging in');
     }
