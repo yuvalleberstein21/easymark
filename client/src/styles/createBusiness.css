@@ -1,0 +1,65 @@
+body {
+  color: #000;
+  overflow-x: hidden;
+  height: 100%;
+  background-image: url('https://i.imgur.com/GMmCQHC.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.card_create_business {
+  padding: 30px 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border: none !important;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.blue-text {
+  color: #00bcd4;
+}
+.form-control-label {
+  margin-bottom: 0;
+  color: #4b4b4b;
+  font-weight: bold;
+}
+input,
+textarea,
+select,
+button {
+  padding: 8px 15px;
+  border-radius: 5px !important;
+  margin: 5px 0px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  font-size: 16px !important;
+  color: #4b4b4b;
+  font-weight: 400;
+}
+input::placeholder {
+  font-size: small;
+}
+input:focus,
+textarea:focus {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 1px solid #00bcd4;
+  outline-width: 0;
+  font-weight: 400;
+}
+.btn-block {
+  text-transform: uppercase;
+  font-size: 15px !important;
+  font-weight: 400;
+  height: 43px;
+  cursor: pointer;
+}
+.btn-block:hover {
+  color: #fff !important;
+}
+button:focus {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  outline-width: 0;
+}

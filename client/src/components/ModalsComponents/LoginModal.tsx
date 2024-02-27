@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, register } from '../../Redux/Actions/UserAction';
 import Message from '../LoadingError/Error';
@@ -58,6 +58,12 @@ const LoginModal = () => {
       setErrorValidation('Error registering');
     }
   };
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/homepage');
+    }
+  }, [userInfo]);
 
   const renderStep = () => {
     switch (step) {

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import LoginModal from '../components/ModalsComponents/LoginModal';
 import Search from '../components/HomeComponents/Search';
-import { useSelector } from 'react-redux';
 import Modal from 'react-modal';
 import BusinessModal from '../components/ModalsComponents/BusinessModal';
+import { Link } from 'react-router-dom';
 
 const customStyles = {
   content: {
@@ -19,8 +19,6 @@ const customStyles = {
 Modal.setAppElement('#body');
 
 const LoginScreen = () => {
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { userInfo } = userLogin;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modaManagerIsOpen, setModalManagarIsOpen] = useState(false);
 
@@ -38,22 +36,18 @@ const LoginScreen = () => {
     setIsOpen(false);
   }
 
-  // useEffect(() => {
-  //   if (userInfo && userInfo !== null) {
-  //     navigate('/homepage');
-  //   }
-  // }, [userInfo, navigate]);
-
   return (
     //  -- SEARCH COMPONENT ---
     <div className="container p-3">
       <Search />
 
       <div className="buttons_connection">
-        <button className="btn btn-dark">
-          Create A business
-          <i className="fa-solid fa-plus fa-lg m-2"></i>
-        </button>
+        <Link to={'/createbusiness'}>
+          <button className="btn btn-dark">
+            Create A business
+            <i className="fa-solid fa-plus fa-lg m-2"></i>
+          </button>
+        </Link>
 
         <button
           className="btn btn-light"

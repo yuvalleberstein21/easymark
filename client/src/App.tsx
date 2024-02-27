@@ -6,6 +6,7 @@ import HomeScreen from './screens/HomeScreen';
 import SingleBusiness from './screens/SingleBusinessScreen';
 import LoginScreen from './screens/LoginScreen';
 import BusinessEditScreen from './screens/BusinessEditScreen';
+import CreateBusiness from './screens/CreateBusiness';
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
               path="/business/:id/editbusiness"
               element={<BusinessEditScreen />}
             />
+            <Route path="/createbusiness" element={<CreateBusiness />} />
           </Routes>
+
           {/* <Navbar /> */}
         </div>
       </Router>
