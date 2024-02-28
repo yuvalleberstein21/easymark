@@ -59,14 +59,7 @@ export const getSingleBusinessAction = (id: any) => async (dispatch: any) => {
 };
 
 export const createBusinessAction =
-  (
-    businessName: string,
-    streetAddress: string,
-    city: string,
-    hoursOfOperation: string[],
-    services: string | number[],
-    images: string[]
-  ) =>
+  (businessName, city, streetAddress, services, hoursOfOperation, images) =>
   async (dispatch: any, getState: any) => {
     try {
       dispatch({ type: CREATE_BUSINESS_REQUEST });
@@ -77,20 +70,19 @@ export const createBusinessAction =
 
       const config = {
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
 
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/business/createbusiness`,
+        `${import.meta.env.VITE_API_BASE_URL}/business/createbusiness/`,
         {
           businessName,
-          streetAddress,
           city,
+          streetAddress,
+          services,
           hoursOfOperation,
           images,
-          services,
         },
         config
       );
