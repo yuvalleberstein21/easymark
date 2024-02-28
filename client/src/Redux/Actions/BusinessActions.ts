@@ -1,5 +1,8 @@
 import axios from 'axios';
 import {
+  CREATE_BUSINESS_FAIL,
+  CREATE_BUSINESS_REQUEST,
+  CREATE_BUSINESS_SUCCESS,
   GET_ALL_BUSINESS_FAIL,
   GET_ALL_BUSINESS_REQUEST,
   GET_ALL_BUSINESS_SUCCESS,
@@ -54,6 +57,59 @@ export const getSingleBusinessAction = (id: any) => async (dispatch: any) => {
     });
   }
 };
+
+export const createBusinessAction =
+  (
+    businessName: string,
+    streetAddress: string,
+    city: string,
+    hoursOfOperation: string[],
+    services: string | number[],
+    images: string[]
+  ) =>
+  async (dispatch: any, getState: any) => {
+    try {
+      dispatch({ type: CREATE_BUSINESS_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/business/createbusiness`,
+        {
+          businessName,
+          streetAddress,
+          city,
+          hoursOfOperation,
+          images,
+          services,
+        },
+        config
+      );
+
+      dispatch({
+        type: CREATE_BUSINESS_SUCCESS,
+        payload: data,
+      });
+      console.log(data);
+    } catch (error: any) {
+      dispatch({
+        type: CREATE_BUSINESS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const updateBusinessAction =
   (

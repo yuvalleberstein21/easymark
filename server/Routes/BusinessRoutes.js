@@ -39,7 +39,6 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
                 streetAddress,
                 city
             },
-
             images,
             services,
         })

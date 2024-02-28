@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { userLoginReducer, userRegisterReducer } from './Reducers/UserReducer';
 import {
+  createBusinessReducer,
   getAllBusinessReducer,
   getSingleBusinessReducer,
   updateBusinessReducer,
@@ -12,6 +13,7 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   getAllBusiness: getAllBusinessReducer,
   getSingleBusiness: getSingleBusinessReducer,
+  createBusiness: createBusinessReducer,
   updateBusiness: updateBusinessReducer,
 });
 

@@ -1,46 +1,19 @@
 import { useState } from 'react';
 import '../styles/createBusiness.css';
+import { useDispatch } from 'react-redux';
+import { createBusinessAction } from '../Redux/Actions/BusinessActions';
 
-interface IBusiness {
-  business: {
-    businessName: string;
-    location: {
-      city: string;
-      streetAddress: string;
-    };
-    services: [
-      {
-        serviceName: string;
-        description: string;
-        price: number;
-        serviceTime: number;
-      }
-    ];
-    hoursOfOperation: [
-      {
-        closeTime: string;
-        dayOfWeek: string;
-        openTime: string;
-      }
-    ];
-    images: [
-      {
-        imageUrl: string;
-      }
-    ];
-  };
-}
-const CreateBusiness = (props: IBusiness) => {
-  const { business } = props;
-
+const CreateBusiness = () => {
   const [formData, setFormData] = useState({
     businessName: '',
     city: '',
     streetAddress: '',
     services: [{ serviceName: '', description: '', price: 0, serviceTime: 0 }],
     hoursOfOperation: [{ closeTime: '', dayOfWeek: '', openTime: '' }],
-    imageUrl: '',
+    images: [{ imageUrl: '' }],
   });
+
+  const dispatch = useDispatch();
 
   const handleInputChange = (
     event: { target: { name: any; value: any } },
@@ -61,24 +34,42 @@ const CreateBusiness = (props: IBusiness) => {
 
   const handleInputChangeDays = (
     event: { target: { name: any; value: any } },
-    index: number
+    index: number,
+    field: string // added a field parameter to indicate which field to update
   ) => {
     const { name, value } = event.target;
     const updatedDays = formData.hoursOfOperation.map((days, i) => {
       if (i === index) {
         return {
           ...days,
-          [name]: value,
+          [field]: value, // use the field parameter to update the correct field
         };
       }
       return days;
     });
-    setFormData({ ...formData, days: updatedDays });
+    setFormData({ ...formData, hoursOfOperation: updatedDays });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleInputChangeImage = (
+    event: { target: { name: any; value: any } },
+    index: number
+  ) => {
+    const { name, value } = event.target;
+    const updatedImages = formData.images.map((image, i) => {
+      if (i === index) {
+        return {
+          ...image,
+          [name]: value,
+        };
+      }
+      return image;
+    });
+    setFormData({ ...formData, images: updatedImages });
   };
 
   const addService = () => {
@@ -96,9 +87,27 @@ const CreateBusiness = (props: IBusiness) => {
     ];
     setFormData({ ...formData, hoursOfOperation });
   };
-  const handleSubmit = (event: any) => {
+  const addImage = () => {
+    const images = [...formData.images, { imageUrl: '' }];
+    setFormData({ ...formData, images });
+  };
+  const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    console.log(formData);
+
+    try {
+      const action = createBusinessAction(
+        formData.businessName,
+        formData.city,
+        formData.streetAddress,
+        formData.services,
+        formData.hoursOfOperation,
+        formData.images
+      );
+      dispatch<any>(action);
+      console.log(formData);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="container-fluid px-1 py-5 mx-auto">
@@ -231,7 +240,12 @@ const CreateBusiness = (props: IBusiness) => {
                         Day Of Week
                         <span className="text-danger"> *</span>
                       </label>
-                      <select name="dayOfWeek">
+                      <select
+                        name="dayOfWeek"
+                        onChange={(e) =>
+                          handleInputChangeDays(e, index, 'dayOfWeek')
+                        }
+                      >
                         <option value="">--</option>
                         <option value="sunday">Sunday</option>
                         <option value="monday">Monday</option>
@@ -251,7 +265,9 @@ const CreateBusiness = (props: IBusiness) => {
                         name="openTime"
                         value={day.openTime}
                         placeholder="Enter open time"
-                        onChange={(e) => handleInputChange(e, index)}
+                        onChange={(e) =>
+                          handleInputChangeDays(e, index, 'openTime')
+                        }
                       />
                     </div>
                     <div className="form-group col-sm-6 flex-column d-flex">
@@ -264,12 +280,13 @@ const CreateBusiness = (props: IBusiness) => {
                         name="closeTime"
                         value={day.closeTime}
                         placeholder="Enter close time"
-                        onChange={(e) => handleInputChange(e, index)}
+                        onChange={(e) =>
+                          handleInputChangeDays(e, index, 'closeTime')
+                        }
                       />
                     </div>
                   </div>
                 ))}
-
                 <button
                   type="button"
                   className="btn-block btn-dark"
@@ -279,11 +296,39 @@ const CreateBusiness = (props: IBusiness) => {
                 </button>
               </div>
 
+              {formData.images.map((image, index) => (
+                <div
+                  key={index}
+                  className="row justify-content-between text-left mb-3 mt-3"
+                >
+                  <div className="form-group col-sm-12 flex-column d-flex">
+                    <label className="form-control-label px-3">
+                      Business Logo
+                      <span className="text-danger"> *</span>
+                    </label>
+                    <input
+                      type="file"
+                      name="imageUrl"
+                      value={image.imageUrl}
+                      placeholder="Enter Logo"
+                      onChange={(e) => handleInputChangeImage(e, index)}
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="btn-block btn-dark"
+                onClick={addImage}
+              >
+                Add Image
+              </button>
+
               <div className="row justify-content-end">
                 <div className="form-group col-sm-12">
                   {' '}
                   <button type="submit" className="btn-block btn-primary">
-                    Request a demo
+                    ADD MY BUSINESS
                   </button>{' '}
                 </div>
               </div>
