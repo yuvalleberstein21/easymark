@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 interface BusinessStep1 {
   userBusiness: {
@@ -28,6 +29,7 @@ const BusinessEditStep1 = (props: BusinessStep1) => {
     userBusiness?.businessName ?? ''
   );
   const [city, setCity] = useState(userBusiness?.location?.city ?? '');
+
   const [streetAddress, setStreetAddress] = useState(
     userBusiness?.location?.streetAddress ?? ''
   );
@@ -60,8 +62,8 @@ const BusinessEditStep1 = (props: BusinessStep1) => {
     if (userBusiness) {
       setUserBusinessState(userBusiness);
       setBusinessName(userBusiness?.businessName ?? '');
-      setCity(userBusiness?.location.city ?? '');
-      setStreetAddress(userBusiness?.location.streetAddress ?? '');
+      setCity(userBusiness?.location?.city ?? '');
+      setStreetAddress(userBusiness?.location?.streetAddress ?? '');
     }
   }, [userBusiness]);
 
@@ -90,7 +92,7 @@ const BusinessEditStep1 = (props: BusinessStep1) => {
           onChange={(e) => setStreetAddress(e.target.value)}
         />
       </div>
-      {userBusiness?.services.map((service, index) => (
+      {userBusiness?.services?.map((service, index) => (
         <div
           key={index}
           className="mb-3"

@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import '../../styles/businessEditCard.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateBusinessAction } from '../../Redux/Actions/BusinessActions';
+import {
+  getSingleBusinessAction,
+  updateBusinessAction,
+} from '../../Redux/Actions/BusinessActions';
 import Loading from '../LoadingError/Loading';
 import BusinessEditStep1 from './BusinessEditStep1';
 import BusinessEditStep2 from './BusinessEditStep2';
 import BusinessEditStep3 from './BusinessEditStep3';
+import { useParams } from 'react-router-dom';
 
 interface IEditBusiness {
   loadingAllBusiness: boolean;
@@ -41,16 +45,17 @@ interface IEditBusiness {
   };
 }
 const BusinessEditCard = (props: IEditBusiness) => {
-  const updateBusiness = useSelector((state: any) => state.updateBusiness);
-  const { loading, error, business } = updateBusiness;
-
   const { loadingAllBusiness, userBusiness } = props;
+  const getSingleBusiness = useSelector(
+    (state: any) => state.getSingleBusiness
+  );
+  const { loading, error, business } = getSingleBusiness;
 
   const [step, setStep] = useState(1);
 
   const dispatch = useDispatch();
 
-  const businessId = userBusiness?._id;
+  const { id } = useParams<{ id: string }>();
 
   const handleChange = () => {
     setStep(step + 1);
@@ -63,13 +68,13 @@ const BusinessEditCard = (props: IEditBusiness) => {
     e.preventDefault();
     try {
       const action = updateBusinessAction(
-        businessId,
-        userBusiness.businessName,
-        userBusiness.location.streetAddress,
-        userBusiness.location.city,
-        userBusiness.hoursOfOperation,
-        userBusiness.images,
-        userBusiness.services
+        id,
+        business.businessName,
+        business.location.streetAddress,
+        business.location.city,
+        business.hoursOfOperation,
+        business?.images.imageUrl,
+        business?.services
       );
       dispatch<any>(action);
     } catch (err: any) {
@@ -80,13 +85,17 @@ const BusinessEditCard = (props: IEditBusiness) => {
   const handleBackClick = () => {
     setStep(step - 1);
   };
+  useEffect(() => {
+    const action = getSingleBusinessAction(id);
+    dispatch<any>(action);
+  }, [dispatch, id]);
 
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
           <>
-            <BusinessEditStep1 userBusiness={userBusiness} />
+            <BusinessEditStep1 userBusiness={business} />
             <div className="form-footer d-flex">
               <button type="button" onClick={handleChange}>
                 Next
@@ -97,7 +106,7 @@ const BusinessEditCard = (props: IEditBusiness) => {
       case 2:
         return (
           <div>
-            <BusinessEditStep2 userBusiness={userBusiness} />
+            <BusinessEditStep2 userBusiness={business} />
             <div className="form-footer d-flex">
               <button type="button" onClick={handleBackClick}>
                 Previous
@@ -111,7 +120,7 @@ const BusinessEditCard = (props: IEditBusiness) => {
       case 3:
         return (
           <div>
-            <BusinessEditStep3 userBusiness={userBusiness} />
+            <BusinessEditStep3 userBusiness={business} />
             <div className="form-footer d-flex">
               <button type="submit">Submit</button>
             </div>

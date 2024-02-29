@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import '../../styles/hoursComponent.css';
 interface IHoursComponentProps {
   date: any;
@@ -18,7 +19,7 @@ const HoursComponent = (props: IHoursComponentProps) => {
     selectedService,
   } = props;
 
-  const dayOfWeekHebrew = date.split(',')[0];
+  const dayOfWeekHebrew = date?.split(',')[0];
 
   const getDayOfWeek = (dayOfWeekHebrew: []) => {
     const dayOfWeekMap = {
@@ -35,7 +36,7 @@ const HoursComponent = (props: IHoursComponentProps) => {
 
   const dayOfWeek = getDayOfWeek(dayOfWeekHebrew);
 
-  const hoursForDay = businessOperation.find(
+  const hoursForDay = businessOperation?.find(
     (hours) => hours.dayOfWeek === dayOfWeek
   );
 
@@ -63,11 +64,13 @@ const HoursComponent = (props: IHoursComponentProps) => {
     (service) => service.serviceName === selectedService
   );
 
-  const hoursBetween = getHoursBetween(
-    hoursForDay.openTime,
-    hoursForDay.closeTime,
-    choosenService.serviceTime
-  );
+  const hoursBetween = hoursForDay
+    ? getHoursBetween(
+        hoursForDay.openTime,
+        hoursForDay.closeTime,
+        choosenService?.serviceTime
+      )
+    : null;
 
   const handleHourSelection = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -88,11 +91,26 @@ const HoursComponent = (props: IHoursComponentProps) => {
         <h4>Choose hour</h4>
       </div>
       <div className="hours">
-        {hoursBetween.map((hour, i) => (
-          <button key={i} onClick={handleHourSelection}>
-            {hour}
-          </button>
-        ))}
+        {hoursBetween ? (
+          hoursBetween.map((hour, i) => (
+            <button key={i} onClick={handleHourSelection}>
+              {hour}
+            </button>
+          ))
+        ) : (
+          <div
+            className="alert alert-info color-white"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              fontSize: '18px',
+            }}
+          >
+            The business doesn't work this day
+          </div>
+        )}
       </div>
     </div>
   );

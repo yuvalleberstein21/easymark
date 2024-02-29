@@ -44,7 +44,6 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
         })
 
         const createBusiness = await business.save();
-        // Update the user's role to "manager"
         await User.findByIdAndUpdate(req.user._id, { role: 'manager' });
         res.status(201).json(createBusiness);
     }
@@ -65,18 +64,35 @@ businessRoutes.get("/", asyncHandler(
     }
 ));
 
-// GET BUSINESS BY ID
+// // GET BUSINESS BY ID
 businessRoutes.get("/:id", asyncHandler(
     async (req, res) => {
         try {
             const business = await Business.findById(req.params.id);
             if (business) {
-                res.json({ business });
+                res.send(business);
             } else {
                 res.status(404).send({ message: 'Cannot find business' });
             }
         } catch (error) {
             res.status(500).send({ message: 'Error finding business', error });
+        }
+    }
+));
+
+// GET ALL USER BUISNESSES BY USER ID
+businessRoutes.get("/userbusiness/:userId", asyncHandler(
+    async (req, res) => {
+        const userId = req.params.userId;
+        try {
+            const businesses = await Business.find({ user: userId });
+            if (businesses.length > 0) {
+                res.send(businesses);
+            } else {
+                res.status(404).send({ message: 'No businesses found for this user' });
+            }
+        } catch (error) {
+            res.status(500).send({ message: 'Error finding businesses', error });
         }
     }
 ));

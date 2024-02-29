@@ -19,6 +19,14 @@ const BusinessEditStep3 = (props: BusinessStep3) => {
     userBusiness?.images[0]?.imageUrl ?? ''
   );
 
+  const [userBusinessState, setUserBusinessState] = useState(userBusiness);
+
+  const handleChangeImage = (e: any, index: number) => {
+    const newServicesImages = [...userBusiness.images];
+    newServicesImages[index].imageUrl = e.target.value;
+    setUserBusinessState({ ...userBusinessState, images: newServicesImages });
+  };
+
   useEffect(() => {
     if (userBusiness) {
       setImageUrl(userBusiness?.images[0].imageUrl ?? '');
@@ -27,12 +35,12 @@ const BusinessEditStep3 = (props: BusinessStep3) => {
   return (
     <div>
       <p className="text-center mb-4">Images</p>
-      {userBusiness.images?.map((image) => (
+      {userBusiness.images?.map((image, index) => (
         <div className="mb-3" key={image._id}>
           <input
             type="text"
             value={image.imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            onChange={(e) => handleChangeImage(e, index)}
           />
           <img
             src={image.imageUrl}
