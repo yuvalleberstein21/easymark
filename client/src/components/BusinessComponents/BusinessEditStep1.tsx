@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 interface BusinessStep1 {
   userBusiness: {
@@ -123,5 +122,4 @@ const BusinessEditStep1 = (props: BusinessStep1) => {
     </div>
   );
 };
-
 export default BusinessEditStep1;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { updateBusinessAction } from '../../Redux/Actions/BusinessActions';
 
 interface BusinessStep3 {
   userBusiness: {
@@ -14,6 +15,8 @@ interface BusinessStep3 {
 
 const BusinessEditStep3 = (props: BusinessStep3) => {
   const { userBusiness } = props;
+
+  console.log(userBusiness);
 
   const [imageUrl, setImageUrl] = useState(
     userBusiness?.images[0]?.imageUrl ?? ''
@@ -32,6 +35,33 @@ const BusinessEditStep3 = (props: BusinessStep3) => {
       setImageUrl(userBusiness?.images[0].imageUrl ?? '');
     }
   }, [userBusiness]);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    try {
+      const action = updateBusinessAction(
+        id,
+        business.businessName,
+        business.location.streetAddress,
+        business.location.city,
+        business.hoursOfOperation,
+        business?.images.imageUrl,
+        business?.services
+      );
+      dispatch<any>(action);
+      console.log(
+        id,
+        business.businessName,
+        business.location.streetAddress,
+        business.location.city,
+        business?.hoursOfOperation,
+        business?.images.imageUrl,
+        business?.services
+      );
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
   return (
     <div>
       <p className="text-center mb-4">Images</p>
@@ -52,6 +82,7 @@ const BusinessEditStep3 = (props: BusinessStep3) => {
           />
         </div>
       ))}
+      <button type="submit" onClick={handleSubmit}></button>
     </div>
   );
 };

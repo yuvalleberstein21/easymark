@@ -52,9 +52,7 @@ const BusinessEditCard = (props: IEditBusiness) => {
   const { loading, error, business } = getSingleBusiness;
 
   const [step, setStep] = useState(1);
-
   const dispatch = useDispatch();
-
   const { id } = useParams<{ id: string }>();
 
   const handleChange = () => {
@@ -77,6 +75,15 @@ const BusinessEditCard = (props: IEditBusiness) => {
         business?.services
       );
       dispatch<any>(action);
+      console.log(
+        id,
+        business.businessName,
+        business.location.streetAddress,
+        business.location.city,
+        business?.hoursOfOperation,
+        business?.images.imageUrl,
+        business?.services
+      );
     } catch (err: any) {
       console.log(err.message);
     }
