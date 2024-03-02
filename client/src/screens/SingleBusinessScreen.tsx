@@ -14,6 +14,8 @@ const SingleBusiness = () => {
   );
   const { loading, error, business } = getSingleBusiness;
 
+  console.log(business);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
@@ -44,19 +46,19 @@ const SingleBusiness = () => {
                     <div className="img-hover-zoom img-hover-zoom--colorize">
                       <img
                         className="shadow"
-                        src={business.business.images[0]?.imageUrl}
-                        alt={business.business.businessName}
+                        src={business?.images[0]?.imageUrl}
+                        alt={business?.businessName}
                       />
                     </div>
                   </div>
                   <div className="card-body">
                     <div className="clearfix mb-3"></div>
                     <div className="my-2 text-center">
-                      <h2>{business.business.businessName}</h2>
+                      <h2>{business?.businessName}</h2>
                     </div>
                     <div className="mb-3">
                       <p className="text-uppercase text-center role">
-                        {business.business.location.streetAddress}{' '}
+                        {business.location?.streetAddress}{' '}
                         <i className="fa-solid fa-location-dot m-1"></i>
                       </p>
                     </div>
@@ -83,14 +85,14 @@ const SingleBusiness = () => {
               </div>
               <div className="col-md-6">
                 <BusinessImagesCard
-                  images={business.business.images}
-                  businessName={business.business.businessName}
+                  images={business?.images}
+                  businessName={business?.businessName}
                 />
               </div>
               <div className="mt-3">
                 <CreateQueues
-                  businessServices={business.business.services}
-                  businessOperation={business.business.hoursOfOperation}
+                  businessServices={business?.services}
+                  businessOperation={business?.hoursOfOperation}
                 />
               </div>
             </div>

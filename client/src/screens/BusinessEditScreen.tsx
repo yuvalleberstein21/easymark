@@ -8,7 +8,6 @@ import BusinessEditCard from '../components/BusinessComponents/BusinessEditCard'
 const BusinessEditScreen = () => {
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
-
   const getAllUserBusiness = useSelector(
     (state: any) => state.getAllUserBusiness
   );
@@ -31,9 +30,22 @@ const BusinessEditScreen = () => {
   return (
     <div className="container">
       <div className="row">
+        <h1
+          className="mt-5"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Choose Your Business
+        </h1>
         {business?.map((business: any, index: number) => (
           <div key={index} className="col-md-4 mt-5">
-            <Link to={`/business/${business._id}/editbusiness`}>
+            <Link
+              to={`/business/${business._id}/editbusiness`}
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
               <div className="card" style={{ cursor: 'pointer' }}>
                 <div className="card-body">
                   <div className="card-title">
@@ -51,7 +63,7 @@ const BusinessEditScreen = () => {
           </div>
         ))}
       </div>
-      <BusinessEditCard userBusiness={business} loadingAllBusiness={loading} />
+      <BusinessEditCard />
     </div>
   );
 };

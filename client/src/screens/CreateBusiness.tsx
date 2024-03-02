@@ -307,9 +307,8 @@ const CreateBusiness = () => {
                       <span className="text-danger"> *</span>
                     </label>
                     <input
-                      type="file"
+                      type="text"
                       name="imageUrl"
-                      value={image.imageUrl}
                       placeholder="Enter Logo"
                       onChange={(e) => handleInputChangeImage(e, index)}
                     />

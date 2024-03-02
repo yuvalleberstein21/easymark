@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-
 interface BusinessStep1 {
+  setUserBusinessState: any;
   userBusiness: {
-    _id: string;
     businessName: string;
     location: {
       city: string;
@@ -20,105 +18,111 @@ interface BusinessStep1 {
 }
 
 const BusinessEditStep1 = (props: BusinessStep1) => {
-  const { userBusiness } = props;
+  const { userBusiness, setUserBusinessState } = props;
 
-  const [userBusinessState, setUserBusinessState] = useState(userBusiness);
+  if (!userBusiness) {
+    return null;
+  }
 
-  const [businessName, setBusinessName] = useState(
-    userBusiness?.businessName ?? ''
-  );
-  const [city, setCity] = useState(userBusiness?.location?.city ?? '');
-
-  const [streetAddress, setStreetAddress] = useState(
-    userBusiness?.location?.streetAddress ?? ''
-  );
-
-  const handleChangeServiceName = (e: any, index: number) => {
-    const newServices = [...userBusiness.services];
-    newServices[index].serviceName = e.target.value;
-    setUserBusinessState({ ...userBusinessState, services: newServices });
+  const handleServiceChange = (
+    index: number,
+    field: string,
+    value: string | number
+  ) => {
+    setUserBusinessState((prevState: any) => ({
+      ...prevState,
+      services: prevState.services.map((service: any, i: number) => {
+        if (i === index) {
+          return {
+            ...service,
+            [field]: value,
+          };
+        }
+        return service;
+      }),
+    }));
   };
-
-  const handleChangeDescription = (e: any, index: number) => {
-    const newServices = [...userBusiness.services];
-    newServices[index].description = e.target.value;
-    setUserBusinessState({ ...userBusinessState, services: newServices });
-  };
-
-  const handleChangePrice = (e: any, index: number) => {
-    const newServices = [...userBusiness.services];
-    newServices[index].price = e.target.value;
-    setUserBusinessState({ ...userBusinessState, services: newServices });
-  };
-
-  const handleChangeServiceTime = (e: any, index: number) => {
-    const newServices = [...userBusiness.services];
-    newServices[index].serviceTime = e.target.value;
-    setUserBusinessState({ ...userBusinessState, services: newServices });
-  };
-
-  useEffect(() => {
-    if (userBusiness) {
-      setUserBusinessState(userBusiness);
-      setBusinessName(userBusiness?.businessName ?? '');
-      setCity(userBusiness?.location?.city ?? '');
-      setStreetAddress(userBusiness?.location?.streetAddress ?? '');
-    }
-  }, [userBusiness]);
 
   return (
-    <div>
-      <div className="mb-3">
-        <input
-          type="text"
-          value={businessName}
-          onChange={(e) => setBusinessName(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <input
-          type="text"
-          placeholder="City"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-      </div>
-      <div className="mb-3">
-        <input
-          type="text"
-          placeholder="Street Address"
-          value={streetAddress}
-          onChange={(e) => setStreetAddress(e.target.value)}
-        />
-      </div>
-      {userBusiness?.services?.map((service, index) => (
-        <div
-          key={index}
-          className="mb-3"
-          style={{ border: '1px solid #009688', borderRadius: '5px' }}
-        >
+    <div className="step1Form">
+      <div className="step1div">
+        <div className="mb-3">
+          <label>Business Name</label>
           <input
             type="text"
-            value={service.serviceName}
-            onChange={(e) => handleChangeServiceName(e, index)}
-          />
-          <input
-            type="text"
-            value={service.description}
-            onChange={(e) => handleChangeDescription(e, index)}
-          />
-          <input
-            type="number"
-            value={service.price}
-            onChange={(e) => handleChangePrice(e, index)}
-          />
-          <input
-            type="number"
-            value={service.serviceTime}
-            onChange={(e) => handleChangeServiceTime(e, index)}
+            value={userBusiness?.businessName}
+            onChange={(e) =>
+              setUserBusinessState((prevState: any) => ({
+                ...prevState,
+                businessName: e.target.value,
+              }))
+            }
           />
         </div>
-      ))}
+        <div className="mb-3">
+          <input
+            type="text"
+            placeholder="City"
+            value={userBusiness?.location?.city}
+            onChange={(e) =>
+              setUserBusinessState((prevState: any) => ({
+                ...prevState,
+                location: { ...prevState.location, city: e.target.value },
+              }))
+            }
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="text"
+            placeholder="Street Address"
+            value={userBusiness?.location?.streetAddress}
+            onChange={(e) =>
+              setUserBusinessState((prevState: any) => ({
+                ...prevState,
+                location: {
+                  ...prevState.location,
+                  streetAddress: e.target.value,
+                },
+              }))
+            }
+          />
+        </div>
+      </div>
+      <div className="step1div">
+        {userBusiness?.services?.map((service, index) => (
+          <div key={index} className="mb-3" style={{ borderRadius: '5px' }}>
+            <input
+              type="text"
+              value={service.serviceName}
+              onChange={(e) =>
+                handleServiceChange(index, 'serviceName', e.target.value)
+              }
+            />
+            <input
+              type="text"
+              value={service.description}
+              onChange={(e) =>
+                handleServiceChange(index, 'description', e.target.value)
+              }
+            />
+            <input
+              type="number"
+              value={service.price}
+              onChange={(e) =>
+                handleServiceChange(index, 'price', e.target.value)
+              }
+            />
+            <input
+              type="number"
+              value={service.serviceTime}
+              onChange={(e) =>
+                handleServiceChange(index, 'serviceTime', e.target.value)
+              }
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

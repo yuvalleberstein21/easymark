@@ -133,8 +133,10 @@ export const updateBusinessAction =
   (
     id: any,
     businessName: string,
-    streetAddress: string,
-    city: string,
+    location: {
+      streetAddress: string;
+      city: string;
+    },
     hoursOfOperation: string[],
     images: string[],
     services: string | number[]
@@ -158,8 +160,7 @@ export const updateBusinessAction =
         `${import.meta.env.VITE_API_BASE_URL}/business/${id}`,
         {
           businessName,
-          streetAddress,
-          city,
+          location,
           hoursOfOperation,
           images,
           services,

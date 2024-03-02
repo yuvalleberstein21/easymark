@@ -10,99 +10,76 @@ import BusinessEditStep1 from './BusinessEditStep1';
 import BusinessEditStep2 from './BusinessEditStep2';
 import BusinessEditStep3 from './BusinessEditStep3';
 import { useParams } from 'react-router-dom';
+import Message from '../LoadingError/Error';
 
-interface IEditBusiness {
-  loadingAllBusiness: boolean;
-  userBusiness: {
-    _id: string;
-    businessName: string;
-    location: {
-      city: string;
-      streetAddress: string;
-    };
-    services: [
-      {
-        serviceName: string;
-        description: string;
-        price: number;
-        serviceTime: number;
-      }
-    ];
-    hoursOfOperation: [
-      {
-        closeTime: string;
-        dayOfWeek: string;
-        openTime: string;
-        _id: string;
-      }
-    ];
-    images: [
-      {
-        imageUrl: string;
-        _id: string;
-      }
-    ];
-  };
-}
-const BusinessEditCard = (props: IEditBusiness) => {
-  const { loadingAllBusiness, userBusiness } = props;
+const BusinessEditCard = () => {
   const getSingleBusiness = useSelector(
     (state: any) => state.getSingleBusiness
   );
   const { loading, error, business } = getSingleBusiness;
+  const [userBusinessState, setUserBusinessState] = useState<any>(
+    business || {}
+  );
 
   const [step, setStep] = useState(1);
   const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
 
-  const handleChange = () => {
+  const handleChange = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
     setStep(step + 1);
   };
-  const handleChangeToImages = () => {
-    setStep(3);
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    try {
-      const action = updateBusinessAction(
-        id,
-        business.businessName,
-        business.location.streetAddress,
-        business.location.city,
-        business.hoursOfOperation,
-        business?.images.imageUrl,
-        business?.services
-      );
-      dispatch<any>(action);
-      console.log(
-        id,
-        business.businessName,
-        business.location.streetAddress,
-        business.location.city,
-        business?.hoursOfOperation,
-        business?.images.imageUrl,
-        business?.services
-      );
-    } catch (err: any) {
-      console.log(err.message);
-    }
-  };
-
   const handleBackClick = () => {
     setStep(step - 1);
   };
+
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    const action = updateBusinessAction(
+      id,
+      userBusinessState.businessName,
+      {
+        streetAddress: userBusinessState.location.streetAddress,
+        city: userBusinessState.location.city,
+      },
+      userBusinessState.services,
+      userBusinessState.hoursOfOperation,
+      userBusinessState.images
+    );
+    dispatch<any>(action);
+
+    console.log(
+      id,
+      userBusinessState.businessName,
+      {
+        streetAddress: userBusinessState.location.streetAddress,
+        city: userBusinessState.location.city,
+      },
+      userBusinessState.services,
+      userBusinessState.hoursOfOperation,
+      userBusinessState.images
+    );
+  };
+
   useEffect(() => {
     const action = getSingleBusinessAction(id);
     dispatch<any>(action);
   }, [dispatch, id]);
+
+  useEffect(() => {
+    setUserBusinessState(business);
+  }, [business]);
 
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
           <>
-            <BusinessEditStep1 userBusiness={business} />
+            <BusinessEditStep1
+              userBusiness={userBusinessState}
+              setUserBusinessState={setUserBusinessState}
+            />
             <div className="form-footer d-flex">
               <button type="button" onClick={handleChange}>
                 Next
@@ -118,7 +95,7 @@ const BusinessEditCard = (props: IEditBusiness) => {
               <button type="button" onClick={handleBackClick}>
                 Previous
               </button>
-              <button type="button" onClick={handleChangeToImages}>
+              <button type="button" onClick={handleChange}>
                 Next
               </button>
             </div>
@@ -129,35 +106,54 @@ const BusinessEditCard = (props: IEditBusiness) => {
           <div>
             <BusinessEditStep3 userBusiness={business} />
             <div className="form-footer d-flex">
+              <button type="button" onClick={handleBackClick}>
+                Previous
+              </button>
               <button type="submit">Submit</button>
             </div>
           </div>
         );
-
       default:
         return null;
     }
   };
 
   return (
-    <>
-      {loadingAllBusiness ? (
+    <div className="container">
+      {loading ? (
         <Loading />
+      ) : error ? (
+        <Message variant="alert alert-info mt-2">
+          Please choose your business
+        </Message>
       ) : (
         <div className="row">
           <h1 className="text-center mt-4">EDIT YOUR BUESINESS</h1>
-          <form id="signUpForm" onSubmit={handleSubmit}>
+          <form id="editForm" onSubmit={handleSubmit}>
             <div className="form-header d-flex mb-4">
-              <span className="stepIndicator">1</span>
-              <span className="stepIndicator">2</span>
-              <span className="stepIndicator">3</span>
-            </div>
+              {step === 1 ? (
+                <span className="stepIndicator active">1</span>
+              ) : (
+                <span className="stepIndicator">1</span>
+              )}
 
+              {step === 2 ? (
+                <span className="stepIndicator active">2</span>
+              ) : (
+                <span className="stepIndicator">2</span>
+              )}
+
+              {step === 3 ? (
+                <span className="stepIndicator active">3</span>
+              ) : (
+                <span className="stepIndicator">3</span>
+              )}
+            </div>
             {renderStep()}
           </form>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
