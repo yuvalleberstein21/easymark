@@ -10,17 +10,33 @@
   width: 100%;
   height: 300px;
 }
-
-.step1Form {
-  width: 100%;
+.hoursOfOpertaionDiv {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-.step1Form .step1div {
-  width: 50%;
-  margin: 1rem;
+.inputs-hoursOfOperation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
+.inputs-hoursOfOperation input {
+  display: flex;
+  margin-right: 5px;
+  margin-left: 5px;
+  font-size: 16px !important;
+  padding: 0.3rem !important;
+  justify-content: center;
+  min-width: 100px !important;
+}
+.images-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 #editForm {
   max-width: 100%;
   background-color: #ffffff;

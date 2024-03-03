@@ -53,25 +53,27 @@ const BusinessEditStep2 = (props: BusinessStep2) => {
   }, [userBusiness]);
 
   return (
-    <div>
-      <p className="text-center mb-4">Hours of operation</p>
+    <div className="container">
+      <h3 className="text-center mb-4">Hours of operation</h3>
       {userBusiness.hoursOfOperation?.map((operation, index) => (
-        <div className="mb-3" key={operation._id}>
-          <input
-            type="text"
-            value={operation.dayOfWeek}
-            onChange={(e) => handleChangeDayOfWeek(e, index)}
-          />
-          <input
-            type="text"
-            value={operation.openTime}
-            onChange={(e) => handleChangeOpenTime(e, index)}
-          />
-          <input
-            type="text"
-            value={operation.closeTime}
-            onChange={(e) => handleChangeCloseTime(e, index)}
-          />
+        <div className="mb-3 hoursOfOpertaionDiv" key={operation._id}>
+          <div className="inputs-hoursOfOperation">
+            <input
+              type="text"
+              value={operation.dayOfWeek}
+              onChange={(e) => handleChangeDayOfWeek(e, index)}
+            />
+            <input
+              type="text"
+              value={operation.openTime}
+              onChange={(e) => handleChangeOpenTime(e, index)}
+            />
+            <input
+              type="text"
+              value={operation.closeTime}
+              onChange={(e) => handleChangeCloseTime(e, index)}
+            />
+          </div>
         </div>
       ))}
     </div>

@@ -32,18 +32,20 @@ const BusinessEditStep3 = (props: BusinessStep3) => {
 
   return (
     <div>
-      <p className="text-center mb-4">Images</p>
+      <h3 className="text-center mb-4">Images</h3>
       {userBusiness.images?.map((image, index) => (
-        <div className="mb-3" key={image._id}>
-          <input type="text" />
-          <img
-            src={image.imageUrl}
-            alt="image"
-            width={80}
-            height={80}
-            className="mt-3"
-            style={{ borderRadius: '10px' }}
-          />
+        <div className="mb-3 images-card" key={image._id}>
+          <div className="inputs-images">
+            <input type="text" />
+            <img
+              src={image.imageUrl}
+              alt="image"
+              width={100}
+              height={100}
+              className="mt-3 image"
+              style={{ borderRadius: '10px' }}
+            />
+          </div>
         </div>
       ))}
     </div>

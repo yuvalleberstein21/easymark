@@ -44,84 +44,92 @@ const BusinessEditStep1 = (props: BusinessStep1) => {
   };
 
   return (
-    <div className="step1Form">
-      <div className="step1div">
-        <div className="mb-3">
-          <label>Business Name</label>
-          <input
-            type="text"
-            value={userBusiness?.businessName}
-            onChange={(e) =>
-              setUserBusinessState((prevState: any) => ({
-                ...prevState,
-                businessName: e.target.value,
-              }))
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            type="text"
-            placeholder="City"
-            value={userBusiness?.location?.city}
-            onChange={(e) =>
-              setUserBusinessState((prevState: any) => ({
-                ...prevState,
-                location: { ...prevState.location, city: e.target.value },
-              }))
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            type="text"
-            placeholder="Street Address"
-            value={userBusiness?.location?.streetAddress}
-            onChange={(e) =>
-              setUserBusinessState((prevState: any) => ({
-                ...prevState,
-                location: {
-                  ...prevState.location,
-                  streetAddress: e.target.value,
-                },
-              }))
-            }
-          />
-        </div>
-      </div>
-      <div className="step1div">
-        {userBusiness?.services?.map((service, index) => (
-          <div key={index} className="mb-3" style={{ borderRadius: '5px' }}>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <div className="mb-3">
+            <label>Business Name</label>
             <input
               type="text"
-              value={service.serviceName}
+              value={userBusiness?.businessName}
               onChange={(e) =>
-                handleServiceChange(index, 'serviceName', e.target.value)
-              }
-            />
-            <input
-              type="text"
-              value={service.description}
-              onChange={(e) =>
-                handleServiceChange(index, 'description', e.target.value)
-              }
-            />
-            <input
-              type="number"
-              value={service.price}
-              onChange={(e) =>
-                handleServiceChange(index, 'price', e.target.value)
-              }
-            />
-            <input
-              type="number"
-              value={service.serviceTime}
-              onChange={(e) =>
-                handleServiceChange(index, 'serviceTime', e.target.value)
+                setUserBusinessState((prevState: any) => ({
+                  ...prevState,
+                  businessName: e.target.value,
+                }))
               }
             />
           </div>
-        ))}
+          <div className="mb-3">
+            <label>City</label>
+            <input
+              type="text"
+              placeholder="City"
+              value={userBusiness?.location?.city}
+              onChange={(e) =>
+                setUserBusinessState((prevState: any) => ({
+                  ...prevState,
+                  location: { ...prevState.location, city: e.target.value },
+                }))
+              }
+            />
+          </div>
+          <div className="mb-3">
+            <label>Street Address</label>
+            <input
+              type="text"
+              placeholder="Street Address"
+              value={userBusiness?.location?.streetAddress}
+              onChange={(e) =>
+                setUserBusinessState((prevState: any) => ({
+                  ...prevState,
+                  location: {
+                    ...prevState.location,
+                    streetAddress: e.target.value,
+                  },
+                }))
+              }
+            />
+          </div>
+        </div>
+        <div className="col-md-6">
+          {userBusiness?.services?.map((service, index) => (
+            <div key={index} className="mb-3" style={{ borderRadius: '5px' }}>
+              <label>Service name</label>
+              <input
+                type="text"
+                value={service.serviceName}
+                onChange={(e) =>
+                  handleServiceChange(index, 'serviceName', e.target.value)
+                }
+              />
+              <label>Description</label>
+              <input
+                type="text"
+                value={service.description}
+                onChange={(e) =>
+                  handleServiceChange(index, 'description', e.target.value)
+                }
+              />
+              <label>Price</label>
+              <input
+                type="number"
+                value={service.price}
+                onChange={(e) =>
+                  handleServiceChange(index, 'price', e.target.value)
+                }
+              />
+              <label>Service Time</label>
+              <input
+                type="number"
+                value={service.serviceTime}
+                onChange={(e) =>
+                  handleServiceChange(index, 'serviceTime', e.target.value)
+                }
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

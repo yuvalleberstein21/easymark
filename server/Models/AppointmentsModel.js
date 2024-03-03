@@ -13,7 +13,7 @@ const appointmentSchema = mongoose.Schema({
         required: true
     },
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     startTime: {
@@ -31,6 +31,14 @@ const appointmentSchema = mongoose.Schema({
     notes: String
 }, {
     timestamps: true
+});
+
+// Before saving the appointment, parse the date string into a Date object
+appointmentSchema.pre('save', function (next) {
+    if (this.date && typeof this.date === 'string') {
+        this.date = new Date(this.date);
+    }
+    next();
 });
 
 
