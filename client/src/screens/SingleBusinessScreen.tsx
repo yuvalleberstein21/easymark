@@ -14,8 +14,6 @@ const SingleBusiness = () => {
   );
   const { loading, error, business } = getSingleBusiness;
 
-  console.log(business);
-
   const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;

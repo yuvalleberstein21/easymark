@@ -14,14 +14,13 @@ const appointmentsRoutes = express.Router();
 appointmentsRoutes.post("/", protect, asyncHandler(
     async (req, res) => {
         try {
-            const { user, business, date, startTime, endTime, service, notes } = req.body;
+            const { user, business, date, startTime, service, notes } = req.body;
 
             const appointment = new Appointment({
                 user,
                 business,
                 date,
                 startTime,
-                endTime,
                 service,
                 notes
             });

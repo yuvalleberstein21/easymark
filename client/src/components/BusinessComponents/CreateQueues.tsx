@@ -89,6 +89,7 @@ const CreateQueues = (props: Business) => {
             date={formattedDate}
             selectedService={selectedService}
             hour={hour}
+            businessServices={businessServices}
             onBack={handleBackClick}
           />
         );

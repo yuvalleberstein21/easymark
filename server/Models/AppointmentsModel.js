@@ -20,10 +20,6 @@ const appointmentSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    endTime: {
-        type: String,
-        required: true
-    },
     service: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service'
