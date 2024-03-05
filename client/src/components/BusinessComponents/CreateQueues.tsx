@@ -28,20 +28,20 @@ const CreateQueues = (props: Business) => {
 
   const handleServiceSelection = (service: string) => {
     setSelectedService(service);
-    setStep(2); // Move to step 2: choose date
+    setStep(2);
   };
 
   const handleCalendarChange = (selectedDate: Date) => {
     setDate(selectedDate);
-    setStep(3); // Move to step 3: choose time
+    setStep(3);
   };
   const handleChooseHourChange = (selectedHour: string) => {
     setHour(selectedHour);
-    setStep(4); // Move to step 4: Summary
+    setStep(4);
   };
 
   const handleBackClick = () => {
-    setStep(step - 1); // Go back to the previous step
+    setStep(step - 1);
   };
 
   const renderStep = () => {
@@ -86,6 +86,7 @@ const CreateQueues = (props: Business) => {
       case 4:
         return (
           <SummaryComponent
+            dateRegular={date}
             date={formattedDate}
             selectedService={selectedService}
             hour={hour}

@@ -3,13 +3,16 @@ import {
   CREATE_APPOINTMENT_FAIL,
   CREATE_APPOINTMENT_REQUEST,
   CREATE_APPOINTMENT_SUCCESS,
+  GET_APPOINTMENT_FAIL,
+  GET_APPOINTMENT_REQUEST,
+  GET_APPOINTMENT_SUCCESS,
 } from '../Constant/AppointmentConstant';
 
 export const createAppointmentAction =
   (
     user: string,
     business: string | undefined,
-    date: string,
+    date: Date | undefined,
     startTime: string,
     service: string,
     notes: string
@@ -56,3 +59,25 @@ export const createAppointmentAction =
       });
     }
   };
+
+export const getAppointmentAction = (id: any) => async (dispatch: any) => {
+  try {
+    dispatch({ type: GET_APPOINTMENT_REQUEST });
+
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_BASE_URL}/appointments/${id}`
+    );
+    dispatch({
+      type: GET_APPOINTMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error: any) {
+    dispatch({
+      type: GET_APPOINTMENT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

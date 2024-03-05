@@ -83,6 +83,25 @@ body {
 .h2_single_business {
   font-size: 20px;
 }
+.card_header {
+  border-bottom: 1px solid gainsboro;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button-delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(192, 0, 0);
+  font-size: 18px !important;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-bottom: 10px !important;
+  padding: 0;
+}
 
 /* MEDIA */
 

@@ -3,18 +3,21 @@ import '../../styles/summary.css';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { createAppointmentAction } from '../../Redux/Actions/AppointmentActions';
+
 interface ISummaryComponentProps {
   date: any;
   selectedService: string;
   hour: string;
   onBack: () => void;
   businessServices: [];
+  dateRegular: Date;
 }
 
 const SummaryComponent = (props: ISummaryComponentProps) => {
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
-  const { date, onBack, selectedService, hour, businessServices } = props;
+  const { date, onBack, selectedService, hour, businessServices, dateRegular } =
+    props;
 
   const [name, setName] = useState<string | null>(null);
   const [phone, setPhone] = useState<string | null>(null);
@@ -24,15 +27,22 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
   const pathname = location.pathname;
   const businessId = pathname.split('/').pop();
   const dispatch = useDispatch();
+
   const serviceId = businessServices.find(
     (service) => service.serviceName === selectedService
   )?._id;
+
+  // Convert the date to UTC timezone
+  const utcDate = new Date(
+    dateRegular.getTime() - dateRegular.getTimezoneOffset() * 60000
+  ).toISOString();
 
   useEffect(() => {
     if (userInfo !== null) {
       setName(userInfo.name);
       setPhone(userInfo.phoneNumber);
     }
+    console.log(utcDate);
   }, [userInfo]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,25 +55,11 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      'userInfo:',
-      userInfo._id,
-      'businessInfo:',
-      businessId,
-      'date:',
-      date,
-      'selectedService:',
-      selectedService,
-      'hour:',
-      hour,
-      'notes',
-      comment
-    );
 
     const action = createAppointmentAction(
       userInfo._id,
       businessId,
-      date,
+      utcDate,
       hour,
       serviceId,
       comment
