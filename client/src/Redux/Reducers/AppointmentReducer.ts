@@ -4,6 +4,7 @@ import {
   CREATE_APPOINTMENT_SUCCESS,
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
+  GET_APPOINTMENT_RESET,
   GET_APPOINTMENT_SUCCESS,
 } from '../Constant/AppointmentConstant';
 
@@ -28,6 +29,8 @@ export const getAppointmentReducer = (state = {}, action: any) => {
       return { loading: false, success: true, appointment: action.payload };
     case GET_APPOINTMENT_FAIL:
       return { loading: false, error: action.payload };
+    case GET_APPOINTMENT_RESET:
+      return {};
     default:
       return state;
   }

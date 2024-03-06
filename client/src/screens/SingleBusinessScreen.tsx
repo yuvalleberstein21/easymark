@@ -8,6 +8,7 @@ import Loading from '../components/LoadingError/Loading';
 import Message from '../components/LoadingError/Error';
 import BusinessImagesCard from '../components/BusinessComponents/BusinessImagesCard';
 import { getAppointmentAction } from '../Redux/Actions/AppointmentActions';
+import { motion } from 'framer-motion';
 
 const SingleBusiness = () => {
   const getSingleBusiness = useSelector(
@@ -41,14 +42,15 @@ const SingleBusiness = () => {
 
   useEffect(() => {
     try {
-      const action = getAppointmentAction(userInfo._id);
-      dispatch<any>(action);
+      if (userInfo !== null) {
+        const action = getAppointmentAction(businessId);
+        dispatch<any>(action);
+      }
     } catch (err) {
       console.log(err);
     }
   }, [dispatch]);
 
-  console.log(appointment);
   return (
     <>
       <div className="container mt-3 p-4">
@@ -60,7 +62,7 @@ const SingleBusiness = () => {
           <div>
             <div className="row">
               <div className="col-md-6">
-                <div className="h-100 card_single_business">
+                <div className="card_single_business">
                   <div className="text-center">
                     <div className="img-hover-zoom img-hover-zoom--colorize">
                       <img
@@ -107,35 +109,45 @@ const SingleBusiness = () => {
                   images={business?.images}
                   businessName={business?.businessName}
                 />
-                <div className="card mt-3">
-                  <div className="card_header p-2">
-                    מאושר <i className="fa-regular fa-circle-check m-1"></i>
-                  </div>
-                  <div className="card-body">
-                    {appointment?.map((appoint: any) => (
-                      <div
-                        key={appoint._id}
-                        dir="rtl"
-                        style={{
-                          fontSize: '16px',
-                          color: 'rgb(24, 24, 24)',
-                          fontWeight: '400',
-                        }}
-                      >
-                        <p>
-                          {' '}
-                          תור ל {appoint.service} {''}בתאריך {appoint.date} {''}
-                          בשעה {appoint.startTime}
-                        </p>
-                        <hr />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {loadingAppointment && <Loading />}
+                  {appointment?.map((appoint: any) => (
+                    <div key={appoint._id}>
+                      <div className="card mt-2">
+                        <div className="card__header p-2">
+                          מאושר{' '}
+                          <i className="fa-regular fa-circle-check m-1"></i>
+                        </div>
+                        <div className="card-body">
+                          <div
+                            dir="rtl"
+                            style={{
+                              fontSize: '16px',
+                              color: 'rgb(24, 24, 24)',
+                              fontWeight: '400',
+                            }}
+                          >
+                            <p>
+                              {' '}
+                              תור ל {appoint.service} {''}בתאריך {appoint.date}{' '}
+                              {''}
+                              בשעה {appoint.startTime}
+                            </p>
+                            <hr />
+                          </div>
+                        </div>
+                        <button className="button-delete">
+                          ביטול
+                          <i className="fa-solid fa-xmark"></i>
+                        </button>
                       </div>
-                    ))}
-                  </div>
-                  <button className="button-delete">
-                    ביטול
-                    <i className="fa-solid fa-xmark"></i>
-                  </button>
-                </div>
+                    </div>
+                  ))}
+                </motion.div>
               </div>
 
               <div className="mt-3">

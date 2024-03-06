@@ -36,20 +36,26 @@ appointmentsRoutes.post("/", protect, asyncHandler(
 
 appointmentsRoutes.get("/:id", asyncHandler(
     async (req, res) => {
-        const id = req.params.id;
         try {
-            const appointment = await Appointment.find({ user: id });
-            if (appointment.length > 0) {
-                res.status(200).json(appointment);
-            } else {
-                res.status(404).send({ message: 'No appointments found for this user' });
+
+            const businessId = req.params.id;
+
+            const appointments = await Appointment.find({ business: businessId })
+                .populate('user')
+
+            if (appointments.length > 0) {
+                res.json(appointments);
             }
 
         } catch (err) {
-            res.status(400).json({ message: err.message });
+            console.error(err);
+            // Handle error
+            res.status(500).json({ error: 'Internal server error' });
         }
     }
 ));
+
+
 
 
 
