@@ -114,7 +114,7 @@ const SingleBusiness = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {loadingAppointment && <Loading />}
+                  {/* {loadingAppointment && <Loading />} */}
                   {appointment?.map((appoint: any) => (
                     <div key={appoint._id}>
                       <div className="card mt-2">

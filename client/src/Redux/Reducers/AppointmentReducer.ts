@@ -6,6 +6,10 @@ import {
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_RESET,
   GET_APPOINTMENT_SUCCESS,
+  GET_USER_APPOINTMENT_FAIL,
+  GET_USER_APPOINTMENT_REQUEST,
+  GET_USER_APPOINTMENT_RESET,
+  GET_USER_APPOINTMENT_SUCCESS,
 } from '../Constant/AppointmentConstant';
 
 export const createAppointmentReducer = (state = {}, action: any) => {
@@ -30,6 +34,21 @@ export const getAppointmentReducer = (state = {}, action: any) => {
     case GET_APPOINTMENT_FAIL:
       return { loading: false, error: action.payload };
     case GET_APPOINTMENT_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const getUserAppointmentReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case GET_USER_APPOINTMENT_REQUEST:
+      return { loading: true };
+    case GET_USER_APPOINTMENT_SUCCESS:
+      return { loading: false, success: true, appointment: action.payload };
+    case GET_USER_APPOINTMENT_FAIL:
+      return { loading: false, error: action.payload };
+    case GET_USER_APPOINTMENT_RESET:
       return {};
     default:
       return state;

@@ -6,6 +6,9 @@ import {
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_SUCCESS,
+  GET_USER_APPOINTMENT_FAIL,
+  GET_USER_APPOINTMENT_REQUEST,
+  GET_USER_APPOINTMENT_SUCCESS,
 } from '../Constant/AppointmentConstant';
 
 export const createAppointmentAction =
@@ -74,6 +77,30 @@ export const getAppointmentAction = (id: any) => async (dispatch: any) => {
   } catch (error: any) {
     dispatch({
       type: GET_APPOINTMENT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getUserAppointmentAction = (id: any) => async (dispatch: any) => {
+  try {
+    dispatch({ type: GET_USER_APPOINTMENT_REQUEST });
+
+    const { data } = await axios.get(
+      `${
+        import.meta.env.VITE_API_BASE_URL
+      }/appointments/getUserAppointment/${id}`
+    );
+    dispatch({
+      type: GET_USER_APPOINTMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error: any) {
+    dispatch({
+      type: GET_USER_APPOINTMENT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

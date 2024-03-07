@@ -34,6 +34,26 @@ appointmentsRoutes.post("/", protect, asyncHandler(
     }
 ));
 
+appointmentsRoutes.get("/getUserAppointment/:userId", asyncHandler(
+    async (req, res) => {
+        try {
+
+            const id = req.params.userId;
+
+            const appointments = await Appointment.find({ user: id }).populate('business')
+
+            if (appointments.length > 0) {
+                res.json(appointments);
+            }
+
+        } catch (err) {
+            console.error(err);
+            // Handle error
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+));
+
 appointmentsRoutes.get("/:id", asyncHandler(
     async (req, res) => {
         try {

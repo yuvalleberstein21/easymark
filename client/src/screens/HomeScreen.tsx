@@ -1,20 +1,14 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Search from '../components/HomeComponents/Search';
 import BusinessScreen from './BusinessScreen';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+// import { useSelector } from 'react-redux';
+// import { useEffect } from 'react';
 
 const HomeScreen = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  // useEffect(() => {
-  //   if (userInfo == null) {
-  //     navigate('/');
-  //   }
-  // }, [userInfo, navigate]);
+  // const userLogin = useSelector((state: any) => state.userLogin);
+  // const { userInfo } = userLogin;
 
   return (
     <>

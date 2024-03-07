@@ -1,0 +1,30 @@
+.card {
+  padding: 0;
+  cursor: pointer;
+}
+.card_body_appointmets {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  z-index: 2;
+}
+.card_body_appointmets img {
+  background-size: cover;
+  width: 300px;
+  height: 200px;
+  opacity: 0.8;
+}
+
+.businessDetails_appointmet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px;
+  padding: 3px;
+  z-index: 1;
+  background-color: rgba(229, 229, 229, 0.853);
+  color: black !important;
+  border-radius: 5px;
+  font-weight: 500;
+}

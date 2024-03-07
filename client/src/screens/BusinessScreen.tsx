@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
 import ReactCardSlider from 'react-card-slider-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserAppointmentAction } from '../Redux/Actions/AppointmentActions';
+import MyAppointments from '../components/AppintmentsComponents/MyAppointments';
 
 const sliderClick = () => {
   console.log('Slider clicked');
@@ -42,11 +46,31 @@ const slides = [
 ];
 
 const BusinessScreen = () => {
+  const userLogin = useSelector((state: any) => state.userLogin);
+  const { userInfo } = userLogin;
+  const getUserAppointment = useSelector(
+    (state: any) => state.getUserAppointment
+  );
+  const { loading, error, appointment } = getUserAppointment;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const action = getUserAppointmentAction(userInfo._id);
+    dispatch<any>(action);
+  }, [dispatch]);
+
   return (
-    <>
-      <h3 className="p-4">BUISNESS</h3>
-      <ReactCardSlider slides={slides} />
-    </>
+    <div className="row">
+      <div className="col-md-12">
+        <h3 className="p-4">BUISNESS</h3>
+        <ReactCardSlider slides={slides} />
+        <div className="mt-3">
+          <h3 className="p-4">MY APPOITMENTS</h3>
+          <MyAppointments appointments={appointment} />
+        </div>
+      </div>
+    </div>
   );
 };
 
