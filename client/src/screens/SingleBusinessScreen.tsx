@@ -7,21 +7,26 @@ import { useLocation } from 'react-router-dom';
 import Loading from '../components/LoadingError/Loading';
 import Message from '../components/LoadingError/Error';
 import BusinessImagesCard from '../components/BusinessComponents/BusinessImagesCard';
-import { getAppointmentAction } from '../Redux/Actions/AppointmentActions';
+import {
+  getAppointmentAction,
+  getUserAppointmentAction,
+} from '../Redux/Actions/AppointmentActions';
 import { motion } from 'framer-motion';
+import { formatDate } from '../utils/formatDate';
 
 const SingleBusiness = () => {
   const getSingleBusiness = useSelector(
     (state: any) => state.getSingleBusiness
   );
   const { loading, error, business } = getSingleBusiness;
-
-  const getAppointment = useSelector((state: any) => state.getAppointment);
+  const getUserAppointment = useSelector(
+    (state: any) => state.getUserAppointment
+  );
   const {
     loading: loadingAppointment,
     error: errorAppointment,
     appointment,
-  } = getAppointment;
+  } = getUserAppointment;
 
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
@@ -42,8 +47,8 @@ const SingleBusiness = () => {
 
   useEffect(() => {
     try {
-      if (userInfo !== null) {
-        const action = getAppointmentAction(businessId);
+      if (userInfo !== null || userInfo !== undefined) {
+        const action = getUserAppointmentAction(userInfo._id);
         dispatch<any>(action);
       }
     } catch (err) {
@@ -133,10 +138,11 @@ const SingleBusiness = () => {
                           >
                             <p>
                               {' '}
-                              תור ל {appoint.service} {''}בתאריך {appoint.date}{' '}
-                              {''}
+                              תור ל {appoint.service} {''}בתאריך{' '}
+                              {formatDate(appoint.date)} {''}
                               בשעה {appoint.startTime}
                             </p>
+
                             <hr />
                           </div>
                         </div>

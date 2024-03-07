@@ -5,6 +5,7 @@ const userRoutes = require('./Routes/UserRoutes');
 const businessRoutes = require('./Routes/BusinessRoutes');
 const appointmentsRoutes = require('./Routes/AppointmentsRoutes');
 const connectDatabase = require('./config/MongoDB');
+const serviceRoutes = require('./Routes/ServiceRoutes');
 
 dotenv.config();
 connectDatabase();
@@ -33,6 +34,7 @@ app.use((err, req, res, next) => {
 app.use("/api/users", userRoutes);
 app.use("/api/business", businessRoutes);
 app.use("/api/appointments", appointmentsRoutes);
+app.use("/api/service", serviceRoutes);
 
 
 app.get('/', (req, res) => {

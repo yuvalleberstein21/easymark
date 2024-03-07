@@ -2,6 +2,7 @@ const express = require('express');
 const protect = require('../middleware/AuthMiddleware');
 const asyncHandler = require('express-async-handler');
 const Appointment = require('../Models/AppointmentsModel');
+const Service = require('../Models/ServiceModel');
 const appointmentsRoutes = express.Router();
 
 
@@ -38,12 +39,15 @@ appointmentsRoutes.get("/getUserAppointment/:userId", asyncHandler(
     async (req, res) => {
         try {
 
-            const id = req.params.userId;
+            const userId = req.params.userId;
 
-            const appointments = await Appointment.find({ user: id }).populate('business')
+            // Find appointments for the specified user
+            const appointments = await Appointment.find({ user: userId }).populate('business');
 
             if (appointments.length > 0) {
                 res.json(appointments);
+            } else {
+                res.status(404).json({ error: 'No appointments found for this user' });
             }
 
         } catch (err) {
@@ -74,11 +78,4 @@ appointmentsRoutes.get("/:id", asyncHandler(
         }
     }
 ));
-
-
-
-
-
-
-
 module.exports = appointmentsRoutes;

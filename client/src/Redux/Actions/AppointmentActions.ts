@@ -85,26 +85,27 @@ export const getAppointmentAction = (id: any) => async (dispatch: any) => {
   }
 };
 
-export const getUserAppointmentAction = (id: any) => async (dispatch: any) => {
-  try {
-    dispatch({ type: GET_USER_APPOINTMENT_REQUEST });
+export const getUserAppointmentAction =
+  (userId: any) => async (dispatch: any) => {
+    try {
+      dispatch({ type: GET_USER_APPOINTMENT_REQUEST });
 
-    const { data } = await axios.get(
-      `${
-        import.meta.env.VITE_API_BASE_URL
-      }/appointments/getUserAppointment/${id}`
-    );
-    dispatch({
-      type: GET_USER_APPOINTMENT_SUCCESS,
-      payload: data,
-    });
-  } catch (error: any) {
-    dispatch({
-      type: GET_USER_APPOINTMENT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/appointments/getUserAppointment/${userId}`
+      );
+      dispatch({
+        type: GET_USER_APPOINTMENT_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: GET_USER_APPOINTMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

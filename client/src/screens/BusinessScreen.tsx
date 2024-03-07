@@ -56,8 +56,14 @@ const BusinessScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const action = getUserAppointmentAction(userInfo._id);
-    dispatch<any>(action);
+    try {
+      if (userInfo !== null || userInfo !== undefined) {
+        const action = getUserAppointmentAction(userInfo._id);
+        dispatch<any>(action);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }, [dispatch]);
 
   return (

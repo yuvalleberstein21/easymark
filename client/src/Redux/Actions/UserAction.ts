@@ -8,7 +8,10 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
 } from '../Constant/UserConstant';
-import { GET_APPOINTMENT_RESET } from '../Constant/AppointmentConstant';
+import {
+  GET_APPOINTMENT_RESET,
+  GET_USER_APPOINTMENT_RESET,
+} from '../Constant/AppointmentConstant';
 
 export const login =
   (phoneNumber: string, password: string) => async (dispatch: any) => {
@@ -45,6 +48,7 @@ export const logout = () => (dispatch: any) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: GET_APPOINTMENT_RESET });
+  dispatch({ type: GET_USER_APPOINTMENT_RESET });
 };
 
 export const register =

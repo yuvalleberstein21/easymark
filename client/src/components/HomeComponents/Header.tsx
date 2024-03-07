@@ -52,14 +52,17 @@ const Header = () => {
               }}
             >
               {userInfo && (
-                <button
-                  className="btn btn-outline-light"
-                  type="button"
-                  style={{ marginRight: '0.5rem' }}
-                  onClick={logoutHandler}
-                >
-                  Logout
-                </button>
+                <>
+                  <button
+                    className="btn btn-outline-light"
+                    type="button"
+                    style={{ marginRight: '0.5rem' }}
+                    onClick={logoutHandler}
+                  >
+                    Logout
+                  </button>
+                  <span className="text-white">Hello {userInfo.name}</span>
+                </>
               )}
             </div>
           </div>
