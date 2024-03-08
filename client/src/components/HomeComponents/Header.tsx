@@ -61,7 +61,7 @@ const Header = () => {
                   >
                     Logout
                   </button>
-                  <span className="text-white">Hello {userInfo.name}</span>
+                  <span className="text-white">Hello {userInfo?.name}</span>
                 </>
               )}
             </div>

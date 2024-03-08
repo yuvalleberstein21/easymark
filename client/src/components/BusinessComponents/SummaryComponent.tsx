@@ -2,7 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import '../../styles/summary.css';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { createAppointmentAction } from '../../Redux/Actions/AppointmentActions';
+import {
+  createAppointmentAction,
+  getUserAppointmentAction,
+} from '../../Redux/Actions/AppointmentActions';
+import Loading from '../LoadingError/Loading';
 
 interface ISummaryComponentProps {
   date: any;
@@ -16,6 +20,10 @@ interface ISummaryComponentProps {
 const SummaryComponent = (props: ISummaryComponentProps) => {
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
+  const createAppointment = useSelector(
+    (state: any) => state.createAppointment
+  );
+  const { loading, error } = createAppointment;
   const { date, onBack, selectedService, hour, businessServices, dateRegular } =
     props;
 
@@ -53,18 +61,23 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
     setPhone(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const action = createAppointmentAction(
-      userInfo._id,
-      businessId,
-      utcDate,
-      hour,
-      serviceId,
-      comment
-    );
-    dispatch<any>(action);
+    try {
+      const action = createAppointmentAction(
+        userInfo._id,
+        businessId,
+        utcDate,
+        hour,
+        serviceId,
+        comment
+      );
+      await dispatch<any>(action);
+      const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
+      dispatch<any>(fetchAppointmentAction);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="container">
@@ -108,9 +121,13 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
               onChange={(e) => setComment(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn btn-dark p-3">
-            Get Appointment
-          </button>
+          {loading ? (
+            <Loading />
+          ) : (
+            <button type="submit" className="btn btn-dark p-3">
+              Get Appointment
+            </button>
+          )}
         </form>
       </div>
     </div>

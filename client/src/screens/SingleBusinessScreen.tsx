@@ -8,11 +8,13 @@ import Loading from '../components/LoadingError/Loading';
 import Message from '../components/LoadingError/Error';
 import BusinessImagesCard from '../components/BusinessComponents/BusinessImagesCard';
 import {
+  deleteAppointmentAction,
   getAppointmentAction,
   getUserAppointmentAction,
 } from '../Redux/Actions/AppointmentActions';
 import { motion } from 'framer-motion';
 import { formatDate } from '../utils/formatDate';
+import { DELETE_APPOINTMENT_SUCCESS } from '../Redux/Constant/AppointmentConstant';
 
 const SingleBusiness = () => {
   const getSingleBusiness = useSelector(
@@ -54,7 +56,22 @@ const SingleBusiness = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch]);
+  }, [dispatch, userInfo]);
+
+  const handleDelete = async (appointmentId: any) => {
+    try {
+      dispatch<any>({
+        type: DELETE_APPOINTMENT_SUCCESS,
+        payload: appointmentId,
+      });
+      const deleteAppointment = deleteAppointmentAction(appointmentId);
+      dispatch<any>(deleteAppointment);
+      const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
+      dispatch<any>(fetchAppointmentAction);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -119,40 +136,43 @@ const SingleBusiness = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                 >
-                  {/* {loadingAppointment && <Loading />} */}
-                  {appointment?.map((appoint: any) => (
-                    <div key={appoint._id}>
-                      <div className="card mt-2">
-                        <div className="card__header p-2">
-                          מאושר{' '}
-                          <i className="fa-regular fa-circle-check m-1"></i>
-                        </div>
-                        <div className="card-body">
-                          <div
-                            dir="rtl"
-                            style={{
-                              fontSize: '16px',
-                              color: 'rgb(24, 24, 24)',
-                              fontWeight: '400',
-                            }}
-                          >
-                            <p>
-                              {' '}
-                              תור ל {appoint.service} {''}בתאריך{' '}
-                              {formatDate(appoint.date)} {''}
-                              בשעה {appoint.startTime}
-                            </p>
-
-                            <hr />
+                  {appointment &&
+                    appointment.map((appoint: any) => (
+                      <div key={appoint._id}>
+                        <div className="card mt-2">
+                          <div className="card__header p-2">
+                            מאושר{' '}
+                            <i className="fa-regular fa-circle-check m-1"></i>
                           </div>
+                          <div className="card-body">
+                            <div
+                              dir="rtl"
+                              style={{
+                                fontSize: '16px',
+                                color: 'rgb(24, 24, 24)',
+                                fontWeight: '400',
+                              }}
+                            >
+                              <p>
+                                {' '}
+                                תור ל {appoint.service} {''}בתאריך{' '}
+                                {formatDate(appoint.date)} {''}
+                                בשעה {appoint.startTime}
+                              </p>
+                              <hr />
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            className="button-delete"
+                            onClick={() => handleDelete(appoint._id)}
+                          >
+                            ביטול
+                            <i className="fa-solid fa-xmark"></i>
+                          </button>
                         </div>
-                        <button className="button-delete">
-                          ביטול
-                          <i className="fa-solid fa-xmark"></i>
-                        </button>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </motion.div>
               </div>
 

@@ -78,4 +78,23 @@ appointmentsRoutes.get("/:id", asyncHandler(
         }
     }
 ));
+
+appointmentsRoutes.delete("/:id", asyncHandler(
+    async (req, res) => {
+        try {
+            const apppointmentId = req.params.id;
+
+            const appointments = await Appointment.findByIdAndDelete(apppointmentId)
+
+            if (appointments) {
+                res.status(200).send('Appointment deleted successfully')
+            } else {
+                res.status(404).send('Appointment not found');
+            }
+
+        } catch (err) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+));
 module.exports = appointmentsRoutes;

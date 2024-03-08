@@ -3,6 +3,9 @@ import {
   CREATE_APPOINTMENT_FAIL,
   CREATE_APPOINTMENT_REQUEST,
   CREATE_APPOINTMENT_SUCCESS,
+  DELETE_APPOINTMENT_FAIL,
+  DELETE_APPOINTMENT_REQUEST,
+  DELETE_APPOINTMENT_SUCCESS,
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_SUCCESS,
@@ -109,3 +112,25 @@ export const getUserAppointmentAction =
       });
     }
   };
+
+export const deleteAppointmentAction = (id: any) => async (dispatch: any) => {
+  try {
+    dispatch({ type: DELETE_APPOINTMENT_REQUEST });
+
+    const { data } = await axios.delete(
+      `${import.meta.env.VITE_API_BASE_URL}/appointments/${id}`
+    );
+    dispatch({
+      type: DELETE_APPOINTMENT_SUCCESS,
+      payload: data,
+    });
+  } catch (error: any) {
+    dispatch({
+      type: DELETE_APPOINTMENT_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

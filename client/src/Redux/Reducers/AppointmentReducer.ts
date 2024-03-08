@@ -2,6 +2,9 @@ import {
   CREATE_APPOINTMENT_FAIL,
   CREATE_APPOINTMENT_REQUEST,
   CREATE_APPOINTMENT_SUCCESS,
+  DELETE_APPOINTMENT_FAIL,
+  DELETE_APPOINTMENT_REQUEST,
+  DELETE_APPOINTMENT_SUCCESS,
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_RESET,
@@ -50,6 +53,19 @@ export const getUserAppointmentReducer = (state = {}, action: any) => {
       return { loading: false, error: action.payload };
     case GET_USER_APPOINTMENT_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const deleteAppointmentReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case DELETE_APPOINTMENT_REQUEST:
+      return { loading: true };
+    case DELETE_APPOINTMENT_SUCCESS:
+      return { loading: false, success: true, appointment: action.payload };
+    case DELETE_APPOINTMENT_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
