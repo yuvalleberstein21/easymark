@@ -46,8 +46,8 @@ export const login =
 // LOGOUT
 export const logout = () => (dispatch: any) => {
   localStorage.removeItem('userInfo');
+  localStorage.removeItem('userAppointment');
   dispatch({ type: USER_LOGOUT });
-  // dispatch({ type: GET_APPOINTMENT_RESET });
   dispatch({ type: GET_USER_APPOINTMENT_RESET });
 };
 

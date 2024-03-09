@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../Redux/Actions/UserAction';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-  const [showModal, setShowModal] = useState(false);
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -53,6 +51,7 @@ const Header = () => {
             >
               {userInfo && (
                 <>
+                  <div className="text-white m-3">Hello {userInfo?.name}</div>
                   <button
                     className="btn btn-outline-light"
                     type="button"
@@ -61,7 +60,19 @@ const Header = () => {
                   >
                     Logout
                   </button>
-                  <span className="text-white">Hello {userInfo?.name}</span>
+                </>
+              )}
+              {userInfo?.role === 'manager' && (
+                <>
+                  <Link to={'/manager'}>
+                    <button
+                      className="btn btn-outline-light"
+                      type="button"
+                      style={{ marginRight: '0.5rem' }}
+                    >
+                      My Appointments
+                    </button>
+                  </Link>
                 </>
               )}
             </div>

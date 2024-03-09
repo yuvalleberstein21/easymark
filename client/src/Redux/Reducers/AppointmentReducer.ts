@@ -64,7 +64,7 @@ export const deleteAppointmentReducer = (state = {}, action: any) => {
     case DELETE_APPOINTMENT_REQUEST:
       return { loading: true };
     case DELETE_APPOINTMENT_SUCCESS:
-      return { loading: false, success: true, appointment: action.payload };
+      return { loading: false, success: true, appointment: {} };
     case DELETE_APPOINTMENT_FAIL:
       return { loading: false, error: action.payload };
     case DELETE_APPOINTMENT_RESET:

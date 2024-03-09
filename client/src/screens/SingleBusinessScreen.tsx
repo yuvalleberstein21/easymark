@@ -13,64 +13,45 @@ import {
 } from '../Redux/Actions/AppointmentActions';
 import { motion } from 'framer-motion';
 import { formatDate } from '../utils/formatDate';
-import {
-  DELETE_APPOINTMENT_RESET,
-  DELETE_APPOINTMENT_SUCCESS,
-} from '../Redux/Constant/AppointmentConstant';
 
 const SingleBusiness = () => {
-  const getSingleBusiness = useSelector(
-    (state: any) => state.getSingleBusiness
-  );
-  const { loading, error, business } = getSingleBusiness;
-  const getUserAppointment = useSelector(
-    (state: any) => state.getUserAppointment
-  );
-  const {
-    loading: loadingAppointment,
-    error: errorAppointment,
-    appointment,
-  } = getUserAppointment;
-
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { userInfo } = userLogin;
-
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const location = useLocation();
   const pathname = location.pathname;
   const businessId = pathname.split('/').pop();
 
   useEffect(() => {
     try {
-      const action = getSingleBusinessAction(businessId);
-      dispatch<any>(action);
+      dispatch(getSingleBusinessAction(businessId));
     } catch (err) {
       console.log(err);
     }
   }, [dispatch, businessId]);
 
+  const { userInfo } = useSelector((state: any) => state.userLogin);
+  const { loading: loadingDelete } = useSelector(
+    (state: any) => state.deleteAppointment
+  );
+
   useEffect(() => {
     try {
-      if (userInfo !== null && userInfo !== undefined) {
-        const action = getUserAppointmentAction(userInfo._id);
-        dispatch<any>(action);
+      if (userInfo !== null && appointment?.length > 0 && !loadingDelete) {
+        dispatch(getUserAppointmentAction(userInfo._id));
       }
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch, loadingDelete, userInfo]);
+
+  // Get appointment data from Redux store
+  const { loading, error, business } = useSelector(
+    (state: any) => state.getSingleBusiness
+  );
+  const { appointment } = useSelector((state: any) => state.getUserAppointment);
 
   const handleDelete = async (appointmentId: any) => {
     try {
-      dispatch<any>({
-        type: DELETE_APPOINTMENT_SUCCESS,
-        payload: appointmentId,
-      });
-      const deleteAppointment = deleteAppointmentAction(appointmentId);
-      dispatch<any>(deleteAppointment);
-      dispatch<any>({ type: DELETE_APPOINTMENT_RESET });
-      // const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
-      // dispatch<any>(fetchAppointmentAction);
+      await dispatch(deleteAppointmentAction(appointmentId));
     } catch (error) {
       console.log(error);
     }
@@ -142,27 +123,19 @@ const SingleBusiness = () => {
                   {appointment &&
                     appointment.map((appoint: any) => (
                       <div key={appoint._id}>
-                        <div className="card mt-2">
+                        {/* Render appointment card */}
+                        <div className="card">
                           <div className="card__header p-2">
                             מאושר{' '}
                             <i className="fa-regular fa-circle-check m-1"></i>
                           </div>
                           <div className="card-body">
-                            <div
-                              dir="rtl"
-                              style={{
-                                fontSize: '16px',
-                                color: 'rgb(24, 24, 24)',
-                                fontWeight: '400',
-                              }}
-                            >
+                            <div dir="rtl">
                               <p>
-                                {' '}
-                                תור ל {appoint.service} {''}בתאריך{' '}
-                                {formatDate(appoint.date)} {''}
-                                בשעה {appoint.startTime}
+                                תור ל {appoint.service} בתאריך{' '}
+                                {formatDate(appoint.date)} בשעה{' '}
+                                {appoint.startTime}
                               </p>
-                              <hr />
                             </div>
                           </div>
                           <button
@@ -170,8 +143,8 @@ const SingleBusiness = () => {
                             className="button-delete"
                             onClick={() => handleDelete(appoint._id)}
                           >
-                            ביטול
-                            <i className="fa-solid fa-xmark"></i>
+                            ביטול <i className="fa-solid fa-xmark"></i>
+                            {loadingDelete && <Loading />}
                           </button>
                         </div>
                       </div>

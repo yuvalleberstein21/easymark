@@ -54,7 +54,6 @@ export const createAppointmentAction =
         type: CREATE_APPOINTMENT_SUCCESS,
         payload: data,
       });
-      console.log(data);
     } catch (error: any) {
       dispatch({
         type: CREATE_APPOINTMENT_FAIL,

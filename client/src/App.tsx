@@ -7,6 +7,7 @@ import SingleBusiness from './screens/SingleBusinessScreen';
 import LoginScreen from './screens/LoginScreen';
 import BusinessEditScreen from './screens/BusinessEditScreen';
 import CreateBusiness from './screens/CreateBusiness';
+import AdminHomeScreen from './screens/Admin/AdminHomeScreen';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               element={<BusinessEditScreen />}
             />
             <Route path="/createbusiness" element={<CreateBusiness />} />
+            <Route path="/manager" element={<AdminHomeScreen />} />
           </Routes>
 
           {/* <Navbar /> */}

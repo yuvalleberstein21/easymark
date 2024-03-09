@@ -6,11 +6,6 @@ const Service = require('../Models/ServiceModel');
 const appointmentsRoutes = express.Router();
 
 
-// appointmentsRoutes.post('/', authMiddleware, appointmentController.createAppointment);
-// appointmentsRoutes.get('/', authMiddleware, appointmentController.getAllAppointments);
-// appointmentsRoutes.get('/:id', authMiddleware, appointmentController.getAppointmentById);
-// appointmentsRoutes.put('/:id', authMiddleware, appointmentController.updateAppointment);
-// appointmentsRoutes.delete('/:id', authMiddleware, appointmentController.deleteAppointment);
 
 appointmentsRoutes.post("/", protect, asyncHandler(
     async (req, res) => {
@@ -97,4 +92,30 @@ appointmentsRoutes.delete("/:id", asyncHandler(
         }
     }
 ));
+
+
+
+// ADMIN ROUTES
+appointmentsRoutes.get("/manager/allappointments/:businessId", protect, asyncHandler(
+    async (req, res) => {
+        try {
+            const businessId = req.params.businessId;
+            const appointments = await Appointment.find({ business: businessId })
+                .populate('user')
+
+            if (appointments.length > 0) {
+                res.json(appointments);
+            } else {
+                res.status(404).send('Not Found appointments')
+            }
+
+        } catch (err) {
+            console.error(err);
+            // Handle error
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+));
+
+
 module.exports = appointmentsRoutes;
