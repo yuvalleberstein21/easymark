@@ -43,7 +43,7 @@ const LoginScreen = () => {
 
       <div className="buttons_connection">
         <Link to={'/createbusiness'}>
-          <button className="btn btn-dark">
+          <button className="btn btn-dark" onClick={openManagerModal}>
             Create A business
             <i className="fa-solid fa-plus fa-lg m-2"></i>
           </button>

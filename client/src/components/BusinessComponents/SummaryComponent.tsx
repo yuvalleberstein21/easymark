@@ -7,6 +7,8 @@ import {
   getUserAppointmentAction,
 } from '../../Redux/Actions/AppointmentActions';
 import Loading from '../LoadingError/Loading';
+import { login } from '../../Redux/Actions/UserAction';
+import Message from '../LoadingError/Error';
 
 interface ISummaryComponentProps {
   date: any;
@@ -19,7 +21,8 @@ interface ISummaryComponentProps {
 
 const SummaryComponent = (props: ISummaryComponentProps) => {
   const userLogin = useSelector((state: any) => state.userLogin);
-  const { userInfo } = userLogin;
+  const { loding: loginLoading, error: loginError, userInfo } = userLogin;
+  const [userIsLoggedIn, setUserLoggedIn] = useState(false);
   const createAppointment = useSelector(
     (state: any) => state.createAppointment
   );
@@ -29,7 +32,10 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
 
   const [name, setName] = useState<string | null>(null);
   const [phone, setPhone] = useState<string | null>(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
   const [comment, setComment] = useState<string>('');
+  const [errorLogin, setError] = useState('');
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -47,10 +53,10 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
 
   useEffect(() => {
     if (userInfo !== null) {
-      setName(userInfo.name);
-      setPhone(userInfo.phoneNumber);
+      setName(userInfo?.name);
+      setPhone(userInfo?.phoneNumber);
+      setUserLoggedIn(true);
     }
-    console.log(utcDate);
   }, [userInfo]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,6 +65,27 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value);
+  };
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const action = login(phoneNumber, password);
+      await dispatch<any>(action);
+      if (userInfo) {
+        const appointmentAction = createAppointmentAction(
+          userInfo._id,
+          businessId,
+          utcDate,
+          hour,
+          serviceId,
+          comment
+        );
+        await dispatch<any>(appointmentAction);
+      }
+    } catch (error) {
+      setError('Invalid phone number or password'); // Handle login error
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -129,6 +156,44 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
             </button>
           )}
         </form>
+
+        {!userInfo && (
+          <div className="container mt-4">
+            <h3
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              Login to proceed:
+            </h3>
+            <form onSubmit={handleLogin}>
+              {loginError && <Message variant="ss">{loginError}</Message>}
+              <div className="inputGroup">
+                <input
+                  type="text"
+                  value={phoneNumber}
+                  required
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+                <label htmlFor="phoneNumber">Phone Number</label>
+              </div>
+              <div className="inputGroup">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <button type="submit" className="btn btn-dark">
+                Login
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );

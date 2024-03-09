@@ -9,12 +9,14 @@ import Message from '../components/LoadingError/Error';
 import BusinessImagesCard from '../components/BusinessComponents/BusinessImagesCard';
 import {
   deleteAppointmentAction,
-  getAppointmentAction,
   getUserAppointmentAction,
 } from '../Redux/Actions/AppointmentActions';
 import { motion } from 'framer-motion';
 import { formatDate } from '../utils/formatDate';
-import { DELETE_APPOINTMENT_SUCCESS } from '../Redux/Constant/AppointmentConstant';
+import {
+  DELETE_APPOINTMENT_RESET,
+  DELETE_APPOINTMENT_SUCCESS,
+} from '../Redux/Constant/AppointmentConstant';
 
 const SingleBusiness = () => {
   const getSingleBusiness = useSelector(
@@ -49,7 +51,7 @@ const SingleBusiness = () => {
 
   useEffect(() => {
     try {
-      if (userInfo !== null || userInfo !== undefined) {
+      if (userInfo !== null && userInfo !== undefined) {
         const action = getUserAppointmentAction(userInfo._id);
         dispatch<any>(action);
       }
@@ -66,8 +68,9 @@ const SingleBusiness = () => {
       });
       const deleteAppointment = deleteAppointmentAction(appointmentId);
       dispatch<any>(deleteAppointment);
-      const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
-      dispatch<any>(fetchAppointmentAction);
+      dispatch<any>({ type: DELETE_APPOINTMENT_RESET });
+      // const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
+      // dispatch<any>(fetchAppointmentAction);
     } catch (error) {
       console.log(error);
     }

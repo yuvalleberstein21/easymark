@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/createBusiness.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createBusinessAction } from '../Redux/Actions/BusinessActions';
+import { useNavigate } from 'react-router-dom';
 
 const CreateBusiness = () => {
+  const userLogin = useSelector((state: any) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     businessName: '',
     city: '',
@@ -13,7 +20,11 @@ const CreateBusiness = () => {
     images: [{ imageUrl: '' }],
   });
 
-  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   if (userInfo == null) {
+  //     navigate('/');
+  //   }
+  // }, [navigate]);
 
   const handleInputChange = (
     event: { target: { name: any; value: any } },

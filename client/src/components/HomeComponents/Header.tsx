@@ -11,7 +11,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch<any>(logout());
   };
 
   return (
