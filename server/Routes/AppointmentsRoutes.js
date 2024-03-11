@@ -37,7 +37,7 @@ appointmentsRoutes.get("/getUserAppointment/:userId", asyncHandler(
             const userId = req.params.userId;
 
             // Find appointments for the specified user
-            const appointments = await Appointment.find({ user: userId }).populate('business');
+            const appointments = await Appointment.find({ user: userId }).populate('business').populate('user');
 
             if (appointments.length > 0) {
                 res.json(appointments);

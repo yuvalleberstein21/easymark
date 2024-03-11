@@ -54,7 +54,7 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
 // GET ALL BUSINESS
 businessRoutes.get("/", asyncHandler(
     async (req, res) => {
-        const business = await Business.find();
+        const business = await Business.find()
         if (business.length > 0) {
             res.json(business);
         } else {
@@ -64,7 +64,7 @@ businessRoutes.get("/", asyncHandler(
     }
 ));
 
-// // GET BUSINESS BY ID
+// GET BUSINESS BY ID
 businessRoutes.get("/:id", asyncHandler(
     async (req, res) => {
         try {

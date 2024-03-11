@@ -55,6 +55,10 @@ const businessSchema = mongoose.Schema({
             required: true
         }
     }],
+    appointments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Appointment'
+    }],
     reviews: [{
         rating: {
             type: Number,
