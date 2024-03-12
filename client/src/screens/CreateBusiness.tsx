@@ -31,15 +31,8 @@ const CreateBusiness = () => {
     index: number
   ) => {
     const { name, value } = event.target;
-    const updatedServices = formData.services.map((service, i) => {
-      if (i === index) {
-        return {
-          ...service,
-          [name]: value,
-        };
-      }
-      return service;
-    });
+    const updatedServices = [...formData.services]; // Make a copy of the services array
+    updatedServices[index][name] = value; // Update the specific service object
     setFormData({ ...formData, services: updatedServices });
   };
 
@@ -106,11 +99,20 @@ const CreateBusiness = () => {
     event.preventDefault();
 
     try {
+      const services = [
+        {
+          serviceName: formData.services.map((service) => service.serviceName),
+          description: formData.services.map((service) => service.description),
+          price: formData.services.map((service) => service.price),
+          serviceTime: formData.services.map((service) => service.serviceTime),
+        },
+        // Add more service objects as needed
+      ];
       const action = createBusinessAction(
         formData.businessName,
         formData.city,
         formData.streetAddress,
-        formData.services,
+        services,
         formData.hoursOfOperation,
         formData.images
       );

@@ -41,19 +41,8 @@ const businessSchema = mongoose.Schema({
         }
     }],
     services: [{
-        serviceName: {
-            type: String,
-            required: true
-        },
-        description: String,
-        price: {
-            type: Number,
-            required: true
-        },
-        serviceTime: {
-            type: Number,
-            required: true
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service'
     }],
     appointments: [{
         type: mongoose.Schema.Types.ObjectId,

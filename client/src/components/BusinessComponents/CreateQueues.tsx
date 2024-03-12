@@ -51,7 +51,7 @@ const CreateQueues = (props: Business) => {
           <>
             <h2 style={{ fontWeight: 'bold' }}>בחירת שירותים</h2>
             <div className="buttons_choise_services">
-              {businessServices.map((service, index) => (
+              {businessServices?.map((service, index) => (
                 <button
                   className="mt-2"
                   key={index}

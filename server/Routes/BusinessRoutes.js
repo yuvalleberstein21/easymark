@@ -3,13 +3,12 @@ const protect = require('../middleware/AuthMiddleware');
 const asyncHandler = require('express-async-handler');
 const Business = require('../Models/BusinessModel');
 const User = require('../Models/UserModel');
+const Service = require('../Models/ServiceModel');
 const businessRoutes = express.Router();
+const { ObjectId } = require('mongoose');
 
-// businessRoutes.post('/', protect, businessController.createBusiness);
-// businessRoutes.get('/', businessController.getAllBusinesses);
-// businessRoutes.get('/:id', businessController.getBusinessById);
-// businessRoutes.put('/:id', protect, businessController.updateBusiness);
-// businessRoutes.delete('/:id', protect, businessController.deleteBusiness);
+
+
 
 
 
@@ -19,33 +18,45 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
     async (req, res) => {
         const {
             businessName,
-            streetAddress,
-            city,
+            location,
             hoursOfOperation,
             images,
             services,
+
         } = req.body;
 
+        // Check if the business name already exists
         const businessNameExist = await Business.findOne({ businessName });
         if (businessNameExist) {
-            return res.status(401).send({ message: 'Business name already exists' });
+            return res.status(400).json({ message: 'Business name already exists' });
         }
+
+
+        // Create new business object
         const business = new Business({
             user: req.user._id,
-            role: req.user.role,
             businessName,
+            location,
             hoursOfOperation,
-            location: {
-                streetAddress,
-                city
-            },
             images,
-            services,
-        })
+        });
 
-        const createBusiness = await business.save();
+        // Create services if provided
+        if (services && services.length > 0) {
+            const serviceObjects = await Service.create(services.map(service => ({
+                business: business._id,
+                ...service
+            })));
+            business.services = serviceObjects.map(service => service._id);
+        }
+
+        // Save business to the database
+        const createdBusiness = await business.save();
+
+        // Update user role to manager
         await User.findByIdAndUpdate(req.user._id, { role: 'manager' });
-        res.status(201).json(createBusiness);
+
+        res.status(201).json(createdBusiness);
     }
 ));
 
@@ -68,7 +79,7 @@ businessRoutes.get("/", asyncHandler(
 businessRoutes.get("/:id", asyncHandler(
     async (req, res) => {
         try {
-            const business = await Business.findById(req.params.id);
+            const business = await Business.findById(req.params.id).populate('services');
             if (business) {
                 res.send(business);
             } else {

@@ -40,6 +40,8 @@ const HoursComponent = (props: IHoursComponentProps) => {
     (hours) => hours.dayOfWeek === dayOfWeek
   );
 
+  console.log(hoursForDay);
+
   function getHoursBetween(start: string, end: string, increment: number) {
     const [startHours, startMinutes] = start.split(':');
     const [endHours, endMinutes] = end.split(':');
@@ -63,14 +65,17 @@ const HoursComponent = (props: IHoursComponentProps) => {
   const choosenService = businessServices.find(
     (service) => service.serviceName === selectedService
   );
+  console.log(choosenService);
 
   const hoursBetween = hoursForDay
     ? getHoursBetween(
         hoursForDay.openTime,
         hoursForDay.closeTime,
-        choosenService?.serviceTime
+        choosenService.serviceTime
       )
     : null;
+
+  console.log(hoursBetween);
 
   const handleHourSelection = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>

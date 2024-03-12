@@ -47,6 +47,7 @@ const SingleBusiness = () => {
   const { loading, error, business } = useSelector(
     (state: any) => state.getSingleBusiness
   );
+
   const { appointment } = useSelector((state: any) => state.getUserAppointment);
 
   const handleDelete = async (appointmentId: any) => {

@@ -103,7 +103,12 @@ appointmentsRoutes.get("/manager/allappointments/:businessId", protect, asyncHan
             const businessId = req.params.businessId;
 
             const appointments = await Appointment.find({ business: businessId })
-                .populate({ path: 'user', select: '-password' });
+                .populate({ path: 'user', select: '-password' })
+                .populate({
+                    path: 'services',
+                    select: 'serviceName'
+
+                });
 
             if (appointments.length > 0) {
                 res.json(appointments);

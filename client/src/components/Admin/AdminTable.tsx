@@ -12,13 +12,14 @@ const AdminTable = ({
   appointmentLoading,
   appointmentError,
 }) => {
+  console.log(appointments);
   return (
     <div className="container mt-5">
       <div className="row">
         <h2>All Businesses</h2>
 
         {allBusinesses?.map((business: any) => (
-          <div className="col-md-4">
+          <div className="col-md-4" key={business._id}>
             <div
               className="card"
               style={{ cursor: 'pointer' }}

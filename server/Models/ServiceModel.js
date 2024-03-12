@@ -7,12 +7,16 @@ const serviceSchema = mongoose.Schema({
         ref: 'Business',
         required: true
     },
-    name: {
+    serviceName: {
         type: String,
         required: true
     },
     description: String,
     price: {
+        type: Number,
+        required: true
+    },
+    serviceTime: {
         type: Number,
         required: true
     },
