@@ -6,6 +6,9 @@ import {
   DELETE_APPOINTMENT_FAIL,
   DELETE_APPOINTMENT_REQUEST,
   DELETE_APPOINTMENT_SUCCESS,
+  GET_ADMIN_APPOINTMENT_FAIL,
+  GET_ADMIN_APPOINTMENT_REQUEST,
+  GET_ADMIN_APPOINTMENT_SUCCESS,
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_SUCCESS,
@@ -133,3 +136,40 @@ export const deleteAppointmentAction = (id: any) => async (dispatch: any) => {
     });
   }
 };
+
+// ADMIN
+export const getAdminAppointmentAction =
+  (businessId: any) => async (dispatch: any, getState: any) => {
+    try {
+      dispatch({ type: GET_ADMIN_APPOINTMENT_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/appointments/manager/allappointments/${businessId}`,
+        config
+      );
+      dispatch({
+        type: GET_ADMIN_APPOINTMENT_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: GET_ADMIN_APPOINTMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };

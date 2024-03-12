@@ -53,7 +53,7 @@ const Header = () => {
                 <>
                   <div className="text-white m-3">Hello {userInfo?.name}</div>
                   <button
-                    className="btn btn-outline-light"
+                    className="btn btn-outline-light p-2"
                     type="button"
                     style={{ marginRight: '0.5rem' }}
                     onClick={logoutHandler}
@@ -66,7 +66,7 @@ const Header = () => {
                 <>
                   <Link to={'/manager'}>
                     <button
-                      className="btn btn-outline-light"
+                      className="btn btn-outline-light p-2"
                       type="button"
                       style={{ marginRight: '0.5rem' }}
                     >

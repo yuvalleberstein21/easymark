@@ -1,31 +1,64 @@
 import { useDispatch, useSelector } from 'react-redux';
 import AdminTable from '../../components/Admin/AdminTable';
-import { useEffect } from 'react';
-import { getAllUserBusinessAction } from '../../Redux/Actions/BusinessActions';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserAppointmentAction } from '../../Redux/Actions/AppointmentActions';
+import { getAdminAppointmentAction } from '../../Redux/Actions/AppointmentActions';
+import { getAllUserBusinessAction } from '../../Redux/Actions/BusinessActions';
 
 const AdminHomeScreen = () => {
   const { userInfo } = useSelector((state: any) => state.userLogin);
-  const { business } = useSelector((state: any) => state.getAllUserBusiness);
-  const { appointment } = useSelector((state: any) => state.getUserAppointment);
+  const { business: allBusinesses } = useSelector(
+    (state: any) => state.getAllUserBusiness
+  );
+  const {
+    loading: appointmentLoading,
+    error: appointmentError,
+    appointments,
+  } = useSelector((state: any) => state.getAdminAppointment);
 
-  console.log(appointment);
+  const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(
+    null
+  );
 
   const dispatch = useDispatch<any>();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (userInfo) {
       dispatch(getAllUserBusinessAction(userInfo._id));
-      dispatch(getUserAppointmentAction(userInfo._id));
     } else {
       navigate('/');
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch, userInfo, navigate]);
+
+  useEffect(() => {
+    if (selectedBusinessId) {
+      dispatch(getAdminAppointmentAction(selectedBusinessId));
+    }
+  }, [dispatch, selectedBusinessId]);
+
+  const handleBusinessSelect = (businessId: string) => {
+    setSelectedBusinessId(businessId);
+  };
+
+  useEffect(() => {
+    if (allBusinesses && allBusinesses.length > 0) {
+      const businessIds = allBusinesses.map((b: any) => b._id);
+      const businessId = businessIds[0];
+      dispatch(getAdminAppointmentAction(businessId));
+    }
+  }, [dispatch, allBusinesses]);
 
   return (
     <>
-      <AdminTable userInfo={userInfo} business={business} />
+      <AdminTable
+        allBusinesses={allBusinesses}
+        selectedBusinessId={selectedBusinessId}
+        handleBusinessSelect={handleBusinessSelect}
+        appointments={appointments}
+        appointmentLoading={appointmentLoading}
+        appointmentError={appointmentError}
+      />
     </>
   );
 };

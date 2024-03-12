@@ -36,8 +36,7 @@ appointmentsRoutes.get("/getUserAppointment/:userId", asyncHandler(
 
             const userId = req.params.userId;
 
-            // Find appointments for the specified user
-            const appointments = await Appointment.find({ user: userId }).populate('business').populate('user');
+            const appointments = await Appointment.find({ user: userId }).populate('business').populate({ path: 'user', select: '-password' });;
 
             if (appointments.length > 0) {
                 res.json(appointments);
@@ -96,17 +95,20 @@ appointmentsRoutes.delete("/:id", asyncHandler(
 
 
 // ADMIN ROUTES
+
 appointmentsRoutes.get("/manager/allappointments/:businessId", protect, asyncHandler(
     async (req, res) => {
         try {
+
             const businessId = req.params.businessId;
+
             const appointments = await Appointment.find({ business: businessId })
-                .populate('user')
+                .populate({ path: 'user', select: '-password' });
 
             if (appointments.length > 0) {
                 res.json(appointments);
             } else {
-                res.status(404).send('Not Found appointments')
+                res.status(404).send({ message: 'No appointments found for this business' });
             }
 
         } catch (err) {

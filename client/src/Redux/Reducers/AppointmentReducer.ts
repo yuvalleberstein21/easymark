@@ -6,6 +6,9 @@ import {
   DELETE_APPOINTMENT_REQUEST,
   DELETE_APPOINTMENT_RESET,
   DELETE_APPOINTMENT_SUCCESS,
+  GET_ADMIN_APPOINTMENT_FAIL,
+  GET_ADMIN_APPOINTMENT_REQUEST,
+  GET_ADMIN_APPOINTMENT_SUCCESS,
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_RESET,
@@ -69,6 +72,19 @@ export const deleteAppointmentReducer = (state = {}, action: any) => {
       return { loading: false, error: action.payload };
     case DELETE_APPOINTMENT_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const getAdminAppointmentReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case GET_ADMIN_APPOINTMENT_REQUEST:
+      return { loading: true };
+    case GET_ADMIN_APPOINTMENT_SUCCESS:
+      return { loading: false, success: true, appointments: action.payload };
+    case GET_ADMIN_APPOINTMENT_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }
