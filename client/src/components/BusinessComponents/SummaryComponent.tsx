@@ -15,7 +15,6 @@ interface ISummaryComponentProps {
   selectedService: string;
   hour: string;
   onBack: () => void;
-  businessServices: [];
   dateRegular: Date;
 }
 
@@ -27,8 +26,7 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
     (state: any) => state.createAppointment
   );
   const { loading, error } = createAppointment;
-  const { date, onBack, selectedService, hour, businessServices, dateRegular } =
-    props;
+  const { date, onBack, selectedService, hour, dateRegular } = props;
 
   const [name, setName] = useState<string | null>(null);
   const [phone, setPhone] = useState<string | null>(null);
@@ -41,10 +39,6 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
   const pathname = location.pathname;
   const businessId = pathname.split('/').pop();
   const dispatch = useDispatch();
-
-  const serviceId = businessServices.find(
-    (service) => service.serviceName === selectedService
-  )?._id;
 
   // Convert the date to UTC timezone
   const utcDate = new Date(
@@ -78,7 +72,7 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
           businessId,
           utcDate,
           hour,
-          serviceId,
+          selectedService,
           comment
         );
         await dispatch<any>(appointmentAction);
@@ -96,12 +90,20 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
         businessId,
         utcDate,
         hour,
-        serviceId,
+        selectedService,
         comment
       );
       await dispatch<any>(action);
       const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
       dispatch<any>(fetchAppointmentAction);
+      console.log(
+        userInfo._id,
+        businessId,
+        utcDate,
+        hour,
+        selectedService,
+        comment
+      );
     } catch (error) {
       console.log(error);
     }

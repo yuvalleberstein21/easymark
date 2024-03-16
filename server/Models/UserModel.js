@@ -21,14 +21,6 @@ const userSchema = mongoose.Schema({
         enum: ['admin', 'user', 'manager'],
         default: 'user'
     },
-    ownedBusinesses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Business'
-    }],
-    appointments: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Appointment'
-    }]
 }, {
     timestamps: true
 });

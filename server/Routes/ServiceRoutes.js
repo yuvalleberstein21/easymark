@@ -25,7 +25,6 @@ serviceRoutes.get("/", asyncHandler(
 
         } catch (err) {
             console.error(err);
-            // Handle error
             res.status(500).json({ error: 'Internal server error' });
         }
     }

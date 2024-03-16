@@ -8,10 +8,6 @@ const businessRoutes = express.Router();
 const { ObjectId } = require('mongoose');
 
 
-
-
-
-
 // CREATE BUSINESS - PROTECTED
 
 businessRoutes.post("/createbusiness", protect, asyncHandler(
@@ -22,17 +18,13 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
             hoursOfOperation,
             images,
             services,
-
         } = req.body;
 
-        // Check if the business name already exists
         const businessNameExist = await Business.findOne({ businessName });
         if (businessNameExist) {
             return res.status(400).json({ message: 'Business name already exists' });
         }
 
-
-        // Create new business object
         const business = new Business({
             user: req.user._id,
             businessName,
@@ -41,7 +33,6 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
             images,
         });
 
-        // Create services if provided
         if (services && services.length > 0) {
             const serviceObjects = await Service.create(services.map(service => ({
                 business: business._id,
@@ -50,12 +41,9 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
             business.services = serviceObjects.map(service => service._id);
         }
 
-        // Save business to the database
         const createdBusiness = await business.save();
 
-        // Update user role to manager
         await User.findByIdAndUpdate(req.user._id, { role: 'manager' });
-
         res.status(201).json(createdBusiness);
     }
 ));
@@ -71,7 +59,6 @@ businessRoutes.get("/", asyncHandler(
         } else {
             return res.status(404).send({ message: 'cannot find businesses' });
         }
-
     }
 ));
 

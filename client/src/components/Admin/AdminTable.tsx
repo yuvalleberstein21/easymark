@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import '../../styles/adminTable.css';
 import { formatDate } from '../../utils/formatDate';
 import Message from '../LoadingError/Error';
@@ -73,7 +72,7 @@ const AdminTable = ({
                             <td>1</td>
                             <td>{appoint.user.name}</td>
                             <td>{appoint.user.phoneNumber}</td>
-                            <td>{appoint.service}</td>
+                            <td>{appoint.services[0].serviceName}</td>
                             <td>{formatDate(appoint.date)}</td>
                             <td>{appoint.startTime}</td>
                             <td>{appoint.notes}</td>

@@ -91,14 +91,14 @@ export const getAppointmentAction = (id: any) => async (dispatch: any) => {
 };
 
 export const getUserAppointmentAction =
-  (userId: any) => async (dispatch: any) => {
+  (userId: any, businessId: any) => async (dispatch: any) => {
     try {
       dispatch({ type: GET_USER_APPOINTMENT_REQUEST });
 
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/appointments/getUserAppointment/${userId}`
+        }/appointments/getUserAppointment/${userId}/${businessId}`
       );
       dispatch({
         type: GET_USER_APPOINTMENT_SUCCESS,

@@ -10,17 +10,12 @@ userRoutes.post('/login', async (req, res) => {
     const { phoneNumber, password } = req.body;
     const user = await User.findOne({ phoneNumber });
     if (user && (await user.matchPassword(password))) {
-        // const verificationCode = Math.floor(100000 + Math.random() * 900000);
-
-        // Send the verification code via SMS
-        // await sendVerificationCode(phoneNumber, verificationCode.toString());
         res.json({
             _id: user._id,
             name: user.name,
             phoneNumber: user.phoneNumber,
             role: user.role,
             token: generateToken(user._id),
-            // verificationCode: verificationCode,
         })
     } else {
         return res.status(401).send({ message: 'Invalid phone number or password' });

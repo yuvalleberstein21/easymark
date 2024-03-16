@@ -13,25 +13,13 @@ const BusinessImagesCard = (props: BusinessProps) => {
             <img src={images[1]?.imageUrl} alt={businessName} height="150" />
           </div>
           <div className="col col_single_images">
-            <img
-              src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-              alt="image"
-              height="150"
-            />
+            <img src={images[2]?.imageUrl} alt={businessName} height="150" />
           </div>
           <div className="col col_single_images">
-            <img
-              src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-              alt="image"
-              height="150"
-            />
+            <img src={images[3]?.imageUrl} alt={businessName} height="150" />
           </div>
           <div className="col col_single_images">
-            <img
-              src="https://marketplace.canva.com/EAFowsrK6x8/1/0/800w/canva-red-and-yellow-catering-flat-illustrative-food-place-logo-vSIfGMbT6qI.jpg"
-              alt="image"
-              height="150"
-            />
+            <img src={images[4]?.imageUrl} alt={businessName} height="150" />
           </div>
         </div>
       </div>

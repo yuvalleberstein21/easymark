@@ -29,7 +29,7 @@ const appointmentSchema = mongoose.Schema({
     timestamps: true
 });
 
-// Before saving the appointment, parse the date string into a Date object
+
 appointmentSchema.pre('save', function (next) {
     if (this.date && typeof this.date === 'string') {
         this.date = new Date(this.date);

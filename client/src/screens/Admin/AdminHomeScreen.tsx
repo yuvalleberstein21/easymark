@@ -10,6 +10,7 @@ const AdminHomeScreen = () => {
   const { business: allBusinesses } = useSelector(
     (state: any) => state.getAllUserBusiness
   );
+
   const {
     loading: appointmentLoading,
     error: appointmentError,

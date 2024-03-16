@@ -28,27 +28,28 @@ const SingleBusiness = () => {
     }
   }, [dispatch, businessId]);
 
+  const { loading, error, business } = useSelector(
+    (state: any) => state.getSingleBusiness
+  );
+
   const { userInfo } = useSelector((state: any) => state.userLogin);
   const { loading: loadingDelete } = useSelector(
     (state: any) => state.deleteAppointment
   );
+  const { loading: loadingAppointments, appointment } = useSelector(
+    (state: any) => state.getUserAppointment
+  );
 
   useEffect(() => {
     try {
-      if (userInfo !== null && appointment?.length > 0 && !loadingDelete) {
-        dispatch(getUserAppointmentAction(userInfo._id));
+      if (userInfo !== null && !loadingDelete && !loadingAppointments) {
+        // Dispatch action to get appointments for the specific user and business
+        dispatch(getUserAppointmentAction(userInfo._id, businessId));
       }
     } catch (err) {
       console.log(err);
     }
   }, [dispatch, loadingDelete, userInfo]);
-
-  // Get appointment data from Redux store
-  const { loading, error, business } = useSelector(
-    (state: any) => state.getSingleBusiness
-  );
-
-  const { appointment } = useSelector((state: any) => state.getUserAppointment);
 
   const handleDelete = async (appointmentId: any) => {
     try {
@@ -133,7 +134,7 @@ const SingleBusiness = () => {
                           <div className="card-body">
                             <div dir="rtl">
                               <p>
-                                תור ל {appoint.service} בתאריך{' '}
+                                תור ל {appoint.services[0].serviceName} בתאריך{' '}
                                 {formatDate(appoint.date)} בשעה{' '}
                                 {appoint.startTime}
                               </p>

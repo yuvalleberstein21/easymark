@@ -30,14 +30,6 @@ function App() {
           {/* <Navbar /> */}
         </div>
       </Router>
-      {/* <div className="app">
-        <Header />
-        <Search />
-        <BusinessScreen />
-
-        <Queues />
-        <Navbar />
-      </div> */}
     </>
   );
 }
