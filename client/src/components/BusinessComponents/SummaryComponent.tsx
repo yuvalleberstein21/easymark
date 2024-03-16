@@ -94,16 +94,11 @@ const SummaryComponent = (props: ISummaryComponentProps) => {
         comment
       );
       await dispatch<any>(action);
-      const fetchAppointmentAction = getUserAppointmentAction(userInfo._id);
-      dispatch<any>(fetchAppointmentAction);
-      console.log(
+      const fetchAppointmentAction = getUserAppointmentAction(
         userInfo._id,
-        businessId,
-        utcDate,
-        hour,
-        selectedService,
-        comment
+        businessId
       );
+      dispatch<any>(fetchAppointmentAction);
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import '../../styles/adminTable.css';
 import { formatDate } from '../../utils/formatDate';
 import Message from '../LoadingError/Error';
 import Loading from '../LoadingError/Loading';
+import { useDispatch } from 'react-redux';
+import { updateAdminAppointmentAction } from '../../Redux/Actions/AppointmentActions';
 
 const AdminTable = ({
   allBusinesses,
@@ -12,6 +15,19 @@ const AdminTable = ({
   appointmentError,
 }) => {
   console.log(appointments);
+  const [accepted, setAccepted] = useState(false);
+
+  const dispatch = useDispatch<any>();
+
+  const handleApproval = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      dispatch(updateAdminAppointmentAction(appointments[0]._id));
+      setAccepted(!accepted);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="container mt-5">
       <div className="row">
@@ -76,20 +92,39 @@ const AdminTable = ({
                             <td>{formatDate(appoint.date)}</td>
                             <td>{appoint.startTime}</td>
                             <td>{appoint.notes}</td>
-                            <td
-                              style={{
-                                background: 'green',
-                                cursor: 'pointer',
-                                color: 'white',
-                                borderRadius: '5px',
-                                padding: '10px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              Approve
-                            </td>
+                            {appoint.appointmentApproved ? (
+                              <td
+                                style={{
+                                  background: 'green',
+                                  cursor: 'pointer',
+                                  color: 'white',
+                                  borderRadius: '5px',
+                                  padding: '10px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                Accepted {''}
+                                <i className="fa-solid fa-check m-2"></i>
+                              </td>
+                            ) : (
+                              <td
+                                onClick={handleApproval}
+                                style={{
+                                  background: 'black',
+                                  cursor: 'pointer',
+                                  color: 'white',
+                                  borderRadius: '5px',
+                                  padding: '10px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                Not Accepted
+                              </td>
+                            )}
                           </tr>
                         ))}
                       </tbody>

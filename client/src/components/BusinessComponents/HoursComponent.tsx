@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import '../../styles/hoursComponent.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBusinessAppointmentsAction } from '../../Redux/Actions/AppointmentActions';
 interface IHoursComponentProps {
   date: any;
   onBack: () => void;
@@ -7,17 +9,37 @@ interface IHoursComponentProps {
   businessOperation: any[];
   businessServices: any[];
   selectedService: string;
+  businessId: any;
+  dateRegular: Date;
 }
 
 const HoursComponent = (props: IHoursComponentProps) => {
   const {
+    dateRegular,
     date,
     onBack,
     onChange,
     businessOperation,
     businessServices,
     selectedService,
+    businessId,
   } = props;
+
+  const getBusinessAppointments = useSelector(
+    (state: any) => state.getBusinessAppointments
+  );
+  const { appointments, loading: loadingAppointments } =
+    getBusinessAppointments;
+
+  const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    try {
+      dispatch(getBusinessAppointmentsAction(businessId));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
 
   const dayOfWeekHebrew = date?.split(',')[0];
 
@@ -32,6 +54,38 @@ const HoursComponent = (props: IHoursComponentProps) => {
     };
 
     return dayOfWeekMap[dayOfWeekHebrew];
+  };
+
+  // const isHourActive = (hour: string) => {
+  //   const appointmentHours = appointments?.find(
+  //     (appointment) => appointment.startTime === hour
+  //   );
+  //   if (appointmentHours) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
+
+  const isHourActive = (hour: string) => {
+    if (appointments) {
+      // Parse the chosen date to compare with appointment dates
+      const chosenDate = new Date(dateRegular);
+
+      // Filter appointments for the selected date
+      const appointmentsForDate = appointments.filter((appointment: any) => {
+        // Parse the appointment date
+        const appointmentDate = new Date(appointment.date);
+
+        // Check if the appointment date matches the chosen date
+        return appointmentDate.toDateString() === chosenDate.toDateString();
+      });
+
+      // Check if any appointment matches the given hour
+      return appointmentsForDate.some((appointment: any) => {
+        return appointment.startTime === hour;
+      });
+    }
+    return false;
   };
 
   const dayOfWeek = getDayOfWeek(dayOfWeekHebrew);
@@ -63,7 +117,6 @@ const HoursComponent = (props: IHoursComponentProps) => {
   const choosenService = businessServices.find(
     (service) => service.serviceName === selectedService
   );
-  console.log(choosenService);
 
   const hoursBetween = hoursForDay
     ? getHoursBetween(
@@ -73,13 +126,8 @@ const HoursComponent = (props: IHoursComponentProps) => {
       )
     : null;
 
-  const handleHourSelection = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    const selectedHour = e.currentTarget.textContent;
-    if (selectedHour) {
-      onChange(selectedHour);
-    }
+  const handleHourSelection = (selectedHour: string) => {
+    onChange(selectedHour);
   };
 
   return (
@@ -94,7 +142,11 @@ const HoursComponent = (props: IHoursComponentProps) => {
       <div className="hours">
         {hoursBetween ? (
           hoursBetween.map((hour, i) => (
-            <button key={i} onClick={handleHourSelection}>
+            <button
+              key={i}
+              onClick={() => handleHourSelection(hour)}
+              className={isHourActive(hour) ? 'active' : 'inactive'}
+            >
               {hour}
             </button>
           ))

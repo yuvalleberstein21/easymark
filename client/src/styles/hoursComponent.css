@@ -22,3 +22,6 @@
   color: #4b4b4b;
   max-width: 105px;
 }
+button.active {
+  display: none;
+}

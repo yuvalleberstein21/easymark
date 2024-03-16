@@ -8,6 +8,7 @@ import SummaryComponent from './SummaryComponent';
 interface Business {
   businessServices: any[];
   businessOperation: any[];
+  businessId: any;
 }
 
 const dateOptions = {
@@ -18,7 +19,7 @@ const dateOptions = {
 };
 
 const CreateQueues = (props: Business) => {
-  const { businessServices, businessOperation } = props;
+  const { businessServices, businessOperation, businessId } = props;
 
   const [date, setDate] = useState<any>(new Date());
   const formattedDate = date.toLocaleDateString('he-IL', dateOptions);
@@ -75,12 +76,14 @@ const CreateQueues = (props: Business) => {
       case 3:
         return (
           <HoursComponent
+            dateRegular={date}
             date={formattedDate}
             onBack={handleBackClick}
             onChange={handleChooseHourChange}
             businessOperation={businessOperation}
             businessServices={businessServices}
             selectedService={selectedService}
+            businessId={businessId}
           />
         );
       case 4:
@@ -90,7 +93,6 @@ const CreateQueues = (props: Business) => {
             date={formattedDate}
             selectedService={selectedService}
             hour={hour}
-            businessServices={businessServices}
             onBack={handleBackClick}
           />
         );

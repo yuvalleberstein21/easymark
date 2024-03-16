@@ -6,6 +6,29 @@ const Service = require('../Models/ServiceModel');
 const appointmentsRoutes = express.Router();
 
 
+// Route to get appointments for a specific business
+appointmentsRoutes.get("/getBusinessAppointments/:businessId", asyncHandler(
+    async (req, res) => {
+        try {
+            const businessId = req.params.businessId;
+
+            // Find appointments for the specific business
+            const appointments = await Appointment.find({ business: businessId })
+                .populate('services')
+                .populate({ path: 'user', select: '-password' });
+
+            if (appointments.length > 0) {
+                res.json(appointments);
+            } else {
+                res.status(404).json({ error: 'No appointments found for this business' });
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+));
+
 appointmentsRoutes.post("/", protect, asyncHandler(
     async (req, res) => {
         try {
@@ -52,6 +75,30 @@ appointmentsRoutes.get("/getUserAppointment/:userId/:businessId", asyncHandler(
     }
 ));
 
+appointmentsRoutes.get("/:userId", asyncHandler(
+    async (req, res) => {
+        try {
+            const userId = req.params.userId;
+
+
+            const appointments = await Appointment.find({ user: userId })
+                .populate('business')
+                .populate('services')
+                .populate({ path: 'user', select: '-password' });
+
+            if (appointments.length > 0) {
+                res.json(appointments);
+            } else {
+                res.status(404).json({ error: 'No appointments found for this user' });
+            }
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+));
+
+
 
 appointmentsRoutes.delete("/:id", asyncHandler(
     async (req, res) => {
@@ -70,7 +117,6 @@ appointmentsRoutes.delete("/:id", asyncHandler(
 ));
 
 // ADMIN ROUTES
-
 appointmentsRoutes.get("/manager/allappointments/:businessId", protect, asyncHandler(
     async (req, res) => {
         try {
@@ -85,6 +131,32 @@ appointmentsRoutes.get("/manager/allappointments/:businessId", protect, asyncHan
             }
         } catch (err) {
             console.error(err);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+));
+
+
+appointmentsRoutes.put('/manager/:appointmentId/approval', asyncHandler(
+    async (req, res) => {
+        const { appointmentId } = req.params;
+        const { appointmentApproved } = req.body;
+
+        try {
+            // Find the appointment by ID and update the appointmentApproved field
+            const appointment = await Appointment.findByIdAndUpdate(
+                appointmentId,
+                { appointmentApproved },
+                { new: true }
+            );
+
+            if (!appointment) {
+                return res.status(404).json({ error: 'Appointment not found' });
+            }
+
+            res.json(appointment);
+        } catch (error) {
+            console.error(error);
             res.status(500).json({ error: 'Internal server error' });
         }
     }

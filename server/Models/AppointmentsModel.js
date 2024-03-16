@@ -20,10 +20,15 @@ const appointmentSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    appointmentApproved: {
+        type: Boolean,
+        default: false,
+    },
     services: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service'
     }],
+
     notes: String
 }, {
     timestamps: true

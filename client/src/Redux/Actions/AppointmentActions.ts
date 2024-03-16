@@ -12,10 +12,41 @@ import {
   GET_APPOINTMENT_FAIL,
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_SUCCESS,
+  GET_BUSINESS_APPOINTMENT_FAIL,
+  GET_BUSINESS_APPOINTMENT_REQUEST,
+  GET_BUSINESS_APPOINTMENT_SUCCESS,
   GET_USER_APPOINTMENT_FAIL,
   GET_USER_APPOINTMENT_REQUEST,
   GET_USER_APPOINTMENT_SUCCESS,
+  UPDATE_ADMIN_APPOINTMENT_FAIL,
+  UPDATE_ADMIN_APPOINTMENT_REQUEST,
+  UPDATE_ADMIN_APPOINTMENT_SUCCESS,
 } from '../Constant/AppointmentConstant';
+
+export const getBusinessAppointmentsAction =
+  (businessId: any) => async (dispatch: any) => {
+    try {
+      dispatch({ type: GET_BUSINESS_APPOINTMENT_REQUEST });
+
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/appointments/getBusinessAppointments/${businessId}`
+      );
+      dispatch({
+        type: GET_BUSINESS_APPOINTMENT_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: GET_BUSINESS_APPOINTMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const createAppointmentAction =
   (
@@ -166,6 +197,31 @@ export const getAdminAppointmentAction =
     } catch (error: any) {
       dispatch({
         type: GET_ADMIN_APPOINTMENT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const updateAdminAppointmentAction =
+  (appointmentId: any) => async (dispatch: any) => {
+    try {
+      dispatch({ type: UPDATE_ADMIN_APPOINTMENT_REQUEST });
+
+      const { data } = await axios.put(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/appointments/manager/${appointmentId}/approval`
+      );
+      dispatch({
+        type: UPDATE_ADMIN_APPOINTMENT_SUCCESS,
+        payload: data,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: UPDATE_ADMIN_APPOINTMENT_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message

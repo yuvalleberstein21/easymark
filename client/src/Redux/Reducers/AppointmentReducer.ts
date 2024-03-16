@@ -13,11 +13,30 @@ import {
   GET_APPOINTMENT_REQUEST,
   GET_APPOINTMENT_RESET,
   GET_APPOINTMENT_SUCCESS,
+  GET_BUSINESS_APPOINTMENT_FAIL,
+  GET_BUSINESS_APPOINTMENT_REQUEST,
+  GET_BUSINESS_APPOINTMENT_SUCCESS,
   GET_USER_APPOINTMENT_FAIL,
   GET_USER_APPOINTMENT_REQUEST,
   GET_USER_APPOINTMENT_RESET,
   GET_USER_APPOINTMENT_SUCCESS,
+  UPDATE_ADMIN_APPOINTMENT_FAIL,
+  UPDATE_ADMIN_APPOINTMENT_REQUEST,
+  UPDATE_ADMIN_APPOINTMENT_SUCCESS,
 } from '../Constant/AppointmentConstant';
+
+export const getBusinessAppointmentsReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case GET_BUSINESS_APPOINTMENT_REQUEST:
+      return { loading: true };
+    case GET_BUSINESS_APPOINTMENT_SUCCESS:
+      return { loading: false, success: true, appointments: action.payload };
+    case GET_BUSINESS_APPOINTMENT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const createAppointmentReducer = (state = {}, action: any) => {
   switch (action.type) {
@@ -77,6 +96,7 @@ export const deleteAppointmentReducer = (state = {}, action: any) => {
   }
 };
 
+// ADMIN
 export const getAdminAppointmentReducer = (state = {}, action: any) => {
   switch (action.type) {
     case GET_ADMIN_APPOINTMENT_REQUEST:
@@ -84,6 +104,19 @@ export const getAdminAppointmentReducer = (state = {}, action: any) => {
     case GET_ADMIN_APPOINTMENT_SUCCESS:
       return { loading: false, success: true, appointments: action.payload };
     case GET_ADMIN_APPOINTMENT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const updateAdminAppointmentReducer = (state = {}, action: any) => {
+  switch (action.type) {
+    case UPDATE_ADMIN_APPOINTMENT_REQUEST:
+      return { loading: true };
+    case UPDATE_ADMIN_APPOINTMENT_SUCCESS:
+      return { loading: false, success: true, appointments: action.payload };
+    case UPDATE_ADMIN_APPOINTMENT_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import ReactCardSlider from 'react-card-slider-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserAppointmentAction } from '../Redux/Actions/AppointmentActions';
+import {
+  getAppointmentAction,
+  getUserAppointmentAction,
+} from '../Redux/Actions/AppointmentActions';
 import MyAppointments from '../components/AppintmentsComponents/MyAppointments';
 
 const sliderClick = () => {
@@ -48,17 +51,15 @@ const slides = [
 const BusinessScreen = () => {
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
-  const getUserAppointment = useSelector(
-    (state: any) => state.getUserAppointment
-  );
-  const { loading, error, appointment } = getUserAppointment;
+  const getAppointment = useSelector((state: any) => state.getAppointment);
+  const { loading, error, appointment } = getAppointment;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     try {
       if (userInfo !== null || userInfo !== undefined) {
-        const action = getUserAppointmentAction(userInfo._id);
+        const action = getAppointmentAction(userInfo._id);
         dispatch<any>(action);
       }
     } catch (err) {

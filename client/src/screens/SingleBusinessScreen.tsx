@@ -49,7 +49,7 @@ const SingleBusiness = () => {
     } catch (err) {
       console.log(err);
     }
-  }, [dispatch, loadingDelete, userInfo]);
+  }, [dispatch, loadingDelete, userInfo, businessId]);
 
   const handleDelete = async (appointmentId: any) => {
     try {
@@ -125,12 +125,22 @@ const SingleBusiness = () => {
                   {appointment &&
                     appointment.map((appoint: any) => (
                       <div key={appoint._id}>
-                        {/* Render appointment card */}
                         <div className="card">
                           <div className="card__header p-2">
-                            מאושר{' '}
-                            <i className="fa-regular fa-circle-check m-1"></i>
+                            {appoint.appointmentApproved ? (
+                              <div>
+                                {' '}
+                                מאושר{' '}
+                                <i className="fa-regular fa-circle-check m-1"></i>
+                              </div>
+                            ) : (
+                              <div>
+                                ממתין לבעל/ת העסק{' '}
+                                <i className="fa-regular fa-clock"></i>
+                              </div>
+                            )}
                           </div>
+
                           <div className="card-body">
                             <div dir="rtl">
                               <p>
@@ -158,6 +168,7 @@ const SingleBusiness = () => {
                 <CreateQueues
                   businessServices={business?.services}
                   businessOperation={business?.hoursOfOperation}
+                  businessId={businessId}
                 />
               </div>
             </div>
