@@ -20,9 +20,7 @@ import {
   GET_USER_APPOINTMENT_REQUEST,
   GET_USER_APPOINTMENT_RESET,
   GET_USER_APPOINTMENT_SUCCESS,
-  UPDATE_ADMIN_APPOINTMENT_FAIL,
-  UPDATE_ADMIN_APPOINTMENT_REQUEST,
-  UPDATE_ADMIN_APPOINTMENT_SUCCESS,
+  UPDATE_APPOINTMENT_APPROVAL,
 } from '../Constant/AppointmentConstant';
 
 export const getBusinessAppointmentsReducer = (state = {}, action: any) => {
@@ -112,12 +110,8 @@ export const getAdminAppointmentReducer = (state = {}, action: any) => {
 
 export const updateAdminAppointmentReducer = (state = {}, action: any) => {
   switch (action.type) {
-    case UPDATE_ADMIN_APPOINTMENT_REQUEST:
-      return { loading: true };
-    case UPDATE_ADMIN_APPOINTMENT_SUCCESS:
+    case UPDATE_APPOINTMENT_APPROVAL:
       return { loading: false, success: true, appointments: action.payload };
-    case UPDATE_ADMIN_APPOINTMENT_FAIL:
-      return { loading: false, error: action.payload };
     default:
       return state;
   }

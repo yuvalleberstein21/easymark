@@ -143,7 +143,6 @@ appointmentsRoutes.put('/manager/:appointmentId/approval', asyncHandler(
         const { appointmentApproved } = req.body;
 
         try {
-            // Find the appointment by ID and update the appointmentApproved field
             const appointment = await Appointment.findByIdAndUpdate(
                 appointmentId,
                 { appointmentApproved },

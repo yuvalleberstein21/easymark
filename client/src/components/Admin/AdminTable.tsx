@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import '../../styles/adminTable.css';
 import { formatDate } from '../../utils/formatDate';
 import Message from '../LoadingError/Error';
@@ -14,20 +13,24 @@ const AdminTable = ({
   appointmentLoading,
   appointmentError,
 }) => {
-  console.log(appointments);
-  const [accepted, setAccepted] = useState(false);
-
   const dispatch = useDispatch<any>();
 
-  const handleApproval = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const handleApproval = async (
+    appointmentId: string,
+    currentStatus: boolean
+  ) => {
     try {
-      dispatch(updateAdminAppointmentAction(appointments[0]._id));
-      setAccepted(!accepted);
+      const updatedStatus = !currentStatus;
+      await dispatch(
+        updateAdminAppointmentAction(appointmentId, updatedStatus)
+      );
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(appointments);
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -92,39 +95,35 @@ const AdminTable = ({
                             <td>{formatDate(appoint.date)}</td>
                             <td>{appoint.startTime}</td>
                             <td>{appoint.notes}</td>
-                            {appoint.appointmentApproved ? (
-                              <td
-                                style={{
-                                  background: 'green',
-                                  cursor: 'pointer',
-                                  color: 'white',
-                                  borderRadius: '5px',
-                                  padding: '10px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
-                              >
-                                Accepted {''}
-                                <i className="fa-solid fa-check m-2"></i>
-                              </td>
-                            ) : (
-                              <td
-                                onClick={handleApproval}
-                                style={{
-                                  background: 'black',
-                                  cursor: 'pointer',
-                                  color: 'white',
-                                  borderRadius: '5px',
-                                  padding: '10px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}
-                              >
-                                Not Accepted
-                              </td>
-                            )}
+                            <td
+                              onClick={() =>
+                                handleApproval(
+                                  appoint._id,
+                                  appoint.appointmentApproved
+                                )
+                              }
+                              style={{
+                                background: appoint.appointmentApproved
+                                  ? 'green'
+                                  : 'black',
+                                cursor: 'pointer',
+                                color: 'white',
+                                borderRadius: '5px',
+                                padding: '10px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                              }}
+                            >
+                              {appoint.appointmentApproved ? (
+                                <>
+                                  Accepted{' '}
+                                  <i className="fa-solid fa-check m-2"></i>
+                                </>
+                              ) : (
+                                'Not Accepted'
+                              )}
+                            </td>
                           </tr>
                         ))}
                       </tbody>

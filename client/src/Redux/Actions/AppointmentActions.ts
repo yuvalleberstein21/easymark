@@ -18,9 +18,7 @@ import {
   GET_USER_APPOINTMENT_FAIL,
   GET_USER_APPOINTMENT_REQUEST,
   GET_USER_APPOINTMENT_SUCCESS,
-  UPDATE_ADMIN_APPOINTMENT_FAIL,
-  UPDATE_ADMIN_APPOINTMENT_REQUEST,
-  UPDATE_ADMIN_APPOINTMENT_SUCCESS,
+  UPDATE_APPOINTMENT_APPROVAL,
 } from '../Constant/AppointmentConstant';
 
 export const getBusinessAppointmentsAction =
@@ -206,26 +204,20 @@ export const getAdminAppointmentAction =
   };
 
 export const updateAdminAppointmentAction =
-  (appointmentId: any) => async (dispatch: any) => {
+  (appointmentId: string, appointmentApproved: boolean) =>
+  async (dispatch: any) => {
     try {
-      dispatch({ type: UPDATE_ADMIN_APPOINTMENT_REQUEST });
-
-      const { data } = await axios.put(
+      const response = await axios.put(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/appointments/manager/${appointmentId}/approval`
+        }/appointments/manager/${appointmentId}/approval`,
+        { appointmentApproved }
       );
       dispatch({
-        type: UPDATE_ADMIN_APPOINTMENT_SUCCESS,
-        payload: data,
+        type: UPDATE_APPOINTMENT_APPROVAL,
+        payload: response.data,
       });
-    } catch (error: any) {
-      dispatch({
-        type: UPDATE_ADMIN_APPOINTMENT_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
+    } catch (error) {
+      console.log(error);
     }
   };
