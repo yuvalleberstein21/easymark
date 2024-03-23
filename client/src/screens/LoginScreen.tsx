@@ -4,6 +4,7 @@ import Search from '../components/HomeComponents/Search';
 import Modal from 'react-modal';
 import BusinessModal from '../components/ModalsComponents/BusinessModal';
 import { Link } from 'react-router-dom';
+import HeroSection from './HeroSection';
 
 const customStyles = {
   content: {
@@ -39,7 +40,7 @@ const LoginScreen = () => {
   return (
     //  -- SEARCH COMPONENT ---
     <div className="container p-3">
-      <Search />
+      <HeroSection />
 
       <div className="buttons_connection">
         <Link to={'/createbusiness'}>

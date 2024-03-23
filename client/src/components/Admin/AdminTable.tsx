@@ -2,8 +2,9 @@ import '../../styles/adminTable.css';
 import { formatDate } from '../../utils/formatDate';
 import Message from '../LoadingError/Error';
 import Loading from '../LoadingError/Loading';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAdminAppointmentAction } from '../../Redux/Actions/AppointmentActions';
+import { useEffect, useState } from 'react';
 
 const AdminTable = ({
   allBusinesses,
@@ -13,23 +14,31 @@ const AdminTable = ({
   appointmentLoading,
   appointmentError,
 }) => {
+  const [updatedAppointments, setUpdatedAppointments] = useState([]);
+
   const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    setUpdatedAppointments(appointments);
+  }, [appointments]);
 
   const handleApproval = async (
     appointmentId: string,
-    currentStatus: boolean
+    currentStatus: boolean,
+    index: number
   ) => {
     try {
-      const updatedStatus = !currentStatus;
+      let updatedStatus = !currentStatus;
       await dispatch(
         updateAdminAppointmentAction(appointmentId, updatedStatus)
       );
+      const updatedAppointmentList = [...updatedAppointments];
+      updatedAppointmentList[index].appointmentApproved = updatedStatus;
+      setUpdatedAppointments(updatedAppointmentList);
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log(appointments);
 
   return (
     <div className="container mt-5">
@@ -86,46 +95,49 @@ const AdminTable = ({
                           <th className="cell">Notes</th>
                           <th className="cell">Action</th>
                         </tr>
-                        {appointments?.map((appoint: any) => (
-                          <tr className="active" key={appoint._id}>
-                            <td>1</td>
-                            <td>{appoint.user.name}</td>
-                            <td>{appoint.user.phoneNumber}</td>
-                            <td>{appoint.services[0].serviceName}</td>
-                            <td>{formatDate(appoint.date)}</td>
-                            <td>{appoint.startTime}</td>
-                            <td>{appoint.notes}</td>
-                            <td
-                              onClick={() =>
-                                handleApproval(
-                                  appoint._id,
-                                  appoint.appointmentApproved
-                                )
-                              }
-                              style={{
-                                background: appoint.appointmentApproved
-                                  ? 'green'
-                                  : 'black',
-                                cursor: 'pointer',
-                                color: 'white',
-                                borderRadius: '5px',
-                                padding: '10px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              {appoint.appointmentApproved ? (
-                                <>
-                                  Accepted{' '}
-                                  <i className="fa-solid fa-check m-2"></i>
-                                </>
-                              ) : (
-                                'Not Accepted'
-                              )}
-                            </td>
-                          </tr>
-                        ))}
+                        {updatedAppointments?.map(
+                          (appoint: any, index: number) => (
+                            <tr className="active" key={appoint._id}>
+                              <td>1</td>
+                              <td>{appoint.user.name}</td>
+                              <td>{appoint.user.phoneNumber}</td>
+                              <td>{appoint.services[0].serviceName}</td>
+                              <td>{formatDate(appoint.date)}</td>
+                              <td>{appoint.startTime}</td>
+                              <td>{appoint.notes}</td>
+                              <td
+                                onClick={() =>
+                                  handleApproval(
+                                    appoint._id,
+                                    appoint.appointmentApproved,
+                                    index
+                                  )
+                                }
+                                style={{
+                                  background: appoint.appointmentApproved
+                                    ? 'green'
+                                    : 'black',
+                                  cursor: 'pointer',
+                                  color: 'white',
+                                  borderRadius: '5px',
+                                  padding: '10px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                {appoint.appointmentApproved ? (
+                                  <>
+                                    Accepted{' '}
+                                    <i className="fa-solid fa-check m-2"></i>
+                                  </>
+                                ) : (
+                                  'Not Accepted'
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        )}
                       </tbody>
                     </table>
                   </div>

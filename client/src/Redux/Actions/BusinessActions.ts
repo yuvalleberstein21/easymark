@@ -85,7 +85,7 @@ export const getSingleBusinessAction = (id: any) => async (dispatch: any) => {
 };
 
 export const createBusinessAction =
-  (businessName, city, streetAddress, services, hoursOfOperation, images) =>
+  (businessName, location, services, hoursOfOperation, images) =>
   async (dispatch: any, getState: any) => {
     try {
       dispatch({ type: CREATE_BUSINESS_REQUEST });
@@ -104,8 +104,7 @@ export const createBusinessAction =
         `${import.meta.env.VITE_API_BASE_URL}/business/createbusiness/`,
         {
           businessName,
-          city,
-          streetAddress,
+          location,
           services,
           hoursOfOperation,
           images,
