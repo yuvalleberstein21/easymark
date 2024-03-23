@@ -9,7 +9,7 @@ const HeroSection = () => {
             <img src="/src/assets/traced-3999010.jpg" alt="image" />
           </div>
         </div>
-        <div className="col-md-6 mt-5">
+        <div className="col-md-6 mt-5 p-4">
           <div className="hero_section_title" dir="rtl">
             <h3>BOOK YOUR</h3>
             <h1>APPOINTMENT</h1>

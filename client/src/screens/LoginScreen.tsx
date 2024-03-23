@@ -38,11 +38,9 @@ const LoginScreen = () => {
   }
 
   return (
-    //  -- SEARCH COMPONENT ---
     <div className="container p-3">
       <HeroSection />
-
-      <div className="buttons_connection">
+      <div className="buttons_connection mt-2">
         <Link to={'/createbusiness'}>
           <button className="btn btn-dark" onClick={openManagerModal}>
             Create A business

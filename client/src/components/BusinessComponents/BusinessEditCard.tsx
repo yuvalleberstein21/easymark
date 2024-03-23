@@ -48,18 +48,6 @@ const BusinessEditCard = () => {
       userBusinessState.images
     );
     dispatch<any>(action);
-
-    console.log(
-      id,
-      userBusinessState.businessName,
-      {
-        streetAddress: userBusinessState.location.streetAddress,
-        city: userBusinessState.location.city,
-      },
-      userBusinessState.services,
-      userBusinessState.hoursOfOperation,
-      userBusinessState.images
-    );
   };
 
   useEffect(() => {

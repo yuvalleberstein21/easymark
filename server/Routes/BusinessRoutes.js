@@ -102,17 +102,16 @@ businessRoutes.put("/:id", protect, asyncHandler(
     async (req, res) => {
         const {
             businessName,
-            streetAddress,
-            city,
+            location,
             hoursOfOperation,
             images,
             services,
         } = req.body;
         try {
             const business = await Business.findByIdAndUpdate(req.params.id, {
+                user: req.user._id,
                 businessName,
-                streetAddress,
-                city,
+                location,
                 hoursOfOperation,
                 images,
                 services,
@@ -123,6 +122,7 @@ businessRoutes.put("/:id", protect, asyncHandler(
                 res.status(404).send({ message: 'Cannot find business' });
             }
         } catch (error) {
+            console.log(error);
             res.status(500).send({ message: 'Error updating business', error });
         }
     }

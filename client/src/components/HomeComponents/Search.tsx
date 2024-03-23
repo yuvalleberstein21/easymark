@@ -140,7 +140,7 @@ const Search = () => {
                                   fontSize: '15px',
                                 }}
                               >
-                                {b.location?.streetAddress}
+                                {b.location?.city}, {b.location?.streetAddress}
                               </span>
                             </span>
                           </div>
