@@ -1,8 +1,4 @@
-import React, { ReactNode } from 'react';
-interface LoadingProps {
-  children?: ReactNode;
-}
-const Loading: React.FC<LoadingProps> = ({ children }) => {
+const Loading = () => {
   return (
     <div className="d-flex justify-content-center">
       <div className="loading-state">

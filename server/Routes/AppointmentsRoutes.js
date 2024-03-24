@@ -89,10 +89,9 @@ appointmentsRoutes.get("/:userId", asyncHandler(
             if (appointments.length > 0) {
                 res.json(appointments);
             } else {
-                res.status(404).json({ error: 'No appointments found for this user' });
+                return res.status(404).json({ error: 'No appointments found for this user' });
             }
         } catch (err) {
-            console.error(err);
             res.status(500).json({ error: 'Internal server error' });
         }
     }
