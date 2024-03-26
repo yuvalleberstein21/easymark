@@ -113,7 +113,7 @@ const Search = () => {
                         >
                           <div className="image-parent">
                             <img
-                              src={b.images[0]?.imageUrl}
+                              src={b.images?.[0]}
                               className="img-list-group-item"
                               style={{
                                 borderRadius: '50%',

@@ -10,16 +10,16 @@ const BusinessImagesCard = (props: BusinessProps) => {
       <div className="card-body">
         <div className="row row-cols-2">
           <div className="col col_single_images">
-            <img src={images[1]?.imageUrl} alt={businessName} height="150" />
+            <img src={images[1]} alt={businessName} height="150" />
           </div>
           <div className="col col_single_images">
-            <img src={images[2]?.imageUrl} alt={businessName} height="150" />
+            <img src={images[2]} alt={businessName} height="150" />
           </div>
           <div className="col col_single_images">
-            <img src={images[3]?.imageUrl} alt={businessName} height="150" />
+            <img src={images[3]} alt={businessName} height="150" />
           </div>
           <div className="col col_single_images">
-            <img src={images[4]?.imageUrl} alt={businessName} height="150" />
+            <img src={images[4]} alt={businessName} height="150" />
           </div>
         </div>
       </div>

@@ -75,7 +75,7 @@ const SingleBusiness = () => {
                     <div className="img-hover-zoom img-hover-zoom--colorize">
                       <img
                         className="shadow"
-                        src={business?.images[0]?.imageUrl}
+                        src={business?.images[0]}
                         alt={business?.businessName}
                       />
                     </div>

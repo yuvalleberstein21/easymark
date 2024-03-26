@@ -34,12 +34,7 @@ const businessSchema = mongoose.Schema({
         },
 
     }],
-    images: [{
-        imageUrl: {
-            type: String,
-            required: true
-        }
-    }],
+    images: [String],
     services: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service'

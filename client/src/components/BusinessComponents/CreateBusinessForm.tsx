@@ -209,14 +209,14 @@ const CreateBusinessForm = (props: any) => {
                       <span className="text-danger"> *</span>
                     </label>
                     <input
-                      type="text"
+                      type="file" // Change input type to file
                       name="imageUrl"
-                      placeholder="Enter Logo"
-                      onChange={(e) => handleInputChangeImage(e, index)}
+                      onChange={(e) => addImage(e)} // Call addImage on file selection
                     />
                   </div>
                 </div>
               ))}
+
               <button
                 type="button"
                 className="btn-block btn-dark"

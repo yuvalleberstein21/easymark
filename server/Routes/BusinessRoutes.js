@@ -6,13 +6,17 @@ const User = require('../Models/UserModel');
 const Service = require('../Models/ServiceModel');
 const businessRoutes = express.Router();
 const { ObjectId } = require('mongoose');
+const fs = require('fs');
 const AWS = require('aws-sdk');
-const { default: axios } = require('axios');
-const s3 = new AWS.S3();
+
+const s3 = new AWS.S3({
+    accessKeyId: 'AKIAXA77O3JAW32WY5A6',
+    secretAccessKey: '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',
+    region: 'eu-north-1'
+});
 
 
 // CREATE BUSINESS - PROTECTED
-
 businessRoutes.post("/createbusiness", protect, asyncHandler(
     async (req, res) => {
         const {
@@ -30,30 +34,40 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
 
         // Upload images to AWS S3
         const uploadedImages = await Promise.all(images.map(async (image) => {
-            const imageUrl = image.imageUrl; // Assuming imageUrl contains the S3 URL
+            const imageUrl = image.imageUrl;
             try {
-                const { data } = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+                const bucketName = 'easymarknew'
+                const newFileNameKey = 'images/' + imageUrl
+                const filePath = `./${imageUrl}`
+
+                const fileStream = fs.createReadStream(filePath)
+                fileStream.on('error', (err) => {
+                    console.log(err)
+                });
 
                 const params = {
-                    Bucket: 'easymarknew',
-                    Key: `${businessName}/${image.filename}`, // Specify the key for the object
-                    Body: data, // Image data
+                    Bucket: bucketName,
+                    Key: newFileNameKey,
+                    Body: fileStream
                 };
 
-                const uploadedImage = await s3.upload(params).promise();
-                return uploadedImage.Location; // Return the S3 URL of the uploaded image
+                // Wait for the upload to finish before proceeding
+                const data = await s3.upload(params).promise();
+                console.log('Success', data.Location);
+                return data.Location;
             } catch (error) {
                 console.error("Error uploading image to S3:", error);
-                throw error; // Throw the error to handle it at a higher level
+                throw error;
             }
         }));
+
 
         const business = new Business({
             user: req.user._id,
             businessName,
             location,
             hoursOfOperation,
-            images: uploadedImages, // Replace images with S3 URLs
+            images: uploadedImages,
         });
 
         // Save business to the database
@@ -71,8 +85,6 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
         res.status(201).json(createdBusiness);
     }
 ));
-
-
 
 // GET ALL BUSINESS
 businessRoutes.get("/", asyncHandler(

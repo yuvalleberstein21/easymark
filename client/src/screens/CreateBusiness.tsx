@@ -20,7 +20,7 @@ const CreateBusiness = () => {
     streetAddress: '',
     services: [{ serviceName: '', description: '', price: 0, serviceTime: 0 }],
     hoursOfOperation: [{ closeTime: '', dayOfWeek: '', openTime: '' }],
-    images: [{ imageUrl: '' }],
+    images: [''],
   });
 
   useEffect(() => {
@@ -102,9 +102,13 @@ const CreateBusiness = () => {
     ];
     setFormData({ ...formData, hoursOfOperation });
   };
-  const addImage = () => {
-    if (formData.images.length < 5) {
-      const images = [...formData.images, { imageUrl: '' }];
+  const addImage = (e) => {
+    const files = e.target.files;
+    if (files.length + formData.images.length <= 5) {
+      const images = [...formData.images];
+      for (let i = 0; i < files.length; i++) {
+        images.push(files[i]);
+      }
       setFormData({ ...formData, images });
     } else {
       alert('You can only choose a maximum of 5 images.');
