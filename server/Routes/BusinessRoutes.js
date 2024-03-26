@@ -47,7 +47,7 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
                     Body: fileStream
                 };
 
-                // Wait for the upload to finish before proceeding
+
                 const data = await s3.upload(params).promise();
                 console.log('Success', data.Location);
                 return data.Location;
