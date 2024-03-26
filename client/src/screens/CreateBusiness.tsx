@@ -3,6 +3,8 @@ import '../styles/createBusiness.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { createBusinessAction } from '../Redux/Actions/BusinessActions';
 import LoginModal from '../components/ModalsComponents/LoginModal';
+import CreateBusinessForm from '../components/BusinessComponents/CreateBusinessForm';
+import { useNavigate } from 'react-router-dom';
 
 const CreateBusiness = () => {
   const userLogin = useSelector((state: any) => state.userLogin);
@@ -10,6 +12,7 @@ const CreateBusiness = () => {
   const [modalLogin, setModalLogin] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     businessName: '',
@@ -31,8 +34,16 @@ const CreateBusiness = () => {
     index: number
   ) => {
     const { name, value } = event.target;
+    let parsedValue = parseInt(value);
+
+    if (name === 'serviceTime') {
+      if (parsedValue > 120) {
+        parsedValue = 120;
+      }
+    }
+
     const updatedServices = [...formData.services];
-    updatedServices[index][name] = value;
+    updatedServices[index][name] = String(parsedValue);
     setFormData({ ...formData, services: updatedServices });
   };
 
@@ -92,12 +103,16 @@ const CreateBusiness = () => {
     setFormData({ ...formData, hoursOfOperation });
   };
   const addImage = () => {
-    const images = [...formData.images, { imageUrl: '' }];
-    setFormData({ ...formData, images });
+    if (formData.images.length < 5) {
+      const images = [...formData.images, { imageUrl: '' }];
+      setFormData({ ...formData, images });
+    } else {
+      alert('You can only choose a maximum of 5 images.');
+    }
   };
+
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
     try {
       const services = formData.services.map((service) => ({
         serviceName: service.serviceName,
@@ -118,7 +133,6 @@ const CreateBusiness = () => {
         formData.images
       );
       dispatch<any>(action);
-      console.log(formData);
     } catch (err) {
       console.log(err);
     }
@@ -132,232 +146,17 @@ const CreateBusiness = () => {
           </div>
         </div>
       ) : (
-        <div className="container-fluid px-1 py-5 mx-auto">
-          <div className="row d-flex justify-content-center">
-            <div className="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-              <div className="card_create_business">
-                <h3 className="text-center mb-4">Create Your Business</h3>
-                <form className="form-card" onSubmit={handleSubmit}>
-                  <div className="row justify-content-between text-left">
-                    <div className="form-group col-sm-6 flex-column d-flex">
-                      <label className="form-control-label px-3">
-                        Business Name
-                        <span className="text-danger"> *</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="businessName"
-                        value={formData.businessName}
-                        placeholder="Enter your business name"
-                        onChange={handleChange}
-                      />
-                    </div>
-                    <div className="form-group col-sm-6 flex-column d-flex">
-                      <label className="form-control-label px-3">
-                        City
-                        <span className="text-danger"> *</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        placeholder="Enter your city"
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="row justify-content-between text-left">
-                    <div className="form-group col-sm-12 flex-column d-flex">
-                      <label className="form-control-label px-3">
-                        Street Address
-                        <span className="text-danger"> *</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="streetAddress"
-                        value={formData.streetAddress}
-                        placeholder="Enter your street Address"
-                        onChange={handleChange}
-                      />
-                    </div>
-
-                    <div>
-                      {formData.services.map((service, index) => (
-                        <div
-                          key={index}
-                          className="row justify-content-between text-left mb-3 mt-3"
-                        >
-                          <div className="form-group col-sm-6 flex-column d-flex">
-                            <label className="form-control-label px-3">
-                              Service Name
-                              <span className="text-danger"> *</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="serviceName"
-                              value={service.serviceName}
-                              placeholder="Enter your service name"
-                              onChange={(e) => handleInputChange(e, index)}
-                            />
-                          </div>
-                          <div className="form-group col-sm-6 flex-column d-flex">
-                            <label className="form-control-label px-3">
-                              Description
-                              <span className="text-danger"> *</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="description"
-                              value={service.description}
-                              placeholder="Enter description"
-                              onChange={(e) => handleInputChange(e, index)}
-                            />
-                          </div>
-                          <div className="form-group col-sm-6 flex-column d-flex">
-                            <label className="form-control-label px-3">
-                              Price
-                              <span className="text-danger"> *</span>
-                            </label>
-                            <input
-                              type="number"
-                              name="price"
-                              value={service.price}
-                              placeholder="Enter price"
-                              onChange={(e) => handleInputChange(e, index)}
-                            />
-                          </div>
-                          <div className="form-group col-sm-6 flex-column d-flex">
-                            <label className="form-control-label px-3">
-                              Service Time
-                              <span className="text-danger"> *</span>
-                            </label>
-                            <input
-                              type="number"
-                              name="serviceTime"
-                              value={service.serviceTime}
-                              placeholder="Enter your service time"
-                              onChange={(e) => handleInputChange(e, index)}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        className="btn-block btn-dark"
-                        onClick={addService}
-                      >
-                        Add Service
-                      </button>
-                    </div>
-                  </div>
-
-                  <div>
-                    {formData.hoursOfOperation.map((day, index) => (
-                      <div
-                        key={index}
-                        className="row justify-content-between text-left mb-3 mt-3"
-                      >
-                        <div className="form-group col-sm-6 flex-column d-flex">
-                          <label className="form-control-label px-3">
-                            Day Of Week
-                            <span className="text-danger"> *</span>
-                          </label>
-                          <select
-                            name="dayOfWeek"
-                            onChange={(e) =>
-                              handleInputChangeDays(e, index, 'dayOfWeek')
-                            }
-                          >
-                            <option value="">--</option>
-                            <option value="sunday">Sunday</option>
-                            <option value="monday">Monday</option>
-                            <option value="tuesday">Tuesday</option>
-                            <option value="wednesday">Wednesday</option>
-                            <option value="thursday">Thursday</option>
-                            <option value="friday">Friday</option>
-                          </select>
-                        </div>
-                        <div className="form-group col-sm-6 flex-column d-flex">
-                          <label className="form-control-label px-3">
-                            Open Time
-                            <span className="text-danger"> *</span>
-                          </label>
-                          <input
-                            type="text"
-                            name="openTime"
-                            value={day.openTime}
-                            placeholder="Enter open time"
-                            onChange={(e) =>
-                              handleInputChangeDays(e, index, 'openTime')
-                            }
-                          />
-                        </div>
-                        <div className="form-group col-sm-6 flex-column d-flex">
-                          <label className="form-control-label px-3">
-                            Close Time
-                            <span className="text-danger"> *</span>
-                          </label>
-                          <input
-                            type="text"
-                            name="closeTime"
-                            value={day.closeTime}
-                            placeholder="Enter close time"
-                            onChange={(e) =>
-                              handleInputChangeDays(e, index, 'closeTime')
-                            }
-                          />
-                        </div>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      className="btn-block btn-dark"
-                      onClick={addDay}
-                    >
-                      Add Day
-                    </button>
-                  </div>
-
-                  {formData.images.map((image, index) => (
-                    <div
-                      key={index}
-                      className="row justify-content-between text-left mb-3 mt-3"
-                    >
-                      <div className="form-group col-sm-12 flex-column d-flex">
-                        <label className="form-control-label px-3">
-                          Business Logo
-                          <span className="text-danger"> *</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="imageUrl"
-                          placeholder="Enter Logo"
-                          onChange={(e) => handleInputChangeImage(e, index)}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn-block btn-dark"
-                    onClick={addImage}
-                  >
-                    Add Image
-                  </button>
-
-                  <div className="row justify-content-end">
-                    <div className="form-group col-sm-12">
-                      {' '}
-                      <button type="submit" className="btn-block btn-primary">
-                        ADD MY BUSINESS
-                      </button>{' '}
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CreateBusinessForm
+          handleSubmit={handleSubmit}
+          formData={formData}
+          handleChange={handleChange}
+          addService={addService}
+          addDay={addDay}
+          addImage={addImage}
+          handleInputChange={handleInputChange}
+          handleInputChangeDays={handleInputChangeDays}
+          handleInputChangeImage={handleInputChangeImage}
+        />
       )}
     </>
   );

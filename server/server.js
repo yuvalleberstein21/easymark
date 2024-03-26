@@ -6,6 +6,7 @@ const businessRoutes = require('./Routes/BusinessRoutes');
 const appointmentsRoutes = require('./Routes/AppointmentsRoutes');
 const connectDatabase = require('./config/MongoDB');
 const serviceRoutes = require('./Routes/ServiceRoutes');
+const AWS = require('aws-sdk');
 
 dotenv.config();
 connectDatabase();
@@ -14,6 +15,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'eu-north-1',
+});
 
 var corsOptions = {
     origin: '*',

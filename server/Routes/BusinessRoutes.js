@@ -6,6 +6,9 @@ const User = require('../Models/UserModel');
 const Service = require('../Models/ServiceModel');
 const businessRoutes = express.Router();
 const { ObjectId } = require('mongoose');
+const AWS = require('aws-sdk');
+const { default: axios } = require('axios');
+const s3 = new AWS.S3();
 
 
 // CREATE BUSINESS - PROTECTED
@@ -25,14 +28,35 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
             return res.status(400).json({ message: 'Business name already exists' });
         }
 
+        // Upload images to AWS S3
+        const uploadedImages = await Promise.all(images.map(async (image) => {
+            const imageUrl = image.imageUrl; // Assuming imageUrl contains the S3 URL
+            try {
+                const { data } = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+
+                const params = {
+                    Bucket: 'easymarknew',
+                    Key: `${businessName}/${image.filename}`, // Specify the key for the object
+                    Body: data, // Image data
+                };
+
+                const uploadedImage = await s3.upload(params).promise();
+                return uploadedImage.Location; // Return the S3 URL of the uploaded image
+            } catch (error) {
+                console.error("Error uploading image to S3:", error);
+                throw error; // Throw the error to handle it at a higher level
+            }
+        }));
+
         const business = new Business({
             user: req.user._id,
             businessName,
             location,
             hoursOfOperation,
-            images,
+            images: uploadedImages, // Replace images with S3 URLs
         });
 
+        // Save business to the database
         if (services && services.length > 0) {
             const serviceObjects = await Service.create(services.map(service => ({
                 business: business._id,
