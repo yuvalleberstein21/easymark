@@ -10,8 +10,8 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
-    accessKeyId: 'AKIAXA77O3JAW32WY5A6',
-    secretAccessKey: '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',
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     region: 'eu-north-1'
 });
 
@@ -36,7 +36,7 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
         const uploadedImages = await Promise.all(images.map(async (image) => {
             const imageUrl = image.imageUrl;
             try {
-                const bucketName = 'easymarknew'
+                const bucketName = process.env.BUCKET_NAME
                 const newFileNameKey = 'images/' + imageUrl
                 const filePath = `./${imageUrl}`
 
@@ -60,8 +60,6 @@ businessRoutes.post("/createbusiness", protect, asyncHandler(
                 throw error;
             }
         }));
-
-
         const business = new Business({
             user: req.user._id,
             businessName,
